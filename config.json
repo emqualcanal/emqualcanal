@@ -20,7 +20,11 @@
     "@xsports.brasil"
   ],
   "deepSearchChannels": [
-    "@cazetv"
+    "@cazetv",
+    "@canalgolbrasil",
+    "@canalgoatbr",
+    "@sportynetbrasil",
+    "@espnbrasil"
   ],
   "deepPriorityEveryMin": 120,
   "deepBudgetPerDay": 2000,
