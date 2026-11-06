@@ -1,0 +1,7 @@
+{
+  "name": "lives-futebol-site",
+  "private": true,
+  "type": "module",
+  "scripts": { "update": "node scripts/update.mjs" },
+  "engines": { "node": ">=20" }
+}

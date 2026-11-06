@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lives de futebol no YouTube</title>
+<meta name="description" content="Transmissões de partidas de futebol ao vivo e agendadas no YouTube, atualizadas automaticamente.">
+<style>
+:root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--on:#fff;--live:#D92D20;--onlive:#fff;--chip:#E9EFEA;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:900px;margin:0 auto;padding:32px 16px 64px}
+h1{margin:0 0 4px;font-size:clamp(26px,5vw,38px);line-height:1.15}
+.sub{color:var(--muted);margin:0 0 20px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;min-width:140px;color:var(--muted);font-size:14px}
+.stat b{display:block;font-size:28px;line-height:1.15;color:var(--fg)}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--fg);padding:0 16px;font:inherit;cursor:pointer;min-height:44px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on);font-weight:600}
+select,input{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);padding:0 12px;font:inherit}
+input{flex:1;min-width:160px}
+h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:28px 0 10px}
+.it{display:grid;grid-template-columns:128px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.it.nt{grid-template-columns:1fr auto}
+.it img{width:128px;height:72px;object-fit:cover;border-radius:8px;background:var(--chip)}
+.tm{font-weight:700;font-variant-numeric:tabular-nums}
+.pill{background:var(--live);color:var(--onlive);font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.when{margin-bottom:2px}
+.tt{font-weight:600;overflow-wrap:anywhere}
+.ch{color:var(--muted);font-size:14px}
+.it a{color:var(--accent);font-weight:600;text-decoration:none;padding:10px 4px;white-space:nowrap}
+.it a:hover{text-decoration:underline}
+@media (max-width:620px){.it,.it.nt{grid-template-columns:1fr;gap:8px}.it img{width:100%;height:auto;aspect-ratio:16/9}.it a{padding:8px 0}}
+.warn{background:var(--chip);border-radius:10px;padding:10px 14px;margin-bottom:16px}
+footer{color:var(--muted);font-size:14px;margin-top:40px}
+</style>
+</head>
+<body>
+<main>
+<h1>Lives de futebol no YouTube</h1>
+<p class="sub" id="meta">Carregando…</p>
+<div class="warn" id="warn" hidden></div>
+<div class="stats"><div class="stat"><b id="nLive">0</b>ao vivo agora</div><div class="stat"><b id="nUp">0</b>agendadas</div></div>
+<div class="ctl">
+<div class="seg" role="group" aria-label="Tipo de transmissão">
+<button type="button" data-v="all" aria-pressed="true">Todas</button>
+<button type="button" data-v="live" aria-pressed="false">Ao vivo</button>
+<button type="button" data-v="sched" aria-pressed="false">Agendadas</button>
+</div>
+<select id="ch" aria-label="Canal"><option value="">Todos os canais</option></select>
+<input id="q" type="search" placeholder="Buscar time ou campeonato" aria-label="Buscar time ou campeonato">
+</div>
+<div id="list"></div>
+<footer>Lista gerada automaticamente a partir da API do YouTube, com filtro pelo título da transmissão. Pode haver erros de classificação. Sem vínculo com o YouTube ou com os canais citados.</footer>
+</main>
+<script>
+const TZ='America/Sao_Paulo',$=id=>document.getElementById(id),st={v:'all',c:'',q:''};
+let D=null;
+const dk=t=>new Date(t).toLocaleDateString('en-CA',{timeZone:TZ});
+const tm=t=>new Date(t).toLocaleTimeString('pt-BR',{timeZone:TZ,hour:'2-digit',minute:'2-digit'});
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const isLive=v=>v.state==='live';
+function dl(t){const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'long',day:'2-digit',month:'2-digit'}),d=dk(t),n=Date.now();return d===dk(n)?'Hoje · '+s:d===dk(n+864e5)?'Amanhã · '+s:s}
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function row(v){
+const r=el('div','it'+(v.thumbnail?'':' nt'));
+if(v.thumbnail){const i=el('img');i.src=v.thumbnail;i.alt='';i.loading='lazy';i.width=128;i.height=72;r.append(i)}
+const b=el('div'),w=el('div','when');
+if(isLive(v)){w.append(el('span','pill','AO VIVO'));if(v.started)w.append(el('span','ch',' desde '+tm(v.started)))}
+else w.append(el('span','tm',tm(v.scheduled)));
+b.append(w,el('div','tt',v.title),el('div','ch',v.channel));
+const a=el('a',null,'Assistir');a.href='https://www.youtube.com/watch?v='+encodeURIComponent(v.id);a.target='_blank';a.rel='noopener';
+r.append(b,a);return r}
+function render(){
+if(!D)return;
+const now=Date.now(),q=norm(st.q);
+const all=D.items.filter(v=>isLive(v)||now-new Date(v.scheduled)<=3*36e5);
+const items=all.filter(v=>(st.v==='all'||(st.v==='live'?isLive(v):!isLive(v)))&&(!st.c||v.channel===st.c)&&(!q||norm(v.title+' '+v.channel).includes(q)));
+$('nLive').textContent=all.filter(isLive).length;$('nUp').textContent=all.filter(v=>!isLive(v)).length;
+const box=$('list');box.replaceChildren();
+const live=items.filter(isLive),up=items.filter(v=>!isLive(v)).sort((a,b)=>new Date(a.scheduled)-new Date(b.scheduled));
+if(live.length){box.append(el('h2',null,'Ao vivo agora'));live.forEach(v=>box.append(row(v)))}
+let last='';
+up.forEach(v=>{const k=dk(v.scheduled);if(k!==last){box.append(el('h2',null,dl(v.scheduled)));last=k}box.append(row(v))});
+if(!items.length)box.append(el('p','sub','Nenhuma transmissão para este filtro.'))}
+function fillChannels(){
+const sel=$('ch'),cur=st.c;
+const names=[...new Set(D.items.map(v=>v.channel))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+sel.replaceChildren(el('option',null,'Todos os canais'));sel.firstChild.value='';
+names.forEach(c=>{const o=el('option',null,c);o.value=c;sel.append(o)});
+if(names.includes(cur))sel.value=cur;else st.c=''}
+async function load(){
+try{
+const r=await fetch('data/lives.json?t='+Date.now(),{cache:'no-store'});
+if(!r.ok)throw new Error(r.status);
+D=await r.json();
+}catch(e){
+if(!D)$('meta').textContent='Aguardando a primeira atualização dos dados. Volte em alguns minutos.';
+return}
+const gen=new Date(D.generatedAt),when=gen.toLocaleString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+$('meta').textContent='Transmissões de partidas ao vivo e agendadas nos principais canais. Atualizado em '+when+'.';
+const w=$('warn');
+if(Date.now()-gen>108e5){w.hidden=false;w.textContent='As atualizações automáticas podem ter parado: os dados são de '+when+'.'}else w.hidden=true;
+fillChannels();render()}
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{st.v=b.dataset.v;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
+$('ch').addEventListener('change',e=>{st.c=e.target.value;render()});
+$('q').addEventListener('input',e=>{st.q=e.target.value;render()});
+load();setInterval(load,3e5);
+</script>
+</body>
+</html>
