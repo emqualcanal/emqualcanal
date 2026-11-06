@@ -1,4 +1,4 @@
-# Lives de futebol no YouTube — site com atualização automática
+# Em Qual Canal? — site com atualização automática
 
 Um site que mostra as transmissões de futebol **ao vivo e agendadas** nos canais que você escolher.
 Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada e acompanhamento das lives agendadas), mas roda sozinho no GitHub, sem precisar do seu computador ligado.
