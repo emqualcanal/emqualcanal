@@ -24,10 +24,13 @@
     "@canalgolbrasil",
     "@canalgoatbr",
     "@sportynetbrasil",
-    "@espnbrasil"
+    "@espnbrasil",
+    "@getv"
   ],
-  "deepPriorityEveryMin": 120,
-  "deepBudgetPerDay": 2000,
+  "deepPriorityEveryMin": 180,
+  "deepBudgetPerDay": 1000,
+  "uploadsPages": 2,
+  "uploadsPagesPriority": 4,
   "runIntervalMin": 15,
   "staleUpcomingHours": 6,
   "requireMatchup": true,
