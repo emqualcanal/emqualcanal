@@ -93,6 +93,50 @@ const STATES = [
   [/amazonense/, "Amazonense"], [/piauiense/, "Piauiense"], [/brasiliense|candangao/, "Brasiliense"]
 ];
 
+// "Liga <adjetivo feminino>" → chave de NAT (ex.: "Liga Checa", "Liga Grega")
+const FEM = {
+  tcheca: ["tcheco", "Tcheca"], checa: ["tcheco", "Checa"], grega: ["grego", "Grega"], belga: ["belga", "Belga"],
+  turca: ["turco", "Turca"], escocesa: ["escoces", "Escocesa"], polonesa: ["polones", "Polonesa"], russa: ["russo", "Russa"],
+  ucraniana: ["ucraniano", "Ucraniana"], suica: ["suico", "Suíça"], austriaca: ["austriaco", "Austríaca"],
+  dinamarquesa: ["dinamarques", "Dinamarquesa"], sueca: ["sueco", "Sueca"], norueguesa: ["noruegues", "Norueguesa"],
+  croata: ["croata", "Croata"], servia: ["servio", "Sérvia"], romena: ["romeno", "Romena"], hungara: ["hungaro", "Húngara"],
+  mexicana: ["mexicano", "Mexicana"], argentina: ["argentino", "Argentina"], chilena: ["chileno", "Chilena"],
+  uruguaia: ["uruguaio", "Uruguaia"], colombiana: ["colombiano", "Colombiana"], paraguaia: ["paraguaio", "Paraguaia"],
+  equatoriana: ["equatoriano", "Equatoriana"], peruana: ["peruano", "Peruana"], boliviana: ["boliviano", "Boliviana"],
+  venezuelana: ["venezuelano", "Venezuelana"], japonesa: ["japones", "Japonesa"], chinesa: ["chines", "Chinesa"],
+  coreana: ["coreano", "Coreana"], australiana: ["australiano", "Australiana"], egipcia: ["egipcio", "Egípcia"],
+  marroquina: ["marroquino", "Marroquina"], americana: ["americano", "Americana"], portuguesa: ["portugues", "Portuguesa"],
+  espanhola: ["espanhol", "Espanhola"], italiana: ["italiano", "Italiana"], alema: ["alemao", "Alemã"],
+  francesa: ["frances", "Francesa"], inglesa: ["ingles", "Inglesa"]
+};
+
+// "Copa <estado>" (Copa Paraná, Copa Ceará…): chave sem acento → nome
+const STATE_CUPS = {
+  parana: "Paraná", ceara: "Ceará", pernambuco: "Pernambuco", rio: "Rio", "espirito santo": "Espírito Santo",
+  "santa catarina": "Santa Catarina", goias: "Goiás", alagoas: "Alagoas", bahia: "Bahia", amazonas: "Amazonas",
+  minas: "Minas", para: "Pará", maranhao: "Maranhão", paraiba: "Paraíba", piaui: "Piauí",
+  "rio grande do norte": "Rio Grande do Norte", "rio grande do sul": "Rio Grande do Sul", sergipe: "Sergipe",
+  "mato grosso do sul": "Mato Grosso do Sul", "mato grosso": "Mato Grosso", tocantins: "Tocantins", acre: "Acre",
+  amapa: "Amapá", rondonia: "Rondônia", roraima: "Roraima", "distrito federal": "Distrito Federal",
+  "sao paulo": "São Paulo", paulista: "Paulista", fpf: "FPF", fares: "Fares Lopes", "fares lopes": "Fares Lopes"
+};
+
+// Nome de campeonato vindo do próprio título (quando nenhuma regra conhece o torneio).
+const LEAGUE_WORD = /\b(copa|liga|campeonato|supercopa|taca|torneio|trofeu|superliga|league|cup|divisao|serie [a-d])\b/;
+function genericLeague(raw) {
+  const parts = raw.replace(/\([^)]*\)/g, " ").split(/\s*\|\s*|\s+[-–—]\s+|:\s+|\s+I\s+/);
+  for (const part of parts) {
+    const p = part.trim();
+    const pn = norm(p);
+    if (!LEAGUE_WORD.test(pn)) continue;
+    if (/\s(x|×|vs\.?)\s|\d\s?[x×]\s?\d/.test(pn)) continue;       // é um confronto, não o nome do torneio
+    if (/ao vivo|com imagens|transmissao|canal |rodada|^\W*final\W*$/.test(pn)) continue;
+    const name = p.replace(/\b20\d\d(\/\d\d)?\b/g, "").replace(/\b\d\d\/\d\d\b/g, "").replace(/\s+/g, " ").replace(/^[\s\-–—:]+|[\s\-–—:]+$/g, "");
+    if (name.length >= 4 && name.length <= 40) return name;
+  }
+  return null;
+}
+
 function baseLeague(raw, n) {
   const ital = /ital|calcio/.test(n);
   const accentSerie = raw.match(/s\u00e9rie\s*([abcd])\b/i);   // "Série B" (Brasil)
@@ -121,6 +165,13 @@ function baseLeague(raw, n) {
     if (re.test(n)) return L(name, region, flag ?? null);
   }
 
+  const stateCup = n.match(/copa\s+(?:do |de |da |dos |das )?(rio grande do norte|rio grande do sul|mato grosso do sul|mato grosso|espirito santo|santa catarina|distrito federal|sao paulo|fares lopes|parana|ceara|pernambuco|rio|goias|alagoas|bahia|amazonas|minas|para|maranhao|paraiba|piaui|sergipe|tocantins|acre|amapa|rondonia|roraima|paulista|fpf|fares)\b/)?.[1];
+  if (stateCup) return L(`Copa ${STATE_CUPS[stateCup]}`, "Brasil", "br");
+  const femAdj = n.match(/\b(?:liga|campeonato)\s+(?:de\s+)?([a-z]+)/)?.[1];
+  if (femAdj && FEM[femAdj]) {
+    const [key, disp] = FEM[femAdj];
+    return L(`Liga ${disp}`, NAT[key][1], NAT[key][2]);
+  }
   const adj = n.match(/campeonato\s+([a-z-]+)/)?.[1];
   if (adj && NAT[adj]) return L(`Campeonato ${NAT[adj][0]}`, NAT[adj][1], NAT[adj][2]);
   const country = n.match(/liga d[aeo]s?\s+([a-z]+)/)?.[1];
@@ -128,13 +179,15 @@ function baseLeague(raw, n) {
     const [name, region, flag] = NAT[COUNTRY[country]];
     return L(`Campeonato ${name}`, region, flag);
   }
+  const g = genericLeague(raw);
+  if (g) return L(pretty(g), "Outros");
   return L("Outros campeonatos", "Outros");
 }
 
 const FEMININE_NAME = /^(Copa|Taça|Supercopa|Champions League|Liga|Libertadores|Sul-Americana|Recopa|Eurocopa)/;
 
 // Nomes de exibição (iguais aos da arte do EQC). Só valem para o futebol masculino.
-const ALIAS = { "Campeonato Inglês": "Premier League", "Campeonato Australiano": "Liga Australiana" };
+const ALIAS = { "Campeonato Inglês": "Premier League", "Campeonato Australiano": "Liga Australiana", "Campeonato Tcheco": "Liga Checa" };
 
 export function leagueOf(title) {
   const n = norm(title);
