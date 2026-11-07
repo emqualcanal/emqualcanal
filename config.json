@@ -27,8 +27,8 @@
     "@espnbrasil",
     "@getv"
   ],
-  "deepPriorityEveryMin": 180,
-  "deepBudgetPerDay": 1000,
+  "deepPriorityEveryMin": 160,
+  "deepBudgetPerDay": 1200,
   "uploadsPages": 2,
   "uploadsPagesPriority": 4,
   "runIntervalMin": 15,
