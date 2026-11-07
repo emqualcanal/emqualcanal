@@ -1,4 +1,4 @@
-# Em Qual Canal? — site com atualização automática
+# Lives de futebol no YouTube — site com atualização automática
 
 Um site que mostra as transmissões de futebol **ao vivo e agendadas** nos canais que você escolher.
 Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada e acompanhamento das lives agendadas), mas roda sozinho no GitHub, sem precisar do seu computador ligado.
@@ -21,7 +21,8 @@ Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada
 | Campo | O que faz |
 |---|---|
 | `channels` | Canais monitorados (`@handle` como aparece **no YouTube**, ou o ID que começa com `UC`). |
-| `deepSearchChannels` / `deepPriorityEveryMin` | Canais que agendam muitas lives e a frequência da busca reforçada neles (padrão: `@cazetv`, a cada 120 min). |
+| `deepSearchChannels` / `deepPriorityEveryMin` | Canais que agendam muitas lives e a frequência da busca reforçada neles (100 unidades por busca). Os canais daqui também têm a lista de uploads lida mais a fundo. |
+| `uploadsPages` / `uploadsPagesPriority` | Quantas páginas de 50 vídeos recentes são lidas por canal (1 unidade por página): `uploadsPages` para os canais comuns (padrão 2) e `uploadsPagesPriority` para os de `deepSearchChannels` (padrão 4). Canais que postam muito (CazéTV, ge tv…) empurram a live agendada para longe do topo da lista; páginas a mais resolvem isso por quase nada. |
 | `deepBudgetPerDay` | Cota diária (em unidades) para a busca reforçada em rodízio nos demais canais. 100 unidades = 1 busca. `0` desliga. |
 | `requireMatchup` | Só aceita títulos com “Time x Time”, “vs” ou placar. |
 | `excludeKeywords` | Palavras que descartam a live (basquete, sub-19, pré/pós-jogo, reação, resenha, sem imagem, videogame…). |
@@ -30,17 +31,38 @@ Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada
 
 Depois de editar o arquivo no GitHub, rode o workflow de novo (ou espere a próxima execução).
 
+## Usar as configurações da extensão no site
+
+A extensão e o site **não compartilham configurações**: o que você muda nas opções da extensão fica só no seu navegador, e o site lê apenas o `config.json` deste repositório. Para levar as mudanças (canais, busca reforçada, filtros) para o site:
+
+1. Nas opções da extensão (versão 1.5.0 ou mais nova), clique em **Copiar config para o GitHub**.
+2. No GitHub, abra o arquivo `config.json` do repositório, clique no lápis (Edit this file), apague tudo, cole e clique em **Commit changes**.
+3. Na próxima execução (ou em *Actions → Atualizar lives → Run workflow*) o site já usa a nova configuração.
+
+Cuidado com a cota: cada canal em `deepSearchChannels` gasta 100 unidades por busca. A cada 120 minutos são 1.200 unidades por dia por canal; a cada 60 minutos, 2.400. O log de cada execução mostra a estimativa diária e avisa quando passa de 10.000.
+
+## Campeonatos, ordenação e filtros
+
+O site permite **ordenar por Campeonatos ou por Horário** e tem um painel com as abas **Campeonatos** (agrupados por região, com contagem e “Mostrar mais”) e **Canais**. Marque ou desmarque itens, ou use “Todos”.
+
+O YouTube não informa o campeonato; ele é deduzido do **título** da transmissão em `scripts/leagues.mjs`. Se um campeonato aparecer como “Outros campeonatos”, ele está listado em `data/debug.json`, no campo `semCampeonato`. Para ensinar um campeonato novo, acrescente uma linha na lista `RULES` desse arquivo, por exemplo:
+
+```js
+[/copa sao paulo|copinha/, "Copa São Paulo", "Brasil", "br"],
+```
+
+(o texto é comparado sem acentos e em minúsculas; o último valor é o código da bandeira, ou omita para não ter bandeira.)
+
 ## Cota da API (10.000 unidades por dia, por projeto do Google Cloud)
 
-Uma execução normal gasta ~35 unidades (lê os últimos 50 vídeos de cada canal) e roda 96 vezes por dia. Com os padrões, a conta fica em torno de **6.600 unidades por dia**:
-~3.400 das leituras + ~1.200 da busca reforçada na CazéTV + 2.000 do rodízio nos outros canais.
+Uma execução normal gasta ~40 unidades (lê as páginas de uploads de cada canal; vídeos comuns já conferidos não são consultados de novo) e roda 96 vezes por dia. O log de cada execução mostra a **estimativa diária** para a sua configuração. Com o `config.json` deste projeto ela fica em torno de **8.700 unidades por dia**: ~4.500 das leituras, ~3.200 da busca reforçada nos 4 canais prioritários (a cada 180 min) e 1.000 do rodízio nos outros canais.
 A primeira execução (e a opção “busca completa” do botão Run workflow) faz a busca reforçada em todos os canais, cerca de 1.800 unidades.
 
 **Se você usar a mesma chave da extensão, a cota é dividida entre as duas.** Nesse caso reduza o uso da extensão (por exemplo, orçamento da busca reforçada = 0 nas opções) ou use uma chave de outro projeto para o site.
 
 ## Diagnóstico
 
-- `https://SEU-USUARIO.github.io/REPOSITORIO/data/debug.json` mostra, por canal, quantos vídeos foram lidos e quantas lives foram achadas, os erros (por exemplo, `@` de canal não encontrado), a cota usada e **todas as lives descartadas com o motivo**.
+- `https://SEU-USUARIO.github.io/REPOSITORIO/data/debug.json` mostra, por canal, quantos vídeos foram lidos e quantas lives foram achadas, os erros (por exemplo, `@` de canal não encontrado), a cota usada, as transmissões sem campeonato identificado (`semCampeonato`), como cada live foi encontrada (`descobertas`: pela lista de uploads, só pela busca reforçada ou só pelo acompanhamento) e quais lives **só a busca reforçada achou** (`soPelaBusca`, a lista de canais que mais precisam de prioridade) e **todas as lives descartadas com o motivo**.
 - Cada execução também registra a cota usada no log da aba *Actions*.
 - Se uma execução falha (cota esgotada, erro da API), o site continua mostrando a última versão publicada.
 

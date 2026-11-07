@@ -2,6 +2,7 @@
 // Mesma lógica da extensão do Chrome, rodando no GitHub Actions.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { filterReason } from "./filter.mjs";
+import { classify } from "./leagues.mjs";
 
 const cfg = JSON.parse(await readFile(new URL("../config.json", import.meta.url), "utf8"));
 const KEY = process.env.YOUTUBE_API_KEY;
@@ -14,6 +15,29 @@ const OUT = process.env.OUT_DIR || "docs/data";
 const SITE = (process.env.SITE_URL || "").replace(/\/$/, "");
 const now = Number(process.env.NOW_MS) || Date.now();
 const runMs = (cfg.runIntervalMin || 15) * 60000;
+
+const handles = cfg.channels.map((s) => s.trim()).filter(Boolean);
+const prio = (cfg.deepSearchChannels || []).map((s) => s.trim()).filter(Boolean);
+const prioKeys = new Set(prio.map((h) => h.toLowerCase()));
+const pool = handles.filter((h) => !prioKeys.has(h.toLowerCase()));
+
+// Quantas páginas de 50 uploads ler por canal (1 unidade por página). Canais prioritários
+// costumam postar muito, então a live agendada pode ficar longe do topo da lista.
+const pagesDefault = Math.max(1, Math.min(10, cfg.uploadsPages || 2));
+const pagesPrio = Math.max(pagesDefault, Math.min(10, cfg.uploadsPagesPriority || 4));
+const pagesFor = (h) => (prioKeys.has(h.toLowerCase()) ? pagesPrio : pagesDefault);
+
+// Estimativa da cota diária com esta configuração (limite padrão da API: 10.000 unidades).
+const runsPerDay = 1440 / (cfg.runIntervalMin || 15);
+const estimatedDaily = Math.round(
+  runsPerDay * (handles.reduce((a, h) => a + pagesFor(h), 0) + 3) +
+  prio.length * 100 * (1440 / (cfg.deepPriorityEveryMin || 120)) +
+  (cfg.deepBudgetPerDay || 0)
+);
+console.log(`Estimativa de cota diária com esta configuração: ~${estimatedDaily} unidades (limite padrão: 10.000).`);
+if (estimatedDaily > 10000) {
+  console.warn("ATENÇÃO: a estimativa passa de 10.000 unidades por dia. Reduza deepSearchChannels, deepBudgetPerDay, uploadsPages ou a frequência no config.json.");
+}
 
 let quota = 0;
 async function yt(path, params) {
@@ -49,6 +73,7 @@ async function readPrev(name) {
 }
 const prev = await readPrev("lives.json");
 const cache = (await readPrev("channels.json")) || {};
+const seen = (await readPrev("seen.json")) || {}; // vídeos comuns já conferidos (nunca viram live)
 
 const ID_RE = /^UC[\w-]{22}$/;
 async function resolve(handle) {
@@ -66,16 +91,29 @@ async function resolve(handle) {
 const errors = [];
 const per = {};
 const wanted = new Set();
-const handles = cfg.channels.map((s) => s.trim()).filter(Boolean);
+const via = new Map(); // id -> como a transmissão foi encontrada
+const mark = (id, how) => { if (!via.has(id)) via.set(id, new Set()); via.get(id).add(how); wanted.add(id); };
 
-// 1) Últimos 50 uploads de cada canal (1 unidade por canal).
+// 1) Últimos uploads de cada canal (1 unidade por página de 50).
+async function uploads(ch, pages) {
+  const ids = [];
+  let token;
+  for (let i = 0; i < pages; i++) {
+    const pl = await yt("playlistItems", {
+      part: "contentDetails", playlistId: ch.uploads, maxResults: 50, ...(token ? { pageToken: token } : {})
+    });
+    ids.push(...(pl.items || []).map((x) => x.contentDetails.videoId));
+    token = pl.nextPageToken;
+    if (!token) break;
+  }
+  return ids;
+}
 await Promise.all(handles.map(async (handle) => {
   try {
     const ch = await resolve(handle);
-    const pl = await yt("playlistItems", { part: "contentDetails", playlistId: ch.uploads, maxResults: 50 });
-    const ids = (pl.items || []).map((i) => i.contentDetails.videoId);
+    const ids = await uploads(ch, pagesFor(handle));
     per[handle.toLowerCase()] = { handle, title: ch.title, read: ids.length, ids: new Set(ids), deep: 0 };
-    ids.forEach((id) => wanted.add(id));
+    ids.forEach((id) => mark(id, "uploads"));
   } catch (e) {
     errors.push(`${handle}: ${e.message}`);
   }
@@ -95,13 +133,10 @@ async function deep(handle) {
   const found = (j.items || []).map((i) => i.id?.videoId).filter(Boolean);
   const key = handle.toLowerCase();
   per[key] ??= { handle, title: ch.title, read: 0, ids: new Set(), deep: 0 };
-  found.forEach((id) => { wanted.add(id); per[key].ids.add(id); });
+  found.forEach((id) => { mark(id, "busca"); per[key].ids.add(id); });
   per[key].deep = found.length;
 }
 
-const prio = (cfg.deepSearchChannels || []).map((s) => s.trim()).filter(Boolean);
-const prioKeys = new Set(prio.map((h) => h.toLowerCase()));
-const pool = handles.filter((h) => !prioKeys.has(h.toLowerCase()));
 let todo = [];
 if (!prev || process.env.FORCE_DEEP_ALL === "true") {
   todo = [...handles]; // primeira execução (ou pedido manual): todos os canais
@@ -126,15 +161,15 @@ for (const handle of todo) {
 }
 
 // 3) Lives já vistas continuam sendo conferidas, mesmo que saiam da lista de uploads.
-for (const v of prev?.items || []) wanted.add(v.id);
+for (const v of prev?.items || []) mark(v.id, "acompanhamento");
 
-// 4) Detalhes das transmissões (1 unidade a cada 50 vídeos).
-const all = [...wanted];
+// 4) Detalhes das transmissões (1 unidade a cada 50 vídeos), só dos que ainda não foram descartados.
+const toFetch = [...wanted].filter((id) => !seen[id]);
 const videos = [];
-for (let i = 0; i < all.length; i += 50) {
+for (let i = 0; i < toFetch.length; i += 50) {
   try {
     const j = await yt("videos", {
-      part: "snippet,liveStreamingDetails", id: all.slice(i, i + 50).join(",")
+      part: "snippet,liveStreamingDetails", id: toFetch.slice(i, i + 50).join(",")
     });
     videos.push(...(j.items || []));
   } catch (e) {
@@ -151,7 +186,10 @@ const items = [];
 const rejected = [];
 for (const raw of videos) {
   const state = raw.snippet?.liveBroadcastContent; // upcoming | live | none
-  if (state !== "upcoming" && state !== "live") continue;
+  if (state !== "upcoming" && state !== "live") {
+    seen[raw.id] = now; // vídeo comum: não precisa ser consultado de novo
+    continue;
+  }
   const lsd = raw.liveStreamingDetails || {};
   const th = raw.snippet.thumbnails || {};
   const v = {
@@ -170,7 +208,11 @@ for (const raw of videos) {
     else if (now - Date.parse(v.scheduled) > staleMs) reason = "agendada, mas não iniciou";
   }
   reason ||= filterReason(v.title, cfg);
-  (reason ? rejected : items).push(reason ? { ...v, reason } : v);
+  if (reason) rejected.push({ ...v, reason });
+  else items.push({ ...v, ...classify(v.title) });
+}
+for (const [id, ts] of Object.entries(seen)) {
+  if (now - ts > 30 * 86400000) delete seen[id];
 }
 items.sort((a, b) => {
   if (a.state !== b.state) return a.state === "live" ? -1 : 1;
@@ -181,11 +223,22 @@ items.sort((a, b) => {
 
 // 6) Saída.
 const generatedAt = new Date(now).toISOString();
+const has = (v, how) => via.get(v.id)?.has(how);
+const descobertas = {
+  uploads: items.filter((v) => has(v, "uploads")).length,
+  soBusca: items.filter((v) => !has(v, "uploads") && has(v, "busca")).length,
+  soAcompanhamento: items.filter((v) => !has(v, "uploads") && !has(v, "busca")).length
+};
 await mkdir(OUT, { recursive: true });
 await writeFile(`${OUT}/lives.json`, JSON.stringify({ generatedAt, quotaUsed: quota, items }));
 await writeFile(`${OUT}/channels.json`, JSON.stringify(cache));
+await writeFile(`${OUT}/seen.json`, JSON.stringify(seen));
 await writeFile(`${OUT}/debug.json`, JSON.stringify({
-  generatedAt, quotaUsed: quota, errors, buscaReforcada: searched,
+  generatedAt, quotaUsed: quota, estimatedDaily, errors, buscaReforcada: searched,
+  descobertas,
+  // Lives que só a busca reforçada achou: a lista de uploads não mostrou. Útil para decidir quais canais priorizar.
+  soPelaBusca: items.filter((v) => !has(v, "uploads") && has(v, "busca")).map((v) => `${v.channel}: ${v.title}`),
+  semCampeonato: items.filter((v) => v.region === "Outros").map((v) => v.title),
   channels: Object.values(per).map((d) => {
     let lives = 0;
     d.ids.forEach((id) => {
@@ -200,4 +253,5 @@ await writeFile(`${OUT}/debug.json`, JSON.stringify({
 console.log(`OK: ${items.filter((v) => v.state === "live").length} ao vivo, ` +
   `${items.filter((v) => v.state !== "live").length} agendadas, ${rejected.length} descartadas. ` +
   `Cota usada: ${quota} unidades. Buscas reforçadas: ${searched.length}. Erros: ${errors.length}.`);
+console.log(`Encontradas pela lista de uploads: ${descobertas.uploads}; só pela busca reforçada: ${descobertas.soBusca}; só pelo acompanhamento: ${descobertas.soAcompanhamento}.`);
 errors.forEach((e) => console.log("  aviso: " + e));
