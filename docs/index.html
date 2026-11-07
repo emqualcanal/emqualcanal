@@ -6,8 +6,8 @@
 <title>Lives de futebol no YouTube</title>
 <meta name="description" content="Transmissões de partidas de futebol ao vivo e agendadas no YouTube, atualizadas automaticamente.">
 <style>
-:root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--on:#fff;--live:#D92D20;--onlive:#fff;--chip:#E9EFEA;--head:#DDE8F7;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;color-scheme:dark}}
+:root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--on:#fff;--live:#D92D20;--onlive:#fff;--chip:#E9EFEA;--head:#DDE8F7;--today:#C58A00;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;--today:#FFC933;color-scheme:dark}}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 main{max-width:1100px;margin:0 auto;padding:32px 16px 64px}
@@ -57,6 +57,18 @@ h2:first-child{margin-top:0}
 @media (max-width:900px){.layout{grid-template-columns:1fr}aside{position:static;max-height:none;display:none}aside.open{display:block}#toggleF{display:inline-block}}
 @media (max-width:620px){.it,.it.nt{grid-template-columns:1fr;gap:8px}.it img{width:100%;height:auto;aspect-ratio:16/9}.it a{padding:8px 0}}
 .warn{background:var(--chip);border-radius:10px;padding:10px 14px;margin-bottom:16px}
+.days{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;flex:1;padding:4px 2px}
+.strip::-webkit-scrollbar{display:none}
+.day{flex:none;scroll-snap-align:start;width:68px;min-height:76px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px;line-height:1.25}
+.day b{font-size:22px;line-height:1.1}
+.day small{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.day .c{font-size:11px;font-weight:700;color:var(--accent)}
+.day.today{border-color:var(--today);box-shadow:0 0 0 1px var(--today)}
+.day.empty{opacity:.6}
+.day[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on)}
+.day[aria-selected="true"] small,.day[aria-selected="true"] .c{color:var(--on)}
+.arr{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;cursor:pointer}
 footer{color:var(--muted);font-size:14px;margin-top:40px}
 </style>
 </head>
@@ -66,6 +78,7 @@ footer{color:var(--muted);font-size:14px;margin-top:40px}
 <p class="sub" id="meta">Carregando…</p>
 <div class="warn" id="warn" hidden></div>
 <div class="stats"><div class="stat"><b id="nLive">0</b>ao vivo agora</div><div class="stat"><b id="nUp">0</b>agendadas</div></div>
+<nav class="days" aria-label="Dia"><button type="button" class="arr" id="dPrev" aria-label="Dias anteriores">‹</button><div class="strip" id="strip" role="tablist" aria-label="Escolha o dia"></div><button type="button" class="arr" id="dNext" aria-label="Próximos dias">›</button></nav>
 <div class="ctl">
 <div class="seg" role="group" aria-label="Tipo de transmissão">
 <button type="button" data-v="all" aria-pressed="true">Todas</button>
@@ -88,7 +101,7 @@ footer{color:var(--muted);font-size:14px;margin-top:40px}
 <script>
 const TZ='America/Sao_Paulo',$=id=>document.getElementById(id);
 const REGIONS=['Brasil','Europa','América do Sul','América do Norte','Ásia','África','Internacional','Feminino','Outros'];
-const st={status:'all',sort:'camp',q:'',tab:'camp',more:{},off:{camp:new Set(),ch:new Set()}};
+const st={status:'all',sort:'camp',q:'',tab:'camp',day:null,more:{},off:{camp:new Set(),ch:new Set()}};
 try{const s=localStorage.getItem('sort');if(s==='time'||s==='camp')st.sort=s}catch(e){}
 let D=null;
 const dk=t=>new Date(t).toLocaleDateString('en-CA',{timeZone:TZ});
@@ -98,6 +111,7 @@ const isLive=v=>v.state==='live';
 const key=v=>v.league||'Outros campeonatos';
 const when=v=>isLive(v)?-1:Date.parse(v.scheduled);
 function dl(t){const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'long',day:'2-digit',month:'2-digit'}),d=dk(t),n=Date.now();return d===dk(n)?'Hoje · '+s:d===dk(n+864e5)?'Amanhã · '+s:s}
+function ds(t){const d=dk(t),n=Date.now();if(d===dk(n))return'Hoje';if(d===dk(n+864e5))return'Amanhã';const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit'}).replace('.,',',');return s.charAt(0).toUpperCase()+s.slice(1)}
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function flag(code){if(!code)return null;const i=el('img');i.src='https://flagcdn.com/w40/'+code+'.png';i.alt='';i.loading='lazy';i.onerror=()=>i.remove();return i}
 
@@ -106,6 +120,30 @@ function visible(){const now=Date.now();return D.items.filter(v=>isLive(v)||now-
 function base(){
 const q=norm(st.q);
 return visible().filter(v=>(st.status==='all'||(st.status==='live'?isLive(v):!isLive(v)))&&(!q||norm(v.title+' '+v.channel+' '+key(v)).includes(q)))}
+/* ---------- dias ---------- */
+const todayKey=()=>dk(Date.now());
+const itemDay=v=>isLive(v)?todayKey():dk(v.scheduled);
+const dayOk=v=>st.day==='all'||itemDay(v)===st.day;
+function addDays(k,n){const[y,m,d]=k.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+n)).toISOString().slice(0,10)}
+function dayParts(k){const dt=new Date(k+'T12:00:00Z'),f=o=>dt.toLocaleDateString('pt-BR',{timeZone:'UTC',...o});
+return{num:f({day:'numeric'}),mon:f({month:'short'}).replace('.','').toUpperCase(),wd:f({weekday:'short'}).replace('.','').toUpperCase(),full:f({weekday:'long',day:'numeric',month:'long'})}}
+function dayRange(){const t=todayKey(),last=visible().map(itemDay).reduce((a,b)=>a>b?a:b,t);let n=7;while(n<28&&addDays(t,n-1)<last)n++;return Array.from({length:n},(_,i)=>addDays(t,i))}
+let dayInit=false;
+function renderDays(){
+const strip=$('strip'),keep=strip.scrollLeft,t=todayKey();
+if(st.day===null||(st.day!=='all'&&st.day<t))st.day=t;
+const items=base().filter(v=>pass(v)),cnt=new Map();
+items.forEach(v=>{const k=itemDay(v);cnt.set(k,(cnt.get(k)||0)+1)});
+strip.replaceChildren();
+const chip=(k,big,mid,n,label,cls)=>{
+const b=el('button','day'+cls+(n?'':' empty'));b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-selected',st.day===k);b.setAttribute('aria-label',label+', '+n+(n===1?' jogo':' jogos'));
+b.append(el('b',null,big),el('small',null,mid),el('span','c',n?n+(n===1?' jogo':' jogos'):'—'));
+b.addEventListener('click',()=>{st.day=k;render()});strip.append(b)};
+chip('all','Todos','os dias',items.length,'Todos os dias','');
+dayRange().forEach(k=>{const d=dayParts(k);chip(k,d.num,d.mon+' · '+d.wd,cnt.get(k)||0,d.full,k===t?' today':'')});
+strip.scrollLeft=keep;
+if(!dayInit){dayInit=true;const s=strip.querySelector('[aria-selected="true"]');if(s&&s.offsetLeft)strip.scrollLeft=Math.max(0,s.offsetLeft-strip.clientWidth/2+s.offsetWidth/2)}}
+
 function pass(v,skip){return(skip==='camp'||!st.off.camp.has(key(v)))&&(skip==='ch'||!st.off.ch.has(v.channel))}
 
 /* ---------- painel de filtros ---------- */
@@ -125,7 +163,7 @@ const tabs=el('div','tabs');tabs.setAttribute('role','tablist');
 const b=el('button',null,label);b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-selected',id===tab);
 b.addEventListener('click',()=>{st.tab=id;renderPanel()});tabs.append(b)});
 p.append(tabs);
-const items=base().filter(v=>pass(v,tab));
+const items=base().filter(dayOk).filter(v=>pass(v,tab));
 const counts=new Map(),meta=new Map();
 items.forEach(v=>{const k=tab==='camp'?key(v):v.channel;counts.set(k,(counts.get(k)||0)+1);if(!meta.has(k))meta.set(k,v)});
 const names=[...counts.keys()];
@@ -147,16 +185,16 @@ const r=el('div','it'+(v.thumbnail?'':' nt'));
 if(v.thumbnail){const i=el('img');i.src=v.thumbnail;i.alt='';i.loading='lazy';i.width=128;i.height=72;r.append(i)}
 const b=el('div'),w=el('div','when');
 if(isLive(v)){w.append(el('span','pill','AO VIVO'));if(v.started)w.append(el('span','ch',' desde '+tm(v.started)))}
-else w.append(el('span','tm',tm(v.scheduled)));
+else w.append(el('span','tm',(st.sort==='camp'?ds(v.scheduled)+' · ':'')+tm(v.scheduled)));
 const main=v.home&&v.away?v.home+' x '+v.away:v.title;
 const t=el('div','tt',main);t.title=v.title;
 b.append(w,t,el('div','ch',[showLeague?key(v):null,v.round,v.channel].filter(Boolean).join(' · ')));
 const a=el('a',null,'Assistir');a.href='https://www.youtube.com/watch?v='+encodeURIComponent(v.id);a.target='_blank';a.rel='noopener';
 r.append(b,a);return r}
 function renderList(){
-const items=base().filter(v=>pass(v)).sort((a,b)=>when(a)-when(b));
+const items=base().filter(dayOk).filter(v=>pass(v)).sort((a,b)=>when(a)-when(b));
 const box=$('list');box.replaceChildren();
-if(!items.length){box.append(el('p','sub','Nenhuma transmissão para este filtro.'));return}
+if(!items.length){box.append(el('p','sub',st.day==='all'?'Nenhuma transmissão para este filtro.':'Nenhuma transmissão neste dia para este filtro.'));return}
 if(st.sort==='time'){
 const live=items.filter(isLive),up=items.filter(v=>!isLive(v));
 if(live.length){box.append(el('h2',null,'Ao vivo agora'));live.forEach(v=>box.append(row(v,true)))}
@@ -176,7 +214,7 @@ function render(){
 if(!D)return;
 const all=visible();
 $('nLive').textContent=all.filter(isLive).length;$('nUp').textContent=all.filter(v=>!isLive(v)).length;
-renderPanel();renderList()}
+renderDays();renderPanel();renderList()}
 
 async function load(){
 try{
@@ -192,9 +230,11 @@ const wn=$('warn');
 if(Date.now()-gen>108e5){wn.hidden=false;wn.textContent='As atualizações automáticas podem ter parado: os dados são de '+w+'.'}else wn.hidden=true;
 render()}
 
-document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{st.status=b.dataset.v;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{st.status=b.dataset.v;if(st.status==='live')st.day=todayKey();document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
 $('q').addEventListener('input',e=>{st.q=e.target.value;render()});
 document.querySelectorAll('input[name=sort]').forEach(r=>{r.checked=r.value===st.sort;r.addEventListener('change',()=>{st.sort=r.value;try{localStorage.setItem('sort',r.value)}catch(e){}renderList()})});
+$('dPrev').addEventListener('click',()=>$('strip').scrollBy({left:-260,behavior:'smooth'}));
+$('dNext').addEventListener('click',()=>$('strip').scrollBy({left:260,behavior:'smooth'}));
 $('toggleF').addEventListener('click',()=>{const o=$('panel').classList.toggle('open');$('toggleF').setAttribute('aria-expanded',o)});
 load();setInterval(load,3e5);
 </script>
