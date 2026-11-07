@@ -205,7 +205,7 @@ const g=new Map();
 items.forEach(v=>{const k=key(v);if(!g.has(k))g.set(k,[]);g.get(k).push(v)});
 [...g.entries()].sort((a,b)=>{
 const ra=REGIONS.indexOf(a[1][0].region||'Outros'),rb=REGIONS.indexOf(b[1][0].region||'Outros');
-return ra-rb||when(a[1][0])-when(b[1][0])}).forEach(([name,list])=>{
+return when(a[1][0])-when(b[1][0])||ra-rb||a[0].localeCompare(b[0],'pt-BR')}).forEach(([name,list])=>{
 const h=el('div','gh'),f=flag(list[0].flag);if(f)h.append(f);
 h.append(el('span',null,name),el('small',null,list.length+(list.length===1?' jogo':' jogos')));box.append(h);
 list.forEach(v=>box.append(row(v,false)))})}

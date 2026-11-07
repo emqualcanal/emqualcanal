@@ -20,6 +20,7 @@ const RULES = [
   [/eurocopa|euro 20/, "Eurocopa", "Internacional"],
   [/amistoso|data fifa/, "Amistosos", "Internacional"],
   [/mundial de clubes|club world cup/, "Mundial de Clubes", "Internacional"],
+  [/\bwsl\b|women.?s super league/, "Campeonato Inglês", "Europa", "gb-eng"],
   [/premier league/, "Campeonato Inglês", "Europa", "gb-eng"],
   [/\bfa cup\b|copa da inglaterra/, "FA Cup", "Europa", "gb-eng"],
   [/carabao|efl cup|copa da liga inglesa/, "Copa da Liga Inglesa", "Europa", "gb-eng"],
@@ -132,16 +133,21 @@ function baseLeague(raw, n) {
 
 const FEMININE_NAME = /^(Copa|Taça|Supercopa|Champions League|Liga|Libertadores|Sul-Americana|Recopa|Eurocopa)/;
 
+// Nomes de exibição (iguais aos da arte do EQC). Só valem para o futebol masculino.
+const ALIAS = { "Campeonato Inglês": "Premier League", "Campeonato Australiano": "Liga Australiana" };
+
 export function leagueOf(title) {
   const n = norm(title);
   let r = baseLeague(title, n);
-  if (/feminin|femenin|women|\bnwsl\b/.test(n)) {
+  if (/feminin|femenin|women|\bnwsl\b|\bwsl\b/.test(n)) {
     if (r.league !== "NWSL") {
       if (r.region === "Outros") r.league = "Futebol feminino";
       else if (r.league.startsWith("Brasileirão")) r.league = "Brasileirão Feminino";
       else r.league += FEMININE_NAME.test(r.league) ? " Feminina" : " Feminino";
     }
     r.region = "Feminino";
+  } else if (ALIAS[r.league]) {
+    r.league = ALIAS[r.league];
   }
   return r;
 }
@@ -171,7 +177,9 @@ function pretty(s) {
     if (ACR.has(w)) return w;
     const lw = w.toLowerCase();
     if (i > 0 && LOWER.has(lw)) return lw;
-    return lw.replace(/(^|[-'’.])(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
+    return lw
+      .replace(/(^|[-.])(\p{L})/gu, (m, a, b) => a + b.toUpperCase())
+      .replace(/(\p{L}+)(['’])(\p{L})/gu, (m, a, q, b) => a + q + (a.length <= 2 ? b.toUpperCase() : b));
   }).join(" ");
 }
 
