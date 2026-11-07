@@ -21,14 +21,12 @@
   ],
   "deepSearchChannels": [
     "@cazetv",
-    "@canalgolbrasil",
-    "@canalgoatbr",
+    "@getv",
     "@sportynetbrasil",
-    "@espnbrasil",
-    "@getv"
+    "@canalgolbrasil"
   ],
-  "deepPriorityEveryMin": 160,
-  "deepBudgetPerDay": 1200,
+  "deepPriorityEveryMin": 180,
+  "deepBudgetPerDay": 1000,
   "uploadsPages": 2,
   "uploadsPagesPriority": 4,
   "runIntervalMin": 15,

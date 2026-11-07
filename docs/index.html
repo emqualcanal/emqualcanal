@@ -3,26 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Em Qual Canal?</title>
-<meta name="description" content="Todos os jogos. Todos os horários. Todos os canais. Em um só lugar!">
+<title>Lives de futebol no YouTube</title>
+<meta name="description" content="Transmissões de partidas de futebol ao vivo e agendadas no YouTube, atualizadas automaticamente.">
 <style>
-:root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--on:#fff;--live:#D92D20;--onlive:#fff;--chip:#E9EFEA;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;color-scheme:dark}}
+:root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--on:#fff;--live:#D92D20;--onlive:#fff;--chip:#E9EFEA;--head:#DDE8F7;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;color-scheme:dark}}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:900px;margin:0 auto;padding:32px 16px 64px}
+main{max-width:1100px;margin:0 auto;padding:32px 16px 64px}
 h1{margin:0 0 4px;font-size:clamp(26px,5vw,38px);line-height:1.15}
 .sub{color:var(--muted);margin:0 0 20px}
 .stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;min-width:140px;color:var(--muted);font-size:14px}
 .stat b{display:block;font-size:28px;line-height:1.15;color:var(--fg)}
-.ctl{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
 .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{border:0;background:var(--card);color:var(--fg);padding:0 16px;font:inherit;cursor:pointer;min-height:44px}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on);font-weight:600}
-select,input{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);padding:0 12px;font:inherit}
-input{flex:1;min-width:160px}
-h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:28px 0 10px}
+input[type=search]{flex:1;min-width:160px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);padding:0 12px;font:inherit}
+.order{display:flex;gap:14px;align-items:center;color:var(--muted);font-size:15px}
+.order label{display:flex;gap:6px;align-items:center;cursor:pointer;min-height:44px}
+.order input{accent-color:var(--accent);width:18px;height:18px}
+#toggleF{display:none;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);padding:0 14px;font:inherit;cursor:pointer}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start}
+aside{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+.tabs button{border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);font:inherit;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:13px;padding:14px 8px;cursor:pointer;min-height:48px}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.all{display:flex;align-items:center;gap:10px;margin:12px;padding:10px 12px;background:var(--head);border-radius:10px;font-weight:600;cursor:pointer}
+.all input{accent-color:var(--accent);width:18px;height:18px}
+.cnt{margin-left:auto;background:var(--chip);border-radius:999px;padding:1px 9px;font-size:13px;font-weight:600;color:var(--fg)}
+.grp{padding:6px 14px 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);border-top:1px solid var(--line);margin-top:6px}
+.opt{display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;min-height:40px;font-size:15px}
+.opt input{accent-color:var(--accent);width:18px;height:18px;flex:none}
+.opt img,.gh img{width:20px;height:14px;object-fit:cover;border-radius:2px;flex:none}
+.opt span.n{overflow-wrap:anywhere}
+.more{display:block;width:100%;border:0;background:none;color:var(--accent);font:inherit;font-weight:600;padding:8px 14px 12px;text-align:center;cursor:pointer;min-height:40px}
+h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px}
+h2:first-child{margin-top:0}
+.gh{display:flex;align-items:center;gap:10px;background:var(--head);border-radius:10px;padding:10px 14px;margin:20px 0 8px;font-weight:700}
+.gh:first-child{margin-top:0}
+.gh small{color:var(--muted);font-weight:500;margin-left:auto}
 .it{display:grid;grid-template-columns:128px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
 .it.nt{grid-template-columns:1fr auto}
 .it img{width:128px;height:72px;object-fit:cover;border-radius:8px;background:var(--chip)}
@@ -33,6 +54,7 @@ h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute
 .ch{color:var(--muted);font-size:14px}
 .it a{color:var(--accent);font-weight:600;text-decoration:none;padding:10px 4px;white-space:nowrap}
 .it a:hover{text-decoration:underline}
+@media (max-width:900px){.layout{grid-template-columns:1fr}aside{position:static;max-height:none;display:none}aside.open{display:block}#toggleF{display:inline-block}}
 @media (max-width:620px){.it,.it.nt{grid-template-columns:1fr;gap:8px}.it img{width:100%;height:auto;aspect-ratio:16/9}.it a{padding:8px 0}}
 .warn{background:var(--chip);border-radius:10px;padding:10px 14px;margin-bottom:16px}
 footer{color:var(--muted);font-size:14px;margin-top:40px}
@@ -40,7 +62,7 @@ footer{color:var(--muted);font-size:14px;margin-top:40px}
 </head>
 <body>
 <main>
-<h1>Em Qual Canal?</h1>
+<h1>Lives de futebol no YouTube</h1>
 <p class="sub" id="meta">Carregando…</p>
 <div class="warn" id="warn" hidden></div>
 <div class="stats"><div class="stat"><b id="nLive">0</b>ao vivo agora</div><div class="stat"><b id="nUp">0</b>agendadas</div></div>
@@ -50,48 +72,112 @@ footer{color:var(--muted);font-size:14px;margin-top:40px}
 <button type="button" data-v="live" aria-pressed="false">Ao vivo</button>
 <button type="button" data-v="sched" aria-pressed="false">Agendadas</button>
 </div>
-<select id="ch" aria-label="Canal"><option value="">Todos os canais</option></select>
 <input id="q" type="search" placeholder="Buscar time ou campeonato" aria-label="Buscar time ou campeonato">
+<div class="order" role="radiogroup" aria-label="Ordenar">Ordenar:
+<label><input type="radio" name="sort" value="time"> Horário</label>
+<label><input type="radio" name="sort" value="camp" checked> Campeonatos</label>
 </div>
+<button type="button" id="toggleF" aria-expanded="false">Filtros</button>
+</div>
+<div class="layout">
+<aside id="panel" aria-label="Filtros"></aside>
 <div id="list"></div>
-<footer>Lista gerada automaticamente a partir da API do YouTube, com filtro pelo título da transmissão. Pode haver erros de classificação. Sem vínculo com o YouTube ou com os canais citados.</footer>
+</div>
+<footer>Lista gerada automaticamente a partir da API do YouTube, com filtro pelo título da transmissão. O campeonato é deduzido do título e pode haver erros de classificação. Sem vínculo com o YouTube ou com os canais citados.</footer>
 </main>
 <script>
-const TZ='America/Sao_Paulo',$=id=>document.getElementById(id),st={v:'all',c:'',q:''};
+const TZ='America/Sao_Paulo',$=id=>document.getElementById(id);
+const REGIONS=['Brasil','Europa','América do Sul','América do Norte','Ásia','África','Internacional','Feminino','Outros'];
+const st={status:'all',sort:'camp',q:'',tab:'camp',more:{},off:{camp:new Set(),ch:new Set()}};
+try{const s=localStorage.getItem('sort');if(s==='time'||s==='camp')st.sort=s}catch(e){}
 let D=null;
 const dk=t=>new Date(t).toLocaleDateString('en-CA',{timeZone:TZ});
 const tm=t=>new Date(t).toLocaleTimeString('pt-BR',{timeZone:TZ,hour:'2-digit',minute:'2-digit'});
 const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const isLive=v=>v.state==='live';
+const key=v=>v.league||'Outros campeonatos';
+const when=v=>isLive(v)?-1:Date.parse(v.scheduled);
 function dl(t){const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'long',day:'2-digit',month:'2-digit'}),d=dk(t),n=Date.now();return d===dk(n)?'Hoje · '+s:d===dk(n+864e5)?'Amanhã · '+s:s}
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-function row(v){
+function flag(code){if(!code)return null;const i=el('img');i.src='https://flagcdn.com/w40/'+code+'.png';i.alt='';i.loading='lazy';i.onerror=()=>i.remove();return i}
+
+/* ---------- dados filtrados ---------- */
+function visible(){const now=Date.now();return D.items.filter(v=>isLive(v)||now-new Date(v.scheduled)<=3*36e5)}
+function base(){
+const q=norm(st.q);
+return visible().filter(v=>(st.status==='all'||(st.status==='live'?isLive(v):!isLive(v)))&&(!q||norm(v.title+' '+v.channel+' '+key(v)).includes(q)))}
+function pass(v,skip){return(skip==='camp'||!st.off.camp.has(key(v)))&&(skip==='ch'||!st.off.ch.has(v.channel))}
+
+/* ---------- painel de filtros ---------- */
+function toggleAll(tab,names){
+const off=st.off[tab];
+if(off.size===0)names.forEach(n=>off.add(n));else off.clear();
+render()}
+function opt(tab,name,n,checked,fl){
+const l=el('label','opt'),c=el('input');c.type='checkbox';c.checked=checked;
+c.addEventListener('change',()=>{c.checked?st.off[tab].delete(name):st.off[tab].add(name);render()});
+l.append(c);const f=fl&&flag(fl);if(f)l.append(f);
+l.append(el('span','n',name),el('span','cnt',n));return l}
+function renderPanel(){
+const p=$('panel'),tab=st.tab;p.replaceChildren();
+const tabs=el('div','tabs');tabs.setAttribute('role','tablist');
+[['camp','Campeonatos'],['ch','Canais']].forEach(([id,label])=>{
+const b=el('button',null,label);b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-selected',id===tab);
+b.addEventListener('click',()=>{st.tab=id;renderPanel()});tabs.append(b)});
+p.append(tabs);
+const items=base().filter(v=>pass(v,tab));
+const counts=new Map(),meta=new Map();
+items.forEach(v=>{const k=tab==='camp'?key(v):v.channel;counts.set(k,(counts.get(k)||0)+1);if(!meta.has(k))meta.set(k,v)});
+const names=[...counts.keys()];
+const all=el('label','all'),ac=el('input');ac.type='checkbox';ac.checked=st.off[tab].size===0;ac.indeterminate=st.off[tab].size>0&&names.some(n=>!st.off[tab].has(n));
+ac.addEventListener('change',()=>toggleAll(tab,names));
+all.append(ac,el('span',null,'Todos'),el('span','cnt',items.length));p.append(all);
+const groups=tab==='camp'?REGIONS.map(r=>[r,names.filter(n=>(meta.get(n).region||'Outros')===r)]):[['',names]];
+groups.forEach(([g,list])=>{
+if(!list.length)return;
+list.sort((a,b)=>counts.get(b)-counts.get(a)||a.localeCompare(b,'pt-BR'));
+if(g)p.append(el('div','grp',g));
+const lim=st.more[tab+g]?list.length:(tab==='camp'?6:8);
+list.slice(0,lim).forEach(n=>p.append(opt(tab,n,counts.get(n),!st.off[tab].has(n),tab==='camp'?meta.get(n).flag:null)));
+if(list.length>lim){const m=el('button','more','Mostrar mais ▾');m.type='button';m.addEventListener('click',()=>{st.more[tab+g]=true;renderPanel()});p.append(m)}})}
+
+/* ---------- lista ---------- */
+function row(v,showLeague){
 const r=el('div','it'+(v.thumbnail?'':' nt'));
 if(v.thumbnail){const i=el('img');i.src=v.thumbnail;i.alt='';i.loading='lazy';i.width=128;i.height=72;r.append(i)}
 const b=el('div'),w=el('div','when');
 if(isLive(v)){w.append(el('span','pill','AO VIVO'));if(v.started)w.append(el('span','ch',' desde '+tm(v.started)))}
 else w.append(el('span','tm',tm(v.scheduled)));
-b.append(w,el('div','tt',v.title),el('div','ch',v.channel));
+const main=v.home&&v.away?v.home+' x '+v.away:v.title;
+const t=el('div','tt',main);t.title=v.title;
+b.append(w,t,el('div','ch',[showLeague?key(v):null,v.round,v.channel].filter(Boolean).join(' · ')));
 const a=el('a',null,'Assistir');a.href='https://www.youtube.com/watch?v='+encodeURIComponent(v.id);a.target='_blank';a.rel='noopener';
 r.append(b,a);return r}
+function renderList(){
+const items=base().filter(v=>pass(v)).sort((a,b)=>when(a)-when(b));
+const box=$('list');box.replaceChildren();
+if(!items.length){box.append(el('p','sub','Nenhuma transmissão para este filtro.'));return}
+if(st.sort==='time'){
+const live=items.filter(isLive),up=items.filter(v=>!isLive(v));
+if(live.length){box.append(el('h2',null,'Ao vivo agora'));live.forEach(v=>box.append(row(v,true)))}
+let last='';
+up.forEach(v=>{const k=dk(v.scheduled);if(k!==last){box.append(el('h2',null,dl(v.scheduled)));last=k}box.append(row(v,true))});
+return}
+const g=new Map();
+items.forEach(v=>{const k=key(v);if(!g.has(k))g.set(k,[]);g.get(k).push(v)});
+[...g.entries()].sort((a,b)=>{
+const ra=REGIONS.indexOf(a[1][0].region||'Outros'),rb=REGIONS.indexOf(b[1][0].region||'Outros');
+return ra-rb||when(a[1][0])-when(b[1][0])}).forEach(([name,list])=>{
+const h=el('div','gh'),f=flag(list[0].flag);if(f)h.append(f);
+h.append(el('span',null,name),el('small',null,list.length+(list.length===1?' jogo':' jogos')));box.append(h);
+list.forEach(v=>box.append(row(v,false)))})}
+
 function render(){
 if(!D)return;
-const now=Date.now(),q=norm(st.q);
-const all=D.items.filter(v=>isLive(v)||now-new Date(v.scheduled)<=3*36e5);
-const items=all.filter(v=>(st.v==='all'||(st.v==='live'?isLive(v):!isLive(v)))&&(!st.c||v.channel===st.c)&&(!q||norm(v.title+' '+v.channel).includes(q)));
+const all=visible();
 $('nLive').textContent=all.filter(isLive).length;$('nUp').textContent=all.filter(v=>!isLive(v)).length;
-const box=$('list');box.replaceChildren();
-const live=items.filter(isLive),up=items.filter(v=>!isLive(v)).sort((a,b)=>new Date(a.scheduled)-new Date(b.scheduled));
-if(live.length){box.append(el('h2',null,'Ao vivo agora'));live.forEach(v=>box.append(row(v)))}
-let last='';
-up.forEach(v=>{const k=dk(v.scheduled);if(k!==last){box.append(el('h2',null,dl(v.scheduled)));last=k}box.append(row(v))});
-if(!items.length)box.append(el('p','sub','Nenhuma transmissão para este filtro.'))}
-function fillChannels(){
-const sel=$('ch'),cur=st.c;
-const names=[...new Set(D.items.map(v=>v.channel))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-sel.replaceChildren(el('option',null,'Todos os canais'));sel.firstChild.value='';
-names.forEach(c=>{const o=el('option',null,c);o.value=c;sel.append(o)});
-if(names.includes(cur))sel.value=cur;else st.c=''}
+renderPanel();renderList()}
+
 async function load(){
 try{
 const r=await fetch('data/lives.json?t='+Date.now(),{cache:'no-store'});
@@ -100,14 +186,16 @@ D=await r.json();
 }catch(e){
 if(!D)$('meta').textContent='Aguardando a primeira atualização dos dados. Volte em alguns minutos.';
 return}
-const gen=new Date(D.generatedAt),when=gen.toLocaleString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-$('meta').textContent='Transmissões de partidas ao vivo e agendadas nos principais canais. Atualizado em '+when+'.';
-const w=$('warn');
-if(Date.now()-gen>108e5){w.hidden=false;w.textContent='As atualizações automáticas podem ter parado: os dados são de '+when+'.'}else w.hidden=true;
-fillChannels();render()}
-document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{st.v=b.dataset.v;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
-$('ch').addEventListener('change',e=>{st.c=e.target.value;render()});
+const gen=new Date(D.generatedAt),w=gen.toLocaleString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+$('meta').textContent='Transmissões de partidas ao vivo e agendadas nos principais canais. Atualizado em '+w+'.';
+const wn=$('warn');
+if(Date.now()-gen>108e5){wn.hidden=false;wn.textContent='As atualizações automáticas podem ter parado: os dados são de '+w+'.'}else wn.hidden=true;
+render()}
+
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{st.status=b.dataset.v;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
 $('q').addEventListener('input',e=>{st.q=e.target.value;render()});
+document.querySelectorAll('input[name=sort]').forEach(r=>{r.checked=r.value===st.sort;r.addEventListener('change',()=>{st.sort=r.value;try{localStorage.setItem('sort',r.value)}catch(e){}renderList()})});
+$('toggleF').addEventListener('click',()=>{const o=$('panel').classList.toggle('open');$('toggleF').setAttribute('aria-expanded',o)});
 load();setInterval(load,3e5);
 </script>
 </body>
