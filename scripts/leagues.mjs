@@ -36,6 +36,7 @@ const RULES = [
   [/ligue 1|campeonato frances/, "Campeonato Francês", "Europa", "fr"],
   [/taca de portugal|copa de portugal/, "Taça de Portugal", "Europa", "pt"],
   [/taca da liga/, "Taça da Liga", "Europa", "pt"],
+  [/liga portugal 2|segunda liga/, "Liga Portugal 2", "Europa", "pt"],
   [/liga portugal|primeira liga|campeonato portugues|liga betclic|liga bwin/, "Campeonato Português", "Europa", "pt"],
   [/eredivisie/, "Campeonato Holandês", "Europa", "nl"],
   [/super lig/, "Campeonato Turco", "Europa", "tr"],
@@ -45,6 +46,20 @@ const RULES = [
   [/\bnwsl\b/, "NWSL", "Feminino", "us"],
   [/saudi pro league|roshn|campeonato saudita/, "Campeonato Saudita", "Ásia", "sa"],
   [/\bj-?league\b|\bj1 league\b/, "J-League", "Ásia", "jp"],
+  [/eliteserien|tippeligaen/, "Campeonato Norueguês", "Europa", "no"],
+  [/allsvenskan/, "Campeonato Sueco", "Europa", "se"],
+  [/superligaen|superliga dinamarquesa/, "Campeonato Dinamarquês", "Europa", "dk"],
+  [/ekstraklasa/, "Campeonato Polonês", "Europa", "pl"],
+  [/jupiler|pro league belga/, "Campeonato Belga", "Europa", "be"],
+  [/scottish premiership|premiership escocesa/, "Campeonato Escocês", "Europa", "gb-sct"],
+  [/fortuna liga|chance liga/, "Campeonato Tcheco", "Europa", "cz"],
+  [/eerste divisie/, "Eerste Divisie", "Europa", "nl"],
+  [/\bleague one\b/, "EFL League One", "Europa", "gb-eng"],
+  [/\bleague two\b/, "EFL League Two", "Europa", "gb-eng"],
+  [/liga profesional|liga argentina/, "Campeonato Argentino", "América do Sul", "ar"],
+  [/betplay|liga dimayor|categoria primera a/, "Campeonato Colombiano", "América do Sul", "co"],
+  [/\bk-?league\b/, "Campeonato Coreano", "Ásia", "kr"],
+  [/chinese super league|superliga chinesa/, "Campeonato Chinês", "Ásia", "cn"],
   [/\ba-?league\b/, "Campeonato Australiano", "Ásia", "au"]
 ];
 
@@ -167,10 +182,10 @@ function baseLeague(raw, n) {
 
   const stateCup = n.match(/copa\s+(?:do |de |da |dos |das )?(rio grande do norte|rio grande do sul|mato grosso do sul|mato grosso|espirito santo|santa catarina|distrito federal|sao paulo|fares lopes|parana|ceara|pernambuco|rio|goias|alagoas|bahia|amazonas|minas|para|maranhao|paraiba|piaui|sergipe|tocantins|acre|amapa|rondonia|roraima|paulista|fpf|fares)\b/)?.[1];
   if (stateCup) return L(`Copa ${STATE_CUPS[stateCup]}`, "Brasil", "br");
-  const femAdj = n.match(/\b(?:liga|campeonato)\s+(?:de\s+)?([a-z]+)/)?.[1];
+  const femAdj = n.match(/(?:liga|campeonato)\s+(?:de\s+)?([a-z]+)/)?.[1];
   if (femAdj && FEM[femAdj]) {
     const [key, disp] = FEM[femAdj];
-    return L(`Liga ${disp}`, NAT[key][1], NAT[key][2]);
+    return L(`Campeonato ${NAT[key][0]}`, NAT[key][1], NAT[key][2]);
   }
   const adj = n.match(/campeonato\s+([a-z-]+)/)?.[1];
   if (adj && NAT[adj]) return L(`Campeonato ${NAT[adj][0]}`, NAT[adj][1], NAT[adj][2]);

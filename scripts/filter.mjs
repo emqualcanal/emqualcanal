@@ -21,6 +21,11 @@ const ALWAYS_EXCLUDE = [
   // futebol americano e basquete
   "nfl", "futebol americano", "ncaa", "super bowl", "nba", "wnba", "nbb", "basquete",
   // programas, bastidores e conteúdo que não é a partida
+  // vôlei e outras modalidades
+  "volei", "voleibol", "futevolei", "superliga feminina", "superliga masculina",
+  "handebol", "tenis", "rugby", "beisebol", "mlb", "nhl", "hoquei", "ufc", "mma", "boxe",
+  // esportes eletrônicos
+  "cblol", "league of legends", "valorant", "free fire", "counter-strike", "cs2", "esports", "e-sports",
   "geral cazetv", "geral caze", "cazetv geral", "jogo aberto", "podcast", "programa",
   "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola"
 ];

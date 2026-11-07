@@ -128,7 +128,7 @@ if (!Object.keys(per).length) {
 async function deep(handle) {
   const ch = await resolve(handle);
   const j = await yt("search", {
-    part: "snippet", channelId: ch.id, type: "video", eventType: "upcoming", maxResults: 25
+    part: "snippet", channelId: ch.id, type: "video", eventType: "upcoming", maxResults: 50
   });
   const found = (j.items || []).map((i) => i.id?.videoId).filter(Boolean);
   const key = handle.toLowerCase();

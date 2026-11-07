@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Diagnóstico – Lives de futebol</title>
+<style>
+:root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--bad:#B42318;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--bad:#FF8A80;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px}
+.m{color:var(--muted)}.bad{color:var(--bad)}
+input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);padding:0 12px;font:inherit}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700;background:var(--line)}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+<h1>Diagnóstico</h1>
+<p class="m" id="sum">Carregando…</p>
+<label for="q" class="m">Procurar um jogo, time, campeonato ou canal em todas as listas</label>
+<input id="q" type="search" placeholder="Ex.: ligue 1, cnn, vôlei, noruega" autocomplete="off">
+<div id="res"></div>
+
+<h2>Erros da última execução</h2>
+<div class="box" id="err"></div>
+
+<h2>Canais: o que foi lido e achado</h2>
+<p class="m">“Vídeos lidos” são os uploads recentes consultados; “lives achadas” são as transmissões ao vivo ou agendadas entre eles; “busca reforçada” é quantas a busca de próximas transmissões trouxe. <b>Canal com 0 lives pode estar sem lives públicas agendadas, ou o jogo ainda não foi descoberto.</b></p>
+<div class="box"><table id="ch"></table></div>
+
+<h2>Transmissões descartadas pelo filtro</h2>
+<div class="box"><table id="rej"></table></div>
+
+<h2>Que só a busca reforçada achou</h2>
+<div class="box" id="deep"></div>
+
+<h2>Sem campeonato identificado</h2>
+<div class="box" id="nocamp"></div>
+</main>
+<script>
+const TZ='America/Sao_Paulo',$=id=>document.getElementById(id);
+const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=t=>t?new Date(t).toLocaleString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+const link=v=>`<a href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener">${esc(v.title)}</a>`;
+let DBG=null,LIV=null;
+async function get(n){const r=await fetch('data/'+n+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error(n+' '+r.status);return r.json()}
+function table(el,head,rows){el.innerHTML='<tr>'+head.map(h=>'<th>'+h+'</th>').join('')+'</tr>'+(rows.length?rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join(''):'<tr><td colspan="'+head.length+'" class="m">Nada por aqui.</td></tr>')}
+function search(){
+const q=norm($('q').value.trim()),out=$('res');
+if(!q){out.innerHTML='';return}
+const f=v=>norm(v.title+' '+v.channel+' '+(v.league||'')+' '+(v.reason||'')).includes(q);
+const found=(LIV?.items||[]).filter(f),rej=(DBG?.rejected||[]).filter(f);
+const ch=(DBG?.channels||[]).filter(c=>norm(c.handle+' '+c.title).includes(q));
+let h='<div class="box"><b>'+found.length+'</b> aparecem no site, <b>'+rej.length+'</b> foram descartadas'+(ch.length?', '+ch.length+' canal(is) com esse nome':'')+'.</div>';
+if(found.length)h+='<div class="box"><b>No site</b><table>'+found.map(v=>'<tr><td>'+fmt(v.scheduled||v.started)+'</td><td>'+link(v)+'</td><td>'+esc(v.channel)+'</td><td>'+esc(v.league||'')+'</td></tr>').join('')+'</table></div>';
+if(rej.length)h+='<div class="box"><b>Descartadas</b><table>'+rej.map(v=>'<tr><td>'+fmt(v.scheduled||v.started)+'</td><td>'+link(v)+'</td><td>'+esc(v.channel)+'</td><td class="bad">'+esc(v.reason)+'</td></tr>').join('')+'</table></div>';
+if(!found.length&&!rej.length)h+='<div class="box">Não achei nada com esse termo nas listas desta execução. Se o jogo existe no YouTube, <b>ele ainda não foi descoberto</b> (veja “Canais” abaixo: quantos vídeos foram lidos e se a busca reforçada rodou para esse canal).</div>';
+out.innerHTML=h}
+async function init(){
+try{[DBG,LIV]=await Promise.all([get('debug.json'),get('lives.json')])}catch(e){$('sum').textContent='Não consegui carregar os dados ('+e.message+'). A primeira execução do workflow já terminou?';return}
+$('sum').innerHTML='Gerado em <b>'+fmt(DBG.generatedAt)+'</b> · cota usada nesta execução: <b>'+DBG.quotaUsed+'</b> · estimativa por dia: <b>'+(DBG.estimatedDaily??'—')+'</b> de 10.000 · '+(LIV.items.length)+' transmissões no site · busca reforçada nesta execução: '+(DBG.buscaReforcada?.length?esc(DBG.buscaReforcada.join(', ')):'nenhuma');
+$('err').innerHTML=DBG.errors?.length?DBG.errors.map(e=>'<div class="bad">'+esc(e)+'</div>').join(''):'<span class="m">Nenhum erro.</span>';
+table($('ch'),['Canal','Vídeos lidos','Lives achadas','Busca reforçada'],(DBG.channels||[]).map(c=>[esc(c.handle)+' <span class="m">('+esc(c.title)+')</span>',c.read,c.lives,c.deep||0]));
+const grp={};(DBG.rejected||[]).forEach(v=>{(grp[v.reason]=grp[v.reason]||[]).push(v)});
+table($('rej'),['Quando','Título','Canal','Motivo'],(DBG.rejected||[]).sort((a,b)=>String(a.scheduled).localeCompare(String(b.scheduled))).map(v=>[fmt(v.scheduled||v.started),link(v),esc(v.channel),'<span class="pill">'+esc(v.reason)+'</span>']));
+$('deep').innerHTML=DBG.soPelaBusca?.length?DBG.soPelaBusca.map(t=>'<div>'+esc(t)+'</div>').join(''):'<span class="m">Nenhuma nesta execução.</span>';
+$('nocamp').innerHTML=DBG.semCampeonato?.length?DBG.semCampeonato.map(t=>'<div>'+esc(t)+'</div>').join(''):'<span class="m">Todas as transmissões tiveram campeonato identificado.</span>';
+search()}
+$('q').addEventListener('input',search);
+init();
+</script>
+</body>
+</html>

@@ -25,7 +25,7 @@ Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada
 | `uploadsPages` / `uploadsPagesPriority` | Quantas páginas de 50 vídeos recentes são lidas por canal (1 unidade por página): `uploadsPages` para os canais comuns (padrão 2) e `uploadsPagesPriority` para os de `deepSearchChannels` (padrão 4). Canais que postam muito (CazéTV, ge tv…) empurram a live agendada para longe do topo da lista; páginas a mais resolvem isso por quase nada. |
 | `deepBudgetPerDay` | Cota diária (em unidades) para a busca reforçada em rodízio nos demais canais. 100 unidades = 1 busca. `0` desliga. |
 | `requireMatchup` | Só aceita títulos com “Time x Time”, “vs” ou placar. |
-| `excludeKeywords` | Palavras que descartam a live (basquete, sub-19, pré/pós-jogo, reação, resenha, sem imagem, videogame…). |
+| `excludeKeywords` | Palavras que descartam a live (basquete, sub-19, pré/pós-jogo, reação, resenha, sem imagem, videogame…). A palavra **futsal** é sempre ignorada, mesmo que não esteja nesta lista. |
 | `keywords`, `requireKeyword` | Usados só quando `requireMatchup` está desligado. |
 | `staleUpcomingHours` | Descarta lives agendadas que não começaram até X horas depois do horário. |
 
@@ -42,6 +42,8 @@ A extensão e o site **não compartilham configurações**: o que você muda nas
 Cuidado com a cota: cada canal em `deepSearchChannels` gasta 100 unidades por busca. A cada 120 minutos são 1.200 unidades por dia por canal; a cada 60 minutos, 2.400. O log de cada execução mostra a estimativa diária e avisa quando passa de 10.000.
 
 ## Campeonatos, ordenação e filtros
+
+No alto da página há um **seletor de dias** (de hoje em diante, com a quantidade de jogos de cada dia e a opção “Todos”): escolha um dia para ver só as transmissões dele. “Ao vivo agora” aparece em **hoje**.
 
 O site permite **ordenar por Campeonatos ou por Horário** e tem um painel com as abas **Campeonatos** (agrupados por região, com contagem e “Mostrar mais”) e **Canais**. Marque ou desmarque itens, ou use “Todos”.
 
@@ -61,6 +63,8 @@ A primeira execução (e a opção “busca completa” do botão Run workflow) 
 **Se você usar a mesma chave da extensão, a cota é dividida entre as duas.** Nesse caso reduza o uso da extensão (por exemplo, orçamento da busca reforçada = 0 nas opções) ou use uma chave de outro projeto para o site.
 
 ## Diagnóstico
+
+- **Página de diagnóstico:** abra `https://SEU-USUARIO.github.io/REPOSITORIO/diagnostico.html`. Digite um termo (por exemplo `ligue 1`, `cnn`, `vôlei`) e ela mostra se aquele jogo **aparece no site**, se foi **descartado** (e por quê) ou se **ainda não foi descoberto**. Também mostra, por canal, quantos vídeos foram lidos e quantas lives foram achadas, os erros e a cota usada. A página não é linkada no site, mas qualquer pessoa com o endereço consegue abri-la.
 
 - `https://SEU-USUARIO.github.io/REPOSITORIO/data/debug.json` mostra, por canal, quantos vídeos foram lidos e quantas lives foram achadas, os erros (por exemplo, `@` de canal não encontrado), a cota usada, as transmissões sem campeonato identificado (`semCampeonato`), como cada live foi encontrada (`descobertas`: pela lista de uploads, só pela busca reforçada ou só pelo acompanhamento) e quais lives **só a busca reforçada achou** (`soPelaBusca`, a lista de canais que mais precisam de prioridade) e **todas as lives descartadas com o motivo**.
 - Cada execução também registra a cota usada no log da aba *Actions*.
