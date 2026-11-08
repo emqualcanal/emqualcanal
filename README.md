@@ -22,7 +22,9 @@ Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada
 |---|---|
 | `channels` | Canais monitorados (`@handle` como aparece **no YouTube**, ou o ID que começa com `UC`). |
 | `deepSearchChannels` / `deepPriorityEveryMin` | Canais que agendam muitas lives e a frequência da busca reforçada neles (100 unidades por busca). Os canais daqui também têm a lista de uploads lida mais a fundo. |
-| `uploadsPages` / `uploadsPagesPriority` | Quantas páginas de 50 vídeos recentes são lidas por canal (1 unidade por página): `uploadsPages` para os canais comuns (padrão 2) e `uploadsPagesPriority` para os de `deepSearchChannels` (padrão 4). Canais que postam muito (CazéTV, ge tv…) empurram a live agendada para longe do topo da lista; páginas a mais resolvem isso por quase nada. |
+| `uploadsPages` / `uploadsPagesPriority` | Páginas de 50 vídeos recentes lidas por canal (1 unidade por página): comuns (padrão 1) e prioritários (padrão 2). |
+| `livePages` / `livePagesPriority` | Páginas da **lista de transmissões ao vivo do canal** (a playlist `UULV…` do YouTube, sem cortes nem shorts), lidas por canal: comuns (padrão 1) e prioritários (padrão 2). `0` desliga. |
+| `useRss` | Lê também o feed RSS público de cada canal (sem custo de cota) para achar lives recém-criadas. `false` desliga. |
 | `deepBudgetPerDay` | Cota diária (em unidades) para a busca reforçada em rodízio nos demais canais. 100 unidades = 1 busca. `0` desliga. |
 | `requireMatchup` | Só aceita títulos com “Time x Time”, “vs” ou placar. |
 | `excludeKeywords` | Palavras que descartam a live (basquete, sub-19, pré/pós-jogo, reação, resenha, sem imagem, videogame…). A palavra **futsal** é sempre ignorada, mesmo que não esteja nesta lista. |
@@ -61,6 +63,16 @@ Uma execução normal gasta ~40 unidades (lê as páginas de uploads de cada can
 A primeira execução (e a opção “busca completa” do botão Run workflow) faz a busca reforçada em todos os canais, cerca de 1.800 unidades.
 
 **Se você usar a mesma chave da extensão, a cota é dividida entre as duas.** Nesse caso reduza o uso da extensão (por exemplo, orçamento da busca reforçada = 0 nas opções) ou use uma chave de outro projeto para o site.
+
+## Como o site descobre as lives
+
+Quatro caminhos, que se complementam e aparecem separados no diagnóstico:
+1. **Uploads recentes** do canal (1 unidade por página de 50).
+2. **Lista de transmissões do canal** (1 unidade por página): mostra lives sem se misturar com cortes e shorts.
+3. **Feed RSS** do canal (sem custo de cota): os ~15 vídeos mais recentes.
+4. **Busca reforçada** (100 unidades por busca): as “próximas transmissões” do canal.
+
+Nem todo caminho funciona igual para todo canal, e eu não sei de antemão qual é o melhor. A página de diagnóstico mostra, por canal, **quantas lives cada caminho achou** e quais lives **só um caminho** achou. Depois de alguns dias dá para desligar o que não ajuda (por exemplo, `livePages` ou `useRss`) e investir a cota onde faz diferença.
 
 ## Diagnóstico
 

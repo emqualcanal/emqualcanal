@@ -33,15 +33,24 @@ a{color:var(--accent)}
 <h2>Erros da última execução</h2>
 <div class="box" id="err"></div>
 
+<h2>Como as transmissões foram encontradas</h2>
+<div class="box" id="met"></div>
+
 <h2>Canais: o que foi lido e achado</h2>
-<p class="m">“Vídeos lidos” são os uploads recentes consultados; “lives achadas” são as transmissões ao vivo ou agendadas entre eles; “busca reforçada” é quantas a busca de próximas transmissões trouxe. <b>Canal com 0 lives pode estar sem lives públicas agendadas, ou o jogo ainda não foi descoberto.</b></p>
+<p class="m">“Lives achadas” são as transmissões ao vivo ou agendadas encontradas no canal. As colunas seguintes mostram <b>por qual caminho</b> cada uma foi achada: últimos uploads, lista de transmissões do canal, feed RSS (sem custo de cota) e busca reforçada. <b>Canal com 0 lives pode estar sem lives públicas agendadas, ou o jogo ainda não foi descoberto.</b></p>
 <div class="box"><table id="ch"></table></div>
 
 <h2>Transmissões descartadas pelo filtro</h2>
 <div class="box"><table id="rej"></table></div>
 
-<h2>Que só a busca reforçada achou</h2>
+<h2>Achadas só pela busca reforçada</h2>
 <div class="box" id="deep"></div>
+
+<h2>Achadas só pela lista de lives do canal</h2>
+<div class="box" id="lv"></div>
+
+<h2>Achadas só pelo feed RSS</h2>
+<div class="box" id="rss"></div>
 
 <h2>Sem campeonato identificado</h2>
 <div class="box" id="nocamp"></div>
@@ -70,10 +79,13 @@ async function init(){
 try{[DBG,LIV]=await Promise.all([get('debug.json'),get('lives.json')])}catch(e){$('sum').textContent='Não consegui carregar os dados ('+e.message+'). A primeira execução do workflow já terminou?';return}
 $('sum').innerHTML='Gerado em <b>'+fmt(DBG.generatedAt)+'</b> · cota usada nesta execução: <b>'+DBG.quotaUsed+'</b> · estimativa por dia: <b>'+(DBG.estimatedDaily??'—')+'</b> de 10.000 · '+(LIV.items.length)+' transmissões no site · busca reforçada nesta execução: '+(DBG.buscaReforcada?.length?esc(DBG.buscaReforcada.join(', ')):'nenhuma');
 $('err').innerHTML=DBG.errors?.length?DBG.errors.map(e=>'<div class="bad">'+esc(e)+'</div>').join(''):'<span class="m">Nenhum erro.</span>';
-table($('ch'),['Canal','Vídeos lidos','Lives achadas','Busca reforçada'],(DBG.channels||[]).map(c=>[esc(c.handle)+' <span class="m">('+esc(c.title)+')</span>',c.read,c.lives,c.deep||0]));
+table($('ch'),['Canal','Vídeos lidos','Lives achadas','Uploads','Lista de lives','RSS','Busca reforçada'],(DBG.channels||[]).map(c=>{const a=c.achadasPor||{};return[esc(c.handle)+' <span class="m">('+esc(c.title)+')</span>',c.read,c.lives,a.uploads??'—',a.uulv??'—',a.rss??'—',(a.busca??c.deep)||0]}));
+const M=DBG.metodos||{},D=DBG.descobertas,X=DBG.exclusivas;
+$('met').innerHTML=(D?'Transmissões no site por caminho (pode repetir): uploads <b>'+D.uploads+'</b> · lista de lives <b>'+D.uulv+'</b> · RSS <b>'+D.rss+'</b> · busca reforçada <b>'+D.busca+'</b>.<br>Achadas <b>só</b> por um caminho: uploads <b>'+X.uploads+'</b> · lista de lives <b>'+X.uulv+'</b> · RSS <b>'+X.rss+'</b> · busca <b>'+X.busca+'</b>.<br>':'')+'Lista de lives: '+(M.uulv?M.uulv.ok+' canais ok, '+M.uulv.falhas+' falhas':'—')+' · RSS: '+(M.rss?M.rss.ok+' canais ok, '+M.rss.falhas+' falhas':'—');
 const grp={};(DBG.rejected||[]).forEach(v=>{(grp[v.reason]=grp[v.reason]||[]).push(v)});
 table($('rej'),['Quando','Título','Canal','Motivo'],(DBG.rejected||[]).sort((a,b)=>String(a.scheduled).localeCompare(String(b.scheduled))).map(v=>[fmt(v.scheduled||v.started),link(v),esc(v.channel),'<span class="pill">'+esc(v.reason)+'</span>']));
-$('deep').innerHTML=DBG.soPelaBusca?.length?DBG.soPelaBusca.map(t=>'<div>'+esc(t)+'</div>').join(''):'<span class="m">Nenhuma nesta execução.</span>';
+const only=(a)=>a?.length?a.map(t=>'<div>'+esc(t)+'</div>').join(''):'<span class="m">Nenhuma nesta execução.</span>';
+$('deep').innerHTML=only(DBG.soPelaBusca);$('lv').innerHTML=only(DBG.soPelaListaDeLives);$('rss').innerHTML=only(DBG.soPeloRss);
 $('nocamp').innerHTML=DBG.semCampeonato?.length?DBG.semCampeonato.map(t=>'<div>'+esc(t)+'</div>').join(''):'<span class="m">Todas as transmissões tiveram campeonato identificado.</span>';
 search()}
 $('q').addEventListener('input',search);

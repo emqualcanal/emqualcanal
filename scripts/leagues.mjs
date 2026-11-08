@@ -261,7 +261,9 @@ export function teamsOf(title) {
     if (m) found.push([m[1], m[2]]);
   }
   if (found.length !== 1) return { home: null, away: null };
-  const [a, b] = found[0].map((t) => t.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, ""));
+  const [a, b] = found[0]
+    .map((t) => t.replace(/\s+(?:e|com)\s+narra[çc][ãa]o.*$/iu, ""))
+    .map((t) => t.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, ""));
   const ok = (t) => t && t.split(/\s+/).length <= 4 && t.length <= 36;
   return ok(a) && ok(b) ? { home: pretty(a), away: pretty(b) } : { home: null, away: null };
 }
