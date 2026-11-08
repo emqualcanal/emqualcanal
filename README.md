@@ -22,9 +22,10 @@ Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada
 |---|---|
 | `channels` | Canais monitorados (`@handle` como aparece **no YouTube**, ou o ID que começa com `UC`). |
 | `deepSearchChannels` / `deepPriorityEveryMin` | Canais que agendam muitas lives e a frequência da busca reforçada neles (100 unidades por busca). Os canais daqui também têm a lista de uploads lida mais a fundo. |
-| `uploadsPages` / `uploadsPagesPriority` | Páginas de 50 vídeos recentes lidas por canal (1 unidade por página): comuns (padrão 1) e prioritários (padrão 2). |
-| `livePages` / `livePagesPriority` | Páginas da **lista de transmissões ao vivo do canal** (a playlist `UULV…` do YouTube, sem cortes nem shorts), lidas por canal: comuns (padrão 1) e prioritários (padrão 2). `0` desliga. |
-| `useRss` | Lê também o feed RSS público de cada canal (sem custo de cota) para achar lives recém-criadas. `false` desliga. |
+| `uploadsPages` / `uploadsPagesPriority` | Páginas de 50 vídeos recentes lidas por canal (1 unidade por página), padrão 1. Em testes, a lista de lives achou tudo o que os uploads acharam e mais; `0` desliga os uploads se o diagnóstico confirmar que eles não acrescentam nada. |
+| `livePages` / `livePagesPriority` | Páginas **mínimas** lidas da **lista de transmissões ao vivo do canal** (a playlist `UULV…` do YouTube, sem cortes nem shorts): comuns (padrão 1) e prioritários (padrão 2). `0` desliga. |
+| `liveMaxPages` / `liveMaxPagesPriority` / `liveHorizonDays` | Depois do mínimo, a leitura continua enquanto a transmissão mais antiga da página tiver menos de `liveHorizonDays` dias (padrão 10), até o máximo de páginas (padrão 3 nos comuns e 8 nos prioritários). Canais com muitas lives (CazéTV, Canal GOL…) usam mais páginas sozinhos. |
+| `useRss` | Lê também o feed RSS de cada canal. **Desligado por padrão:** o YouTube costuma responder 404 a esse feed quando a leitura vem do GitHub. |
 | `deepBudgetPerDay` | Cota diária (em unidades) para a busca reforçada em rodízio nos demais canais. 100 unidades = 1 busca. `0` desliga. |
 | `requireMatchup` | Só aceita títulos com “Time x Time”, “vs” ou placar. |
 | `excludeKeywords` | Palavras que descartam a live (basquete, sub-19, pré/pós-jogo, reação, resenha, sem imagem, videogame…). A palavra **futsal** é sempre ignorada, mesmo que não esteja nesta lista. |
@@ -69,7 +70,7 @@ A primeira execução (e a opção “busca completa” do botão Run workflow) 
 Quatro caminhos, que se complementam e aparecem separados no diagnóstico:
 1. **Uploads recentes** do canal (1 unidade por página de 50).
 2. **Lista de transmissões do canal** (1 unidade por página): mostra lives sem se misturar com cortes e shorts.
-3. **Feed RSS** do canal (sem custo de cota): os ~15 vídeos mais recentes.
+3. **Feed RSS** do canal (sem custo de cota): desligado por padrão, porque o YouTube costuma recusar (404) quando a leitura vem do GitHub.
 4. **Busca reforçada** (100 unidades por busca): as “próximas transmissões” do canal.
 
 Nem todo caminho funciona igual para todo canal, e eu não sei de antemão qual é o melhor. A página de diagnóstico mostra, por canal, **quantas lives cada caminho achou** e quais lives **só um caminho** achou. Depois de alguns dias dá para desligar o que não ajuda (por exemplo, `livePages` ou `useRss`) e investir a cota onde faz diferença.

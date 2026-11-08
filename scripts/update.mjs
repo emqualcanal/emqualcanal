@@ -28,9 +28,13 @@ const isPrio = (h) => prioKeys.has(h.toLowerCase());
 //  - lives:   a lista de transmissões ao vivo do canal (playlist "UULV…"), que não se mistura com cortes e shorts.
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const num = (v, d) => (typeof v === "number" ? v : d);
-const upPages = (h) => clamp(isPrio(h) ? num(cfg.uploadsPagesPriority, 2) : num(cfg.uploadsPages, 1), 1, 10);
-const livePages = (h) => clamp(isPrio(h) ? num(cfg.livePagesPriority, 2) : num(cfg.livePages, 1), 0, 10);
-const useRss = cfg.useRss !== false;
+const upPages = (h) => clamp(isPrio(h) ? num(cfg.uploadsPagesPriority, 1) : num(cfg.uploadsPages, 1), 0, 10);
+const livePages = (h) => clamp(isPrio(h) ? num(cfg.livePagesPriority, 2) : num(cfg.livePages, 1), 0, 20);
+// A lista de lives é lida em mais páginas enquanto as transmissões mais antigas da página ainda forem
+// recentes (liveHorizonDays), até o limite abaixo. Canais com muitas lives agendadas precisam disso.
+const liveMax = (h) => Math.max(livePages(h), clamp(isPrio(h) ? num(cfg.liveMaxPagesPriority, 8) : num(cfg.liveMaxPages, 3), 0, 20));
+const horizonDays = num(cfg.liveHorizonDays, 10);
+const useRss = cfg.useRss === true; // o YouTube costuma responder 404 ao feed RSS a partir do GitHub; desligado por padrão
 
 // Estimativa da cota diária com esta configuração (limite padrão da API: 10.000 unidades).
 const runsPerDay = 1440 / (cfg.runIntervalMin || 15);
@@ -39,7 +43,8 @@ const estimatedDaily = Math.round(
   prio.length * 100 * (1440 / (cfg.deepPriorityEveryMin || 120)) +
   (cfg.deepBudgetPerDay || 0)
 );
-console.log(`Estimativa de cota diária com esta configuração: ~${estimatedDaily} unidades (limite padrão: 10.000).`);
+const estimatedMax = Math.round(runsPerDay * (handles.reduce((a, h) => a + upPages(h) + liveMax(h), 0) + 3) + (estimatedDaily - runsPerDay * (handles.reduce((a, h) => a + upPages(h) + livePages(h), 0) + 3)));
+console.log(`Estimativa de cota diária com esta configuração: ~${estimatedDaily} unidades (até ~${estimatedMax} se todos os canais usarem o máximo de páginas; limite padrão: 10.000).`);
 if (estimatedDaily > 10000) {
   console.warn("ATENÇÃO: a estimativa passa de 10.000 unidades por dia. Reduza deepSearchChannels, deepBudgetPerDay, uploadsPages, livePages ou a frequência no config.json.");
 }
@@ -101,19 +106,27 @@ const mark = (id, how) => { if (!via.has(id)) via.set(id, new Set()); via.get(id
 const METHODS = ["uploads", "uulv", "rss", "busca"];
 const metodos = { uulv: { ok: 0, falhas: 0, erro: null }, rss: { ok: 0, falhas: 0, erro: null } };
 
-// Páginas de uma playlist (1 unidade por página de 50).
-async function playlist(playlistId, pages) {
+// Páginas de uma playlist (1 unidade por página de 50). Depois de minPages, continua enquanto a transmissão
+// mais antiga da página ainda for mais recente que o horizonte (horizon), até maxPages.
+async function playlist(playlistId, minPages, maxPages = minPages, horizon = null) {
   const ids = [];
   let token;
-  for (let i = 0; i < pages; i++) {
+  let pages = 0;
+  for (let i = 0; i < maxPages; i++) {
     const pl = await yt("playlistItems", {
       part: "contentDetails", playlistId, maxResults: 50, ...(token ? { pageToken: token } : {})
     });
-    ids.push(...(pl.items || []).map((x) => x.contentDetails.videoId));
+    pages++;
+    const items = pl.items || [];
+    ids.push(...items.map((x) => x.contentDetails.videoId));
     token = pl.nextPageToken;
     if (!token) break;
+    if (i + 1 >= minPages) {
+      const dates = items.map((x) => Date.parse(x.contentDetails.videoPublishedAt || "")).filter(Number.isFinite);
+      if (horizon === null || !dates.length || Math.min(...dates) < horizon) break;
+    }
   }
-  return ids;
+  return { ids, pages };
 }
 
 // Feed RSS público do canal: não gasta cota. Traz só os ~15 vídeos mais recentes.
@@ -130,23 +143,24 @@ async function rssIds(channelId) {
   }
 }
 
-// 1) Descoberta por canal: uploads recentes + lista de lives + feed RSS.
+// 1) Descoberta por canal: uploads recentes + lista de lives + feed RSS (opcional).
 await Promise.all(handles.map(async (handle) => {
   try {
     const ch = await resolve(handle);
     const entry = (per[handle.toLowerCase()] = {
-      handle, title: ch.title, read: 0, ids: new Set(), deep: 0,
+      handle, title: ch.title, read: 0, ids: new Set(), deep: 0, pagesLive: 0,
       by: Object.fromEntries(METHODS.map((m) => [m, new Set()]))
     });
     const add = (how, ids) => ids.forEach((id) => { entry.by[how].add(id); entry.ids.add(id); mark(id, how); });
 
-    const tasks = [
-      playlist(ch.uploads, upPages(handle)).then((ids) => { entry.read = ids.length; add("uploads", ids); })
-    ];
+    const tasks = [];
+    if (upPages(handle) > 0) {
+      tasks.push(playlist(ch.uploads, upPages(handle)).then((r) => { entry.read = r.ids.length; add("uploads", r.ids); }));
+    }
     if (livePages(handle) > 0) {
       tasks.push(
-        playlist("UULV" + ch.id.slice(2), livePages(handle))
-          .then((ids) => { metodos.uulv.ok++; add("uulv", ids); })
+        playlist("UULV" + ch.id.slice(2), livePages(handle), liveMax(handle), now - horizonDays * 86400000)
+          .then((r) => { metodos.uulv.ok++; entry.pagesLive = r.pages; add("uulv", r.ids); })
           .catch((e) => { metodos.uulv.falhas++; metodos.uulv.erro ??= e.message; })
       );
     }
@@ -180,7 +194,7 @@ async function deep(handle) {
   const found = (j.items || []).map((i) => i.id?.videoId).filter(Boolean);
   const key = handle.toLowerCase();
   per[key] ??= {
-    handle, title: ch.title, read: 0, ids: new Set(), deep: 0,
+    handle, title: ch.title, read: 0, ids: new Set(), deep: 0, pagesLive: 0,
     by: Object.fromEntries(METHODS.map((m) => [m, new Set()]))
   };
   found.forEach((id) => { mark(id, "busca"); per[key].ids.add(id); per[key].by.busca.add(id); });
@@ -275,10 +289,12 @@ items.sort((a, b) => {
 const generatedAt = new Date(now).toISOString();
 const has = (v, how) => via.get(v.id)?.has(how);
 const descobertas = Object.fromEntries([...METHODS, "acompanhamento"].map((m) => [m, items.filter((v) => has(v, m)).length]));
-const exclusivas = Object.fromEntries(
-  [...METHODS, "acompanhamento"].map((m) => [m, items.filter((v) => [...via.get(v.id)].every((x) => x === m)).length])
-);
-const titulosSo = (m) => items.filter((v) => [...via.get(v.id)].every((x) => x === m)).map((v) => `${v.channel}: ${v.title}`);
+// "Só por um método": ignora a marca "acompanhamento" (ela só indica que a live já estava no site antes).
+const core = (v) => [...via.get(v.id)].filter((x) => x !== "acompanhamento");
+const soPor = (m) => items.filter((v) => core(v).length === 1 && core(v)[0] === m);
+const exclusivas = Object.fromEntries(METHODS.map((m) => [m, soPor(m).length]));
+exclusivas.acompanhamento = items.filter((v) => core(v).length === 0).length;
+const titulosSo = (m) => soPor(m).map((v) => `${v.channel}: ${v.title}`);
 await mkdir(OUT, { recursive: true });
 await writeFile(`${OUT}/lives.json`, JSON.stringify({ generatedAt, quotaUsed: quota, items }));
 await writeFile(`${OUT}/channels.json`, JSON.stringify(cache));
@@ -296,7 +312,7 @@ await writeFile(`${OUT}/debug.json`, JSON.stringify({
     const achadasPor = Object.fromEntries(METHODS.map((m) => [m, [...d.by[m]].filter(live).length]));
     return {
       handle: d.handle, title: d.title, read: d.read,
-      lives: [...d.ids].filter(live).length, deep: d.deep, achadasPor
+      lives: [...d.ids].filter(live).length, deep: d.deep, achadasPor, paginasListaDeLives: d.pagesLive
     };
   }),
   rejected
