@@ -21,7 +21,8 @@ Ele usa a mesma lógica da extensão do Chrome (mesmos filtros, busca reforçada
 | Campo | O que faz |
 |---|---|
 | `channels` | Canais monitorados (`@handle` como aparece **no YouTube**, ou o ID que começa com `UC`). |
-| `deepSearchChannels` / `deepPriorityEveryMin` | Canais que agendam muitas lives e a frequência da busca reforçada neles (100 unidades por busca). Os canais daqui também têm a lista de uploads lida mais a fundo. |
+| `deepSearch` | Liga (`true`) ou desliga (`false`) a **busca reforçada**, que gasta 100 unidades por busca. Nos testes reais, a lista de lives do canal achou tudo o que a busca achou e mais, então o padrão agora é `false`. O botão “busca completa” do workflow continua funcionando. |
+| `deepSearchChannels` / `deepPriorityEveryMin` | Canais **prioritários** (que agendam muitas lives): a lista de lives deles é lida mais a fundo. Se `deepSearch` estiver ligado, também recebem a busca reforçada na frequência indicada. |
 | `uploadsPages` / `uploadsPagesPriority` | Páginas de 50 vídeos recentes lidas por canal (1 unidade por página), padrão 1. Em testes, a lista de lives achou tudo o que os uploads acharam e mais; `0` desliga os uploads se o diagnóstico confirmar que eles não acrescentam nada. |
 | `livePages` / `livePagesPriority` | Páginas **mínimas** lidas da **lista de transmissões ao vivo do canal** (a playlist `UULV…` do YouTube, sem cortes nem shorts): comuns (padrão 1) e prioritários (padrão 2). `0` desliga. |
 | `liveMaxPages` / `liveMaxPagesPriority` / `liveHorizonDays` | Depois do mínimo, a leitura continua enquanto a transmissão mais antiga da página tiver menos de `liveHorizonDays` dias (padrão 10), até o máximo de páginas (padrão 3 nos comuns e 8 nos prioritários). Canais com muitas lives (CazéTV, Canal GOL…) usam mais páginas sozinhos. |
@@ -91,3 +92,17 @@ Nem todo caminho funciona igual para todo canal, e eu não sei de antemão qual 
 - O filtro é feito pelo título; pode haver lives de fora que deveriam entrar e o contrário.
 - Se o GitHub avisar que as versões das ações (`checkout`, `setup-node`, `deploy-pages`…) estão antigas, atualize os números de versão no `update.yml`.
 - Sem vínculo com o YouTube nem com os canais monitorados.
+
+## Grade de TV (aberta, fechada e streaming)
+
+Edite o arquivo `grade.csv` direto no GitHub (lápis → Commit). Uma linha por jogo, separada por `;`:
+
+`data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming`
+
+Exemplo: `15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV/Premiere;Globoplay`
+
+- Vários canais na mesma coluna: separe com `/`.
+- Horário de Brasília. Linhas começando com `#` são ignoradas.
+- Se o jogo também está no YouTube, as emissoras aparecem no mesmo cartão. Se não, ele aparece como "Só na TV".
+- Opcional: no `config.json`, preencha `gradeUrl` com o link de uma planilha do Google publicada como CSV (Arquivo → Compartilhar → Publicar na Web → CSV). Você edita a planilha e o site lê sozinho.
+- Erros de linha aparecem em `data/grade.json` (campo `erros`).

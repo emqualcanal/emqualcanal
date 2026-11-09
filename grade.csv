@@ -1,0 +1,5 @@
+# Grade de TV. Uma linha por jogo. Separe por ponto e vírgula. Linhas com # no começo são ignoradas.
+# data (dd/mm/aaaa);hora (Brasília);campeonato;mandante;visitante;TV aberta;TV fechada;streaming
+# Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
+data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming
+# 15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV/Premiere;Globoplay

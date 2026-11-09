@@ -3,6 +3,7 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { filterReason } from "./filter.mjs";
 import { classify } from "./leagues.mjs";
+import { loadGrade } from "./grade.mjs";
 
 const cfg = JSON.parse(await readFile(new URL("../config.json", import.meta.url), "utf8"));
 const KEY = process.env.YOUTUBE_API_KEY;
@@ -34,14 +35,14 @@ const livePages = (h) => clamp(isPrio(h) ? num(cfg.livePagesPriority, 2) : num(c
 // recentes (liveHorizonDays), até o limite abaixo. Canais com muitas lives agendadas precisam disso.
 const liveMax = (h) => Math.max(livePages(h), clamp(isPrio(h) ? num(cfg.liveMaxPagesPriority, 8) : num(cfg.liveMaxPages, 3), 0, 20));
 const horizonDays = num(cfg.liveHorizonDays, 10);
+const deepOn = cfg.deepSearch !== false; // busca reforçada (100 unidades por busca); ver config.json
 const useRss = cfg.useRss === true; // o YouTube costuma responder 404 ao feed RSS a partir do GitHub; desligado por padrão
 
 // Estimativa da cota diária com esta configuração (limite padrão da API: 10.000 unidades).
 const runsPerDay = 1440 / (cfg.runIntervalMin || 15);
 const estimatedDaily = Math.round(
   runsPerDay * (handles.reduce((a, h) => a + upPages(h) + livePages(h), 0) + 3) +
-  prio.length * 100 * (1440 / (cfg.deepPriorityEveryMin || 120)) +
-  (cfg.deepBudgetPerDay || 0)
+  (deepOn ? prio.length * 100 * (1440 / (cfg.deepPriorityEveryMin || 120)) + (cfg.deepBudgetPerDay || 0) : 0)
 );
 const estimatedMax = Math.round(runsPerDay * (handles.reduce((a, h) => a + upPages(h) + liveMax(h), 0) + 3) + (estimatedDaily - runsPerDay * (handles.reduce((a, h) => a + upPages(h) + livePages(h), 0) + 3)));
 console.log(`Estimativa de cota diária com esta configuração: ~${estimatedDaily} unidades (até ~${estimatedMax} se todos os canais usarem o máximo de páginas; limite padrão: 10.000).`);
@@ -202,8 +203,12 @@ async function deep(handle) {
 }
 
 let todo = [];
-if (!prev || process.env.FORCE_DEEP_ALL === "true") {
-  todo = [...handles]; // primeira execução (ou pedido manual): todos os canais
+if (process.env.FORCE_DEEP_ALL === "true") {
+  todo = [...handles]; // pedido manual (“busca completa”): todos os canais, mesmo com a busca desligada
+} else if (!deepOn) {
+  todo = [];
+} else if (!prev) {
+  todo = [...handles]; // primeira execução: todos os canais
 } else {
   const prioEvery = (cfg.deepPriorityEveryMin || 120) * 60000;
   if (prio.length && now % prioEvery < runMs) todo.push(...prio);
@@ -296,6 +301,8 @@ const exclusivas = Object.fromEntries(METHODS.map((m) => [m, soPor(m).length]));
 exclusivas.acompanhamento = items.filter((v) => core(v).length === 0).length;
 const titulosSo = (m) => soPor(m).map((v) => `${v.channel}: ${v.title}`);
 await mkdir(OUT, { recursive: true });
+const grade = await loadGrade(cfg.gradeUrl);
+await writeFile(`${OUT}/grade.json`, JSON.stringify({ generatedAt, items: grade.items, erros: grade.erros }));
 await writeFile(`${OUT}/lives.json`, JSON.stringify({ generatedAt, quotaUsed: quota, items }));
 await writeFile(`${OUT}/channels.json`, JSON.stringify(cache));
 await writeFile(`${OUT}/seen.json`, JSON.stringify(seen));
