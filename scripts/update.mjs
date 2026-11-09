@@ -316,7 +316,7 @@ try {
   escData = await buildEscudos([...nm].map(([name, region]) => ({ name, region })), prevEsc, manual, { max: cfg.escudosPorExecucao ?? 20 });
 } catch (e) { escData.erros.push(String(e.message || e)); }
 await writeFile(`${OUT}/escudos.json`, JSON.stringify({ generatedAt, escudos: escData.escudos, erros: escData.erros }));
-await writeFile(`${OUT}/lives.json`, JSON.stringify({ generatedAt, quotaUsed: quota, items }));
+await writeFile(`${OUT}/lives.json`, JSON.stringify({ generatedAt, quotaUsed: quota, paidStreaming: cfg.streamingPago || [], items }));
 await writeFile(`${OUT}/channels.json`, JSON.stringify(cache));
 await writeFile(`${OUT}/seen.json`, JSON.stringify(seen));
 await writeFile(`${OUT}/debug.json`, JSON.stringify({

@@ -27,7 +27,7 @@ const ALWAYS_EXCLUDE = [
   // esportes eletrônicos
   "cblol", "league of legends", "valorant", "free fire", "counter-strike", "cs2", "esports", "e-sports",
   // programas, bastidores e conteúdo que não é a partida
-  "geral cazetv", "geral caze", "cazetv geral", "jogo aberto", "podcast", "programa",
+  "geral cazetv", "geral caze", "cazetv geral", "jogo aberto", "podcast", "programa", "linha de passe",
   "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola"
 ];
 

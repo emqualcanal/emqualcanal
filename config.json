@@ -120,5 +120,6 @@
     "gameplay",
     "simulação"
   ],
-  "gradeUrl": ""
+  "gradeUrl": "",
+  "streamingPago": ["Disney+", "Star+", "DAZN", "OneFootball", "HBO Max", "Max", "Prime Video", "Amazon Prime Video", "Paramount+", "Apple TV+", "Netflix", "Globoplay"]
 }
