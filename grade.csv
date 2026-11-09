@@ -39,5 +39,32 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 23/11/2026;20:00;Brasileirão Série A;Botafogo;São Paulo;;Premiere;Prime Video;36ª rodada
 23/11/2026;21:00;Brasileirão Série A;Santos;Grêmio;;SporTV/Premiere;;36ª rodada
 25/11/2026;20:00;Brasileirão Série A;Atlético-MG;Corinthians;;Premiere;;36ª rodada
+# Copa do Rei (Disney+/ESPN): horário de Brasília
+convertido do horário oficial de início (CET menos 4 h).
+10/11/2026;17:00;Copa do Rei;Tavernes de la Valldigna;Valencia;;ESPN;Disney+;
+10/11/2026;15:00;Copa do Rei;Anaitasuna;Alavés;;ESPN;Disney+;
+12/11/2026;15:00;Copa do Rei;Navalcarnero;Betis;;ESPN;Disney+;
+13/11/2026;17:00;Copa do Rei;Salamanca;Celta de Vigo;;ESPN;Disney+;
+# Liga das Nações da UEFA (Disney+/ESPN): horário de Brasília
+convertido do horário oficial de início (CET menos 4 h).
+12/11/2026;14:00;Liga das Nações da UEFA;Armênia;Chipre;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;San Marino;Bielorrússia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Montenegro;Letônia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Albânia;Finlândia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Itália;França;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Inglaterra;Croácia;;ESPN 4;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;ESPN;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;ESPN;Disney+;
+14/11/2026;16:45;Liga das Nações da UEFA;Romênia;Polônia;;ESPN;Disney+;
+15/11/2026;14:00;Liga das Nações da UEFA;Bielorrússia;Albânia;;ESPN;Disney+;
+15/11/2026;16:45;Liga das Nações da UEFA;Bélgica;Itália;;ESPN;Disney+;
+15/11/2026;16:45;Liga das Nações da UEFA;Croácia;Tchéquia;;ESPN;Disney+;
+16/11/2026;12:00;Liga das Nações da UEFA;Cazaquistão;Eslováquia;;ESPN;Disney+;
+16/11/2026;16:45;Liga das Nações da UEFA;Macedônia do Norte;Eslovênia;;ESPN;Disney+;
+16/11/2026;16:45;Liga das Nações da UEFA;Gibraltar;Malta;;ESPN;Disney+;
+# Champions League Feminina: horários e canais conforme informado (17:00 do PSG x Bayern deduzido do texto "simultaneamente"/"enquanto").
+10/11/2026;14:45;Champions League Feminina;Real Madrid;Paris FC;;ESPN 4;;
+10/11/2026;17:00;Champions League Feminina;Inter de Milão;Manchester City;;ESPN 4;;
+10/11/2026;17:00;Champions League Feminina;PSG;Bayer
 12/11/2026;14:50;Copa do Rei;Navalcarnero;Betis;;ESPN;Disney+;
 13/11/2026;16:55;Copa do Rei;Salamanca;Celta de Vigo;;ESPN;Disney+;
