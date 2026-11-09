@@ -114,3 +114,11 @@ Automático: a cada atualização o site procura o escudo de cada time no **Wiki
 - Para times no Brasil, a busca prefere o clube brasileiro (Santos do Brasil, não o da Espanha) e evita o time feminino.
 Manual: para corrigir ou colocar um escudo que não veio, edite `escudos-manual.json` (`"Náutico": "escudos/nautico.png"`, com a imagem em `docs/escudos/`). O manual tem prioridade.
 Erros da busca aparecem em `data/escudos.json` (campo `erros`) e nunca derrubam a atualização.
+
+### Escudos guardados no próprio site
+
+Depois de achar o escudo, o workflow baixa a imagem uma vez, converte para webp pequeno (64 px) e salva em `docs/escudos/`, com um commit automático ("Escudos novos"). O site passa a carregar o escudo do próprio endereço.
+- Até 40 downloads por execução (`ESCUDOS_MAX`). Time já baixado não é baixado de novo; se o arquivo sumir do repositório, ele é baixado outra vez.
+- Se o download ou a conversão falhar, o time continua usando o endereço original e o motivo aparece em `data/escudos.json` (campo `erros`).
+- Exige que o workflow tenha `contents: write` (já está no `update.yml`). Se o repositório tiver proteção de branch que bloqueie o commit do bot, o passo falha sem derrubar o site; os escudos continuam funcionando pelo endereço original.
+- Para trocar um escudo, apague o arquivo em `docs/escudos/` (ele será baixado de novo) ou use `escudos-manual.json`.

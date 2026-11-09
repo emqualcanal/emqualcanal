@@ -10,13 +10,14 @@ const RULES = [
   [/europa league|liga europa/, "Europa League", "Europa", "eu"],
   [/conference league|liga conferencia/, "Conference League", "Europa", "eu"],
   [/supercopa da uefa|uefa super cup/, "Supercopa da UEFA", "Europa", "eu"],
+  [/youth league/, "UEFA Youth League", "Europa", "eu"],
+  [/mundial sub|copa do mundo sub|fifa u-?\d\d|world cup u-?\d\d/, "Mundial Sub-20", "Internacional"],
   [/libertadores/, "Libertadores", "América do Sul"],
   [/sul-?americana|sudamericana/, "Sul-Americana", "América do Sul"],
   [/recopa/, "Recopa Sul-Americana", "América do Sul"],
   [/copa america/, "Copa América", "Internacional"],
   [/eliminatorias/, "Eliminatórias", "Internacional"],
   [/copa do mundo|world cup/, "Copa do Mundo", "Internacional"],
-  [/liga das nacoes|nations league/, "Liga das Nações", "Internacional"],
   [/eurocopa|euro 20/, "Eurocopa", "Internacional"],
   [/amistoso|data fifa/, "Amistosos", "Internacional"],
   [/mundial de clubes|club world cup/, "Mundial de Clubes", "Internacional"],
@@ -97,6 +98,34 @@ const COUNTRY = {
   inglaterra: "ingles"
 };
 
+const CONCACAF_TEAMS = /\b(eua|estados unidos|usa|mexico|canada|costa rica|panama|jamaica|honduras|haiti|el salvador|guatemala|suriname|trinidad|curacao|nicaragua|cuba|republica dominicana|bermudas|guiana|granada|santa lucia)\b/;
+
+// Copas e taças estaduais que NÃO são o campeonato estadual principal.
+const SPECIFIC = [
+  [/taca fares lopes|copa fares lopes|fares lopes/, "Taça Fares Lopes"],
+  [/taca guanabara/, "Taça Guanabara"], [/taca rio\b/, "Taça Rio"],
+  [/copinha|copa sao paulo de futebol junior/, "Copinha"],
+  [/copa fpf|copa paulista/, "Copa Paulista"],
+  [/taca farroupilha/, "Taça Farroupilha"], [/copa fgf/, "Copa FGF"],
+  [/taca minas|taca inconfidencia/, "Taça Minas"], [/taca belo horizonte/, "Taça Belo Horizonte"],
+  [/copa espirito santo/, "Copa Espírito Santo"], [/copa rio\b/, "Copa Rio"]
+];
+
+// Divisão do estadual: "Série A2", "Série A3", "Série B", "Segunda Divisão", "Módulo II".
+function stateDivision(n) {
+  const m = n.match(/serie\s*(a2|a3|b|c)\b|\b(a2|a3)\b/);
+  if (m) return ` Série ${(m[1] || m[2]).toUpperCase()}`;
+  if (/segunda divisao|2a divisao|modulo ii|modulo 2/.test(n)) return " Segunda Divisão";
+  if (/terceira divisao|3a divisao/.test(n)) return " Terceira Divisão";
+  return "";
+}
+
+// Categoria de base: "Sub-20", "U-20", "Under 20".
+function ageOf(n) {
+  const m = n.match(/\bsub[\s-]?(\d{2})\b/) || n.match(/\bu[\s-]?(\d{2})\b/) || n.match(/\bunder[\s-]?(\d{2})\b/);
+  return m ? `Sub-${m[1]}` : /copinha|futebol junior/.test(n) ? "Sub-20" : null;
+}
+
 // Campeonatos estaduais do Brasil
 const STATES = [
   [/paulist(a|ao)\b/, "Paulista"], [/carioca|cariocao/, "Carioca"], [/\bmineiro\b/, "Mineiro"],
@@ -153,7 +182,13 @@ function genericLeague(raw) {
 }
 
 function baseLeague(raw, n) {
-  const ital = /ital|calcio/.test(n);
+  const nl = n.split(/\s*\|\s*|\s+[-–—]\s+|:\s+/).filter((x) => !/\s(x|vs\.?)\s|\d\s?x\s?\d/.test(x)).join(" | "); // título sem os confrontos (nomes de seleções não contam)
+  // Liga das Nações: UEFA (Europa) ou CONCACAF (América do Norte). Sem a sigla, decide pelas seleções.
+  if (/liga das nacoes|nations league/.test(n)) {
+    if (/concacaf/.test(n) || (!/uefa|europa/.test(n) && CONCACAF_TEAMS.test(n))) return L("Liga das Nações da CONCACAF", "América do Norte");
+    return L("Liga das Nações da UEFA", "Europa", "eu");
+  }
+  const ital = /ital|calcio/.test(nl);
   const accentSerie = raw.match(/s\u00e9rie\s*([abcd])\b/i);   // "Série B" (Brasil)
   const plainSerie = raw.match(/\bserie\s*([abc])\b/i);        // "Serie B" (Itália)
 
@@ -173,8 +208,12 @@ function baseLeague(raw, n) {
     return L(`Série ${letter} Italiana`, "Europa", "it");
   }
 
+  // Torneios específicos de um estado, antes do nome genérico do estadual.
+  for (const [re, name] of SPECIFIC) {
+    if (re.test(n)) return L(name, "Brasil", "br");
+  }
   for (const [re, name] of STATES) {
-    if (re.test(n)) return L(`Campeonato ${name}`, "Brasil", "br");
+    if (re.test(n)) return L(`Campeonato ${name}${stateDivision(n)}`, "Brasil", "br");
   }
   for (const [re, name, region, flag] of RULES) {
     if (re.test(n)) return L(name, region, flag ?? null);
@@ -216,6 +255,12 @@ export function leagueOf(title) {
     r.region = "Feminino";
   } else if (ALIAS[r.league]) {
     r.league = ALIAS[r.league];
+  }
+  const age = ageOf(n);
+  if (age) {
+    r.age = age;
+    if (r.league === "Brasileirão Série A" && !/serie\s*a\b/.test(n)) r.league = "Brasileirão";
+    if (!norm(r.league).includes(norm(age)) && r.league !== "Copinha") r.league = `${r.league} ${age}`;
   }
   return r;
 }
