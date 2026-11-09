@@ -3,4 +3,4 @@
 # Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
 data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming
 # 15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV/Premiere;Globoplay
-11/11/2026;10:00;Brasileirão Série B;Londrina;Náutico;Streaming;Disney+
+11/11/2026;10:00;Brasileirão Série B;Londrina;Náutico;;;Disney+
