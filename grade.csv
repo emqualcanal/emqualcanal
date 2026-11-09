@@ -19,6 +19,7 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 # Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
 # Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
 data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
+data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 14/11/2026;18:30;Brasileirão Série A;Mirassol;Atlético-MG;;;Prime Video;35ª rodada
 18/11/2026;19:30;Brasileirão Série A;Coritiba;Santos;Record;Premiere;CazéTV;35ª rodada
 18/11/2026;20:00;Brasileirão Série A;Remo;Chapecoense;;Premiere;;35ª rodada
@@ -39,3 +40,26 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 23/11/2026;20:00;Brasileirão Série A;Botafogo;São Paulo;;Premiere;Prime Video;36ª rodada
 23/11/2026;21:00;Brasileirão Série A;Santos;Grêmio;;SporTV/Premiere;;36ª rodada
 25/11/2026;20:00;Brasileirão Série A;Atlético-MG;Corinthians;;Premiere;;36ª rodada
+# Copa do Rei (Disney+/ESPN): horário de Brasília
+convertido do horário oficial de início (CET menos 4 h).
+10/11/2026;17:00;Copa do Rei;Tavernes de la Valldigna;Valencia;;ESPN;Disney+;
+10/11/2026;15:00;Copa do Rei;Anaitasuna;Alavés;;ESPN;Disney+;
+12/11/2026;15:00;Copa do Rei;Navalcarnero;Betis;;ESPN;Disney+;
+13/11/2026;17:00;Copa do Rei;Salamanca;Celta de Vigo;;ESPN;Disney+;
+# Liga das Nações da UEFA (Disney+/ESPN): horário de Brasília
+convertido do horário oficial de início (CET menos 4 h).
+12/11/2026;14:00;Liga das Nações da UEFA;Armênia;Chipre;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;San Marino;Bielorrússia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Montenegro;Letônia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Albânia;Finlândia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Itália;França;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Inglaterra;Croácia;;ESPN;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;ESPN;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;ESPN;Disney+;
+14/11/2026;16:45;Liga das Nações da UEFA;Romênia;Polônia;;ESPN;Disney+;
+15/11/2026;14:00;Liga das Nações da UEFA;Bielorrússia;Albânia;;ESPN;Disney+;
+15/11/2026;16:45;Liga das Nações da UEFA;Bélgica;Itália;;ESPN;Disney+;
+15/11/2026;16:45;Liga das Nações da UEFA;Croácia;Tchéquia;;ESPN;Disney+;
+16/11/2026;12:00;Liga das Nações da UEFA;Cazaquistão;Eslováquia;;ESPN;Disney+;
+16/11/2026;16:45;Liga das Nações da UEFA;Macedônia do Norte;Eslovênia;;ESPN;Disney+;
+16/11/2026;16:45;Liga das Nações da UEFA;Gibraltar;Malta;;ESP
