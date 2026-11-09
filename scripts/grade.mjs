@@ -40,13 +40,13 @@ export function parseGrade(text) {
   const rows = parseCsv(text), items = [], erros = [];
   rows.forEach((r, i) => {
     if (/^data$/i.test(r[0])) return; // cabeçalho
-    const [data, hora, camp, home, away, aberta, fechada, stream] = r;
+    const [data, hora, camp, home, away, aberta, fechada, stream, rodada] = r;
     const iso = toIso(data || "", hora || "");
     if (!iso || !home || !away) { erros.push(`linha ${i + 1}: data/hora/times inválidos (${r.join(";")})`); return; }
     const c = classify(camp || "");
     items.push({
       start: iso, league: c.league || camp || "Outros campeonatos", region: c.region, flag: c.flag,
-      home, away, open: split(aberta), cable: split(fechada), stream: split(stream),
+      home, away, round: rodada || null, open: split(aberta), cable: split(fechada), stream: split(stream),
     });
   });
   return { items: items.sort((a, b) => a.start.localeCompare(b.start)), erros };
