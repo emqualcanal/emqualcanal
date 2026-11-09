@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Em Qual Canal?</title>
+<title>Lives de futebol no YouTube</title>
 <meta name="description" content="Transmissões de partidas de futebol ao vivo e agendadas no YouTube, atualizadas automaticamente.">
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='50 5 340 400'%3E%3Crect x='50' y='5' width='340' height='400' rx='60' fill='%230E1A14'/%3E%3Cg fill='none' stroke='%23F2BE2D' stroke-width='19' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M186 52 L240 108 L296 52'/%3E%3Crect x='96' y='112' width='288' height='224' rx='72'/%3E%3Cpath d='M180 330 L174 382 L236 336'/%3E%3C/g%3E%3Cpath d='M203 190 C203 150 288 150 288 192 C288 228 244 228 244 262' fill='none' stroke='%23fff' stroke-width='28' stroke-linecap='round'/%3E%3Ccircle cx='243' cy='290' r='17' fill='%23fff'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--on:#fff;--live:#D92D20;--onlive:#fff;--chip:#E9EFEA;--head:#DDE8F7;--today:#C58A00;--logo:#E0A100;--logoq:#14201A;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0127d6;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;--today:#FFC933;--logo:#F2BE2D;--logoq:#fff;color-scheme:dark}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;--today:#FFC933;--logo:#F2BE2D;--logoq:#fff;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;--today:#FFC933;--logo:#F2BE2D;--logoq:#fff;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -61,22 +61,15 @@ h2:first-child{margin-top:0}
 .lnk{border:0;background:none;color:var(--accent);font:inherit;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:36px;padding:0}
 .gh:first-child{margin-top:0}
 .gh small{color:var(--muted);font-weight:500;margin-left:auto}
-.it{display:grid;grid-template-columns:128px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
-.it.nt{grid-template-columns:1fr auto}
-.it img{width:128px;height:72px;object-fit:cover;border-radius:8px;background:var(--chip)}
-.tm{font-weight:700;font-variant-numeric:tabular-nums}
 .pill{background:var(--live);color:var(--onlive);font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
-.when{margin-bottom:2px}
-.tt{font-weight:600;overflow-wrap:anywhere}
-.ch{color:var(--muted);font-size:14px}
-.it a{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;padding:10px 4px;white-space:nowrap}
-.it a:hover{text-decoration-thickness:2.5px}
 @media (max-width:900px){.layout{grid-template-columns:1fr}aside{position:static;max-height:none;display:none}aside.open{display:block}#toggleF{display:inline-block}}
-@media (max-width:620px){.it{grid-template-columns:96px 1fr;gap:2px 12px;padding:10px}.it.nt{grid-template-columns:1fr}.it img{width:96px;height:54px;grid-row:1/span 2;align-self:start}.it a{grid-column:2;justify-self:start;padding:6px 0}.it.nt a{grid-column:1}}
-.tv{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:4px;font-size:13px}
-.tv span{background:var(--chip);border-radius:6px;padding:1px 8px;color:var(--fg)}
-.tv i{font-style:normal;color:var(--muted);align-self:center}
-.only{color:var(--muted);font-size:14px;padding:10px 4px;white-space:nowrap}
+.sw{position:relative;flex:1;min-width:160px;display:flex}
+.sw input{flex:1}
+.sug{position:absolute;left:0;right:0;top:48px;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden}
+.sug button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:var(--fg);font:inherit;text-align:left;padding:8px 12px;min-height:44px;cursor:pointer}
+.sug button:hover,.sug button:focus{background:var(--head)}
+.sug img{width:24px;height:24px;object-fit:contain}
+.sug .ph{width:24px;height:24px;border-radius:50%;background:var(--chip);flex:none}
 .warn{background:var(--chip);border-radius:10px;padding:10px 14px;margin-bottom:16px}
 .days{display:flex;align-items:center;gap:8px;margin-bottom:16px}
 .strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;flex:1;padding:4px 2px}
@@ -90,6 +83,22 @@ h2:first-child{margin-top:0}
 .day[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on)}
 .day[aria-selected="true"] small,.day[aria-selected="true"] .c{color:var(--on)}
 .arr{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;cursor:pointer}
+.it{display:grid;grid-template-columns:84px 112px 1fr auto;grid-template-areas:"when thumb teams right";gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:8px}
+.it.nt{grid-template-columns:84px 1fr auto;grid-template-areas:"when teams right"}
+.th{grid-area:thumb;width:112px;height:63px;object-fit:cover;border-radius:8px;background:var(--chip)}
+.when{grid-area:when;display:flex;flex-direction:column;gap:2px;line-height:1.2}
+.tm{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}
+.dd{font-size:12px;color:var(--muted)}
+.teams{grid-area:teams;display:flex;flex-direction:column;gap:6px;min-width:0}
+.team{display:flex;align-items:center;gap:10px;font-weight:600;overflow-wrap:break-word;min-width:0}
+.team img{width:24px;height:24px;object-fit:contain;flex:none}
+.team .ph{width:24px;height:24px;border-radius:50%;background:var(--chip);flex:none}
+.sub2{color:var(--muted);font-size:13px}
+.right{grid-area:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right;max-width:340px}
+.tvl{font-weight:700;font-size:15px;line-height:1.35}
+.it a{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;padding:6px 0;white-space:nowrap}
+.it a:hover{text-decoration-thickness:2.5px}
+@media (max-width:620px){.it{grid-template-columns:64px minmax(0,1fr) minmax(0,36%);grid-template-areas:"when thumb right" "when teams right";gap:8px;padding:12px;align-items:start}.it.nt{grid-template-columns:64px minmax(0,1fr) minmax(0,36%);grid-template-areas:"when teams right";align-items:center}.th{width:100%;max-width:150px;height:auto;aspect-ratio:16/9;border-radius:6px}.tm{font-size:16px}.tvl{font-size:14px}.it a{padding:4px 0}.team{gap:8px;font-size:15px}.team img,.team .ph{width:20px;height:20px}.right{align-self:center}}
 footer{color:var(--muted);font-size:14px;margin-top:40px}
 </style>
 </head>
@@ -98,7 +107,7 @@ footer{color:var(--muted);font-size:14px;margin-top:40px}
 <header class="top">
 <div class="brand">
 <svg class="logo" viewBox="70 25 340 395" role="img" aria-label="Em Qual Canal?"><g fill="none" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" class="o"><path d="M186 42 L240 100 L296 42"/><rect x="96" y="106" width="288" height="238" rx="72"/><path d="M180 338 L174 392 L236 343"/></g><path class="q" d="M203 190 C203 148 288 148 288 194 C288 232 244 232 244 268" fill="none" stroke-width="28" stroke-linecap="round"/><circle class="d" cx="243" cy="298" r="17"/></svg>
-<div><h1>Em Qual Canal?</h1>
+<div><h1>Lives de futebol no YouTube</h1>
 <p class="sub" id="tag">Todos os jogos. Todas as transmissões. Todos os canais. Em um só lugar!</p></div>
 </div>
 <button type="button" class="theme" id="theme" aria-label="Alternar entre modo claro e escuro" title="Alternar entre modo claro e escuro"></button>
@@ -112,7 +121,7 @@ footer{color:var(--muted);font-size:14px;margin-top:40px}
 <button type="button" data-v="live" aria-pressed="false">Ao vivo</button>
 <button type="button" data-v="sched" aria-pressed="false">Agendadas</button>
 </div>
-<input id="q" type="search" placeholder="Buscar time ou campeonato" aria-label="Buscar time ou campeonato">
+<div class="sw"><input id="q" type="search" placeholder="Buscar time ou campeonato" aria-label="Buscar time ou campeonato" autocomplete="off"><div class="sug" id="sug" hidden></div></div>
 <div class="order" role="radiogroup" aria-label="Ordenar">Ordenar:
 <label><input type="radio" name="sort" value="time"> Horário</label>
 <label><input type="radio" name="sort" value="camp" checked> Campeonatos</label>
@@ -141,6 +150,24 @@ function dl(t){const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekd
 function ds(t){const d=dk(t),n=Date.now();if(d===dk(n))return'Hoje';if(d===dk(n+864e5))return'Amanhã';const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit'}).replace('.,',',');return s.charAt(0).toUpperCase()+s.slice(1)}
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function flag(code){if(!code)return null;const i=el('img');i.src='https://flagcdn.com/w40/'+code+'.png';i.alt='';i.loading='lazy';i.onerror=()=>i.remove();return i}
+
+/* ---------- escudos ---------- */
+let E={};
+const ek=s=>norm(s).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const badge=n=>{const e=E[ek(n)];return e&&e.url?e.url:null};
+function bimg(n){const u=badge(n);if(!u)return null;const i=el('img','bd');i.src=u;i.alt='';i.loading='lazy';i.onerror=()=>i.remove();return i}
+function suggest(){
+const box=$('sug'),q=ek(st.q);box.replaceChildren();
+if(q.length<2||!D){box.hidden=true;return}
+const names=new Map();
+D.items.forEach(v=>[v.home,v.away].forEach(n=>{if(n&&ek(n).includes(q))names.set(n,(names.get(n)||0)+1)}));
+const list=[...names.keys()].sort((a,b)=>(ek(a).startsWith(q)?0:1)-(ek(b).startsWith(q)?0:1)||a.localeCompare(b,'pt-BR')).slice(0,6);
+if(!list.length||(list.length===1&&ek(list[0])===q)){box.hidden=true;return}
+list.forEach(n=>{const b=el('button');b.type='button';const u=badge(n);
+if(u){const i=el('img');i.src=u;i.alt='';i.onerror=()=>i.replaceWith(el('span','ph'));b.append(i)}else b.append(el('span','ph'));
+b.append(el('span',null,n));b.addEventListener('mousedown',e=>e.preventDefault());
+b.addEventListener('click',()=>{st.q=n;$('q').value=n;box.hidden=true;render()});box.append(b)});
+box.hidden=false}
 
 /* ---------- grade de TV ---------- */
 const tk=s=>norm(s).replace(/[^a-z0-9]/g,'');
@@ -223,19 +250,27 @@ list.slice(0,lim).forEach(n=>p.append(opt(tab,n,counts.get(n),!st.off[tab].has(n
 if(list.length>lim){const m=el('button','more','Mostrar mais ▾');m.type='button';m.addEventListener('click',()=>{st.more[tab+g]=true;renderPanel()});p.append(m)}})}
 
 /* ---------- lista ---------- */
+function teamLine(name,bold){const d=el('div','team');const i=bimg(name);if(i){i.className='';i.removeAttribute('class');d.append(i)}else d.append(el('span','ph'));d.append(el('span',null,name));return d}
 function row(v,showLeague){
-const r=el('div','it'+(v.thumbnail?'':' nt'));
-if(v.thumbnail){const i=el('img');i.src=v.thumbnail;i.alt='';i.loading='lazy';i.width=128;i.height=72;r.append(i)}
-const b=el('div'),w=el('div','when');
-if(isLive(v)){w.append(el('span','pill','AO VIVO'));if(v.started)w.append(el('span','ch',' desde '+tm(v.started)))}
-else w.append(el('span','tm',(st.sort==='camp'?ds(v.scheduled)+' · ':'')+tm(v.scheduled)));
-const main=v.home&&v.away?v.home+' x '+v.away:v.title;
-const t=el('div','tt',main);t.title=v.title;
-b.append(w,t,el('div','ch',[showLeague?key(v):null,v.round,v.tvOnly?null:v.channel].filter(Boolean).join(' · ')));
-if(v.tv){const g=el('div','tv');[['TV aberta',v.tv.open],['TV fechada',v.tv.cable],['Streaming',v.tv.stream]].forEach(([l,a])=>{if(a.length){g.append(el('i',null,l+':'));a.forEach(c=>g.append(el('span',null,c)))}});if(g.childNodes.length)b.append(g)}
-if(v.tvOnly){r.append(b,el('span','only','Só na TV'));return r}
-const a=el('a',null,'Assistir');a.href='https://www.youtube.com/watch?v='+encodeURIComponent(v.id);a.target='_blank';a.rel='noopener';
-r.append(b,a);return r}
+const r=el('div','it'+(v.thumbnail?'':' nt')),w=el('div','when');
+if(isLive(v)){w.append(el('span','pill','AO VIVO'));if(v.started)w.append(el('span','dd','desde '+tm(v.started)))}
+else{w.append(el('span','tm',tm(v.scheduled)));if(st.sort==='camp')w.append(el('span','dd',ds(v.scheduled)))}
+const t=el('div','teams');t.title=v.title;
+if(v.home&&v.away){t.append(teamLine(v.home),teamLine(v.away))}
+else{const d=el('div','team',v.title);t.append(d)}
+const sub=[showLeague?key(v):null,v.round,v.tvOnly?'Sem live no YouTube':null].filter(Boolean).join(' · ');
+if(sub)t.append(el('div','sub2',sub));
+r.append(w);
+if(v.thumbnail){const i=el('img','th');i.src=v.thumbnail;i.alt='';i.loading='lazy';i.width=112;i.height=63;r.append(i)}
+r.append(t);
+const names=[];
+if(v.tv)[...v.tv.open,...v.tv.cable,...v.tv.stream].forEach(c=>{if(!names.includes(c))names.push(c)});
+if(!v.tvOnly&&v.channel&&!names.includes(v.channel))names.push(v.channel);
+const side=el('div','right');
+if(names.length)side.append(el('div','tvl',names.join(', ')));
+if(!v.tvOnly){const a=el('a',null,'Assistir');a.href='https://www.youtube.com/watch?v='+encodeURIComponent(v.id);a.target='_blank';a.rel='noopener';side.append(a)}
+if(side.childNodes.length)r.append(side);
+return r}
 function renderList(){
 const items=base().filter(dayOk).filter(v=>pass(v)).sort((a,b)=>when(a)-when(b));
 const box=$('list');box.replaceChildren();
@@ -276,6 +311,7 @@ if(!r.ok)throw new Error(r.status);
 D=await r.json();
 let G=[];try{const gr=await fetch('data/grade.json?t='+Date.now(),{cache:'no-store'});if(gr.ok)G=(await gr.json()).items||[]}catch(e){}
 D.items=mergeGrade(D.items,G);
+try{const er=await fetch('data/escudos.json?t='+Date.now(),{cache:'no-store'});if(er.ok)E=(await er.json()).escudos||{}}catch(e){}
 }catch(e){
 if(!D)$('meta').textContent='Aguardando a primeira atualização dos dados. Volte em alguns minutos.';
 return}
@@ -286,7 +322,9 @@ if(Date.now()-gen>108e5){wn.hidden=false;wn.textContent='As atualizações autom
 render()}
 
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{st.status=b.dataset.v;if(st.status==='live')st.day=todayKey();document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
-$('q').addEventListener('input',e=>{st.q=e.target.value;render()});
+$('q').addEventListener('input',e=>{st.q=e.target.value;render();suggest()});
+$('q').addEventListener('blur',()=>setTimeout(()=>{$('sug').hidden=true},150));
+$('q').addEventListener('focus',suggest);
 document.querySelectorAll('input[name=sort]').forEach(r=>{r.checked=r.value===st.sort;r.addEventListener('change',()=>{st.sort=r.value;try{localStorage.setItem('sort',r.value)}catch(e){}renderList()})});
 $('dPrev').addEventListener('click',()=>$('strip').scrollBy({left:-260,behavior:'smooth'}));
 $('dNext').addEventListener('click',()=>$('strip').scrollBy({left:260,behavior:'smooth'}));

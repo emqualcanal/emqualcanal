@@ -4,6 +4,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { filterReason } from "./filter.mjs";
 import { classify } from "./leagues.mjs";
 import { loadGrade } from "./grade.mjs";
+import { buildEscudos } from "./escudos.mjs";
 
 const cfg = JSON.parse(await readFile(new URL("../config.json", import.meta.url), "utf8"));
 const KEY = process.env.YOUTUBE_API_KEY;
@@ -303,6 +304,18 @@ const titulosSo = (m) => soPor(m).map((v) => `${v.channel}: ${v.title}`);
 await mkdir(OUT, { recursive: true });
 const grade = await loadGrade(cfg.gradeUrl);
 await writeFile(`${OUT}/grade.json`, JSON.stringify({ generatedAt, items: grade.items, erros: grade.erros }));
+let escData = { escudos: {}, erros: [], consultas: 0 };
+try {
+  const nm = new Map();
+  const add = (n, r) => { if (n && !nm.has(n)) nm.set(n, r); };
+  items.forEach((v) => { add(v.home, v.region); add(v.away, v.region); });
+  grade.items.forEach((g) => { add(g.home, g.region); add(g.away, g.region); });
+  let manual = {};
+  try { manual = JSON.parse(await readFile(new URL("../escudos-manual.json", import.meta.url), "utf8")); delete manual._exemplo; } catch {}
+  const prevEsc = (await readPrev("escudos.json"))?.escudos || {};
+  escData = await buildEscudos([...nm].map(([name, region]) => ({ name, region })), prevEsc, manual, { max: cfg.escudosPorExecucao ?? 20 });
+} catch (e) { escData.erros.push(String(e.message || e)); }
+await writeFile(`${OUT}/escudos.json`, JSON.stringify({ generatedAt, escudos: escData.escudos, erros: escData.erros }));
 await writeFile(`${OUT}/lives.json`, JSON.stringify({ generatedAt, quotaUsed: quota, items }));
 await writeFile(`${OUT}/channels.json`, JSON.stringify(cache));
 await writeFile(`${OUT}/seen.json`, JSON.stringify(seen));

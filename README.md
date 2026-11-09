@@ -106,3 +106,9 @@ Exemplo: `15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV
 - Se o jogo também está no YouTube, as emissoras aparecem no mesmo cartão. Se não, ele aparece como "Só na TV".
 - Opcional: no `config.json`, preencha `gradeUrl` com o link de uma planilha do Google publicada como CSV (Arquivo → Compartilhar → Publicar na Web → CSV). Você edita a planilha e o site lê sozinho.
 - Erros de linha aparecem em `data/grade.json` (campo `erros`).
+
+## Escudos dos times
+
+Automático: a cada atualização o site busca o escudo de cada time na TheSportsDB (chave gratuita) e guarda em `data/escudos.json`. São até 20 consultas novas por execução (`escudosPorExecucao` no `config.json`); times sem resultado são tentados de novo depois de 7 dias.
+Manual: para corrigir ou colocar um escudo que não veio, edite `escudos-manual.json` (`"Náutico": "escudos/nautico.png"`, com a imagem em `docs/escudos/`). O manual tem prioridade.
+Erros da busca aparecem em `data/escudos.json` (campo `erros`) e nunca derrubam a atualização.
