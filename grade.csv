@@ -3,23 +3,6 @@
 # Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
 # Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
 data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
-10/11/2026;14:45;Champions League Feminina;Real Madrid;Paris FC;ESPN 4/Disney+
-10/11/2026;14:45;Champions League Feminina;Hacken;Chelsea;Disney+
-10/11/2026;17:00;Champions League Feminina;PSG;Bayern de Munique;ESPN/Disney+
-10/11/2026;17:00;Champions League Feminina;Inter de Milão;Manchester City;ESPN 4/Disney+
-10/11/2026;17:00;Champions League Feminina;Roma;Servette FC;Disney+
-10/11/2026;15:00;Copa do Rei;Anaitasuna;Deportivo Alavés;Disney+
-10/11/2026;17:00;Copa do Rei;Tavernes;Valencia;ESPN 2/Disney+
-11/11/2026;14:45;Champions League Feminina;OH Leuven;Koge;ESPN 4/Disney+
-11/11/2026;17:00;Champions League Feminina;Benfica;Austria Vienna;Disney+
-11/11/2026;17:00;Champions League Feminina;Juventus;Lyon;ESPN/Disney+
-11/11/2026;19:00;Brasileirão Série B;Londrina;Náutico;Disney+
-# Grade de TV. Uma linha por jogo. Separe por ponto e vírgula. Linhas com # no começo são ignoradas.
-# data (dd/mm/aaaa);hora (Brasília);campeonato;mandante;visitante;TV aberta;TV fechada;streaming;rodada (opcional)
-# Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
-# Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
-data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
-data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 14/11/2026;18:30;Brasileirão Série A;Mirassol;Atlético-MG;;;Prime Video;35ª rodada
 18/11/2026;19:30;Brasileirão Série A;Coritiba;Santos;Record;Premiere;CazéTV;35ª rodada
 18/11/2026;20:00;Brasileirão Série A;Remo;Chapecoense;;Premiere;;35ª rodada
@@ -53,7 +36,7 @@ convertido do horário oficial de início (CET menos 4 h).
 12/11/2026;16:45;Liga das Nações da UEFA;Montenegro;Letônia;;ESPN;Disney+;
 12/11/2026;16:45;Liga das Nações da UEFA;Albânia;Finlândia;;ESPN;Disney+;
 12/11/2026;16:45;Liga das Nações da UEFA;Itália;França;;ESPN;Disney+;
-12/11/2026;16:45;Liga das Nações da UEFA;Inglaterra;Croácia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Inglaterra;Croácia;;ESPN 4;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;ESPN;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;ESPN;Disney+;
 14/11/2026;16:45;Liga das Nações da UEFA;Romênia;Polônia;;ESPN;Disney+;
@@ -62,4 +45,8 @@ convertido do horário oficial de início (CET menos 4 h).
 15/11/2026;16:45;Liga das Nações da UEFA;Croácia;Tchéquia;;ESPN;Disney+;
 16/11/2026;12:00;Liga das Nações da UEFA;Cazaquistão;Eslováquia;;ESPN;Disney+;
 16/11/2026;16:45;Liga das Nações da UEFA;Macedônia do Norte;Eslovênia;;ESPN;Disney+;
-16/11/2026;16:45;Liga das Nações da UEFA;Gibraltar;Malta;;ESP
+16/11/2026;16:45;Liga das Nações da UEFA;Gibraltar;Malta;;ESPN;Disney+;
+# Champions League Feminina: horários e canais conforme informado (17:00 do PSG x Bayern deduzido do texto "simultaneamente"/"enquanto").
+10/11/2026;14:45;Champions League Feminina;Real Madrid;Paris FC;;ESPN 4;;
+10/11/2026;17:00;Champions League Feminina;Inter de Milão;Manchester City;;ESPN 4;;
+10/11/2026;17:00;Champions League Feminina;PSG;Bayern
