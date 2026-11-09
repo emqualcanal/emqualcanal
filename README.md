@@ -109,6 +109,8 @@ Exemplo: `15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV
 
 ## Escudos dos times
 
-Automático: a cada atualização o site busca o escudo de cada time na TheSportsDB (chave gratuita) e guarda em `data/escudos.json`. São até 20 consultas novas por execução (`escudosPorExecucao` no `config.json`); times sem resultado são tentados de novo depois de 7 dias.
+Automático: a cada atualização o site procura o escudo de cada time no **Wikidata** (a base da Wikipédia, sem chave) e, se não achar, na **TheSportsDB** (reserva). O resultado fica em `data/escudos.json`.
+- Até 20 consultas novas por execução (`escudosPorExecucao` no `config.json`). Os times já resolvidos não são consultados de novo; os sem resultado são tentados outra vez depois de 7 dias.
+- Para times no Brasil, a busca prefere o clube brasileiro (Santos do Brasil, não o da Espanha) e evita o time feminino.
 Manual: para corrigir ou colocar um escudo que não veio, edite `escudos-manual.json` (`"Náutico": "escudos/nautico.png"`, com a imagem em `docs/escudos/`). O manual tem prioridade.
 Erros da busca aparecem em `data/escudos.json` (campo `erros`) e nunca derrubam a atualização.
