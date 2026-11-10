@@ -39,7 +39,7 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 # Copa do Rei (Disney+/ESPN): horário de Brasília
 # convertido do horário oficial de início (CET menos 4 h).
 12/11/2026;15:00;Copa del Rey;CDA Navalcarnero;Real Bétis;;;Disney+;
-13/11/2026;17:00;Copa do Rei;Salamanca;Celta de Vigo;;ESPN;Disney+;
+13/11/2026;17:00;Copa do Rei;Salamanca;Celta de Vigo;;ESPN 3;Disney+;
 # Liga das Nações da UEFA (Disney+/ESPN): horário de Brasília
 # convertido do horário oficial de início (CET menos 4 h).
 12/11/2026;14:00;UEFA Nations League;Armênia;Chipre;;ESPN 3;Disney+;
@@ -48,8 +48,11 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 12/11/2026;16:45;UEFA Nations League;Albânia;Finlândia;;;Disney+;
 12/11/2026;16:45;UEFA Nations League;Itália;França;;ESPN;Disney+;
 12/11/2026;16:45;UEFA Nations League;Inglaterra;Croácia;;ESPN 4;Disney+;
-13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;ESPN;Disney+;
-13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;ESPN;Disney+;
+13/11/2026;14:00;Liga das Nações da UEFA;Moldávia;Cazaquistão;;ESPN 4;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Eslovênia;Suíça;;ESPN 4;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Holanda;Grécia;;ESPN;Disney+;
 14/11/2026;16:45;Liga das Nações da UEFA;Romênia;Polônia;;ESPN;Disney+;
 15/11/2026;14:00;Liga das Nações da UEFA;Bielorrússia;Albânia;;ESPN;Disney+;
 15/11/2026;16:45;Liga das Nações da UEFA;Bélgica;Itália;;ESPN;Disney+;
