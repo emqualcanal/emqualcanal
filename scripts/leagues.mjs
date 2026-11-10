@@ -325,10 +325,16 @@ export function teamsOf(title) {
 // Nomes que os canais abreviam e que só fazem sentido dentro de um campeonato (evita escudo de outro time).
 const TEAM_BY_LEAGUE = [
   [/para[ií]ba|paraibano/i, { esporte: "Esporte de Patos", nacional: "Nacional de Patos" }],
+  [/s[eé]rie b/i, { athletic: "Athletic-MG", operario: "Operário-PR" }],
 ];
+export function teamFix(league, name) {
+  const map = TEAM_BY_LEAGUE.find(([re]) => re.test(league || ""))?.[1];
+  if (!map || !name) return name;
+  const k = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  return map[k] || name;
+}
 export function classify(title) {
   const r = { ...leagueOf(title), round: roundOf(title), ...teamsOf(title) };
-  const map = TEAM_BY_LEAGUE.find(([re]) => re.test(r.league || ""))?.[1];
-  if (map) for (const f of ["home", "away", "home2", "away2"]) if (r[f]) { const k = r[f].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); if (map[k]) r[f] = map[k]; }
+  for (const f of ["home", "away", "home2", "away2"]) if (r[f]) r[f] = teamFix(r.league, r[f]);
   return r;
 }

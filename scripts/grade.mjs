@@ -1,6 +1,6 @@
 // Lê a grade de TV (grade.csv e, opcionalmente, um CSV publicado em config.gradeUrl) e gera docs/data/grade.json.
 import { readFile } from "node:fs/promises";
-import { classify } from "./leagues.mjs";
+import { classify, teamFix } from "./leagues.mjs";
 
 const split = (s) => String(s || "").split(/[\/|]/).map((x) => x.trim()).filter(Boolean);
 
@@ -46,7 +46,7 @@ export function parseGrade(text) {
     const c = classify(camp || "");
     items.push({
       start: iso, league: c.league || camp || "Outros campeonatos", region: c.region, flag: c.flag,
-      home, away, round: rodada || null, open: split(aberta), cable: split(fechada), stream: split(stream),
+      home: teamFix(c.league, home), away: teamFix(c.league, away), round: rodada || null, open: split(aberta), cable: split(fechada), stream: split(stream),
     });
   });
   // Jogo repetido na grade: mesmos times, no mesmo dia e no mesmo campeonato/categoria (ordem dos times não importa).
