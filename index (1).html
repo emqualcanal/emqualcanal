@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Em Qual Canal?</title>
+<meta name="description" content="Em Qual Canal? O jogo vai passar em qual canal? Transmissões de futebol na TV aberta, na TV fechada, no streaming e no YouTube, atualizadas automaticamente.">
+<meta property="og:title" content="Em Qual Canal?">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='50 5 340 400'%3E%3Crect x='50' y='5' width='340' height='400' rx='60' fill='%230E1A14'/%3E%3Cg fill='none' stroke='%23F2BE2D' stroke-width='19' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M186 52 L240 108 L296 52'/%3E%3Crect x='96' y='112' width='288' height='224' rx='72'/%3E%3Cpath d='M180 330 L174 382 L236 336'/%3E%3C/g%3E%3Cpath d='M203 190 C203 150 288 150 288 192 C288 228 244 228 244 262' fill='none' stroke='%23fff' stroke-width='28' stroke-linecap='round'/%3E%3Ccircle cx='243' cy='290' r='17' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#F6F8F5;--card:#fff;--fg:#14201A;--muted:#566559;--line:#DCE4DD;--accent:#0F8A4B;--on:#fff;--live:#D92D20;--onlive:#fff;--chip:#E9EFEA;--head:#DDE8F7;--today:#C58A00;--logo:#E0A100;--logoq:#14201A;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;--today:#FFC933;--logo:#F2BE2D;--logoq:#fff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1A14;--card:#15271D;--fg:#F2F5F0;--muted:#A9B8AE;--line:#234433;--accent:#34D17A;--on:#06140D;--live:#FF6B5E;--onlive:#1A0705;--chip:#1B3226;--head:#1E3A2C;--today:#FFC933;--logo:#F2BE2D;--logoq:#fff;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:32px 16px 64px}
+h1{margin:0 0 4px;font-size:clamp(26px,5vw,38px);line-height:1.15}
+.sub{color:var(--muted);margin:0 0 20px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.brand{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
+.logo{width:56px;height:auto;flex:none}
+.logo .o{stroke:var(--logo)}.logo .q{stroke:var(--logoq)}.logo .d{fill:var(--logoq)}
+.brand h1{margin:0}
+.brand .sub{margin:4px 0 0}
+.theme{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;display:grid;place-items:center}
+.theme svg{width:22px;height:22px}
+.upd{margin-left:auto;align-self:center;color:var(--muted);font-size:13px}
+@media (max-width:620px){.logo{width:44px}.brand{gap:10px}}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;min-width:140px;color:var(--muted);font-size:14px}
+.stat b{display:block;font-size:28px;line-height:1.15;color:var(--fg)}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--fg);padding:0 16px;font:inherit;cursor:pointer;min-height:44px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on);font-weight:600}
+input[type=search]{flex:1;min-width:160px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);padding:0 12px;font:inherit}
+.order{display:flex;gap:14px;align-items:center;color:var(--muted);font-size:15px}
+.order label{display:flex;gap:6px;align-items:center;cursor:pointer;min-height:44px}
+.order input{accent-color:var(--accent);width:18px;height:18px}
+#toggleF{display:none;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);padding:0 14px;font:inherit;cursor:pointer}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start}
+aside{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+.tabs button{border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);font:inherit;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:13px;padding:14px 8px;cursor:pointer;min-height:48px}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.all{display:flex;align-items:center;gap:10px;margin:12px;padding:10px 12px;background:var(--head);border-radius:10px;font-weight:600;cursor:pointer}
+.all input{accent-color:var(--accent);width:18px;height:18px}
+.cnt{margin-left:auto;background:var(--chip);border-radius:999px;padding:1px 9px;font-size:13px;font-weight:600;color:var(--fg)}
+.grp{padding:6px 14px 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);border-top:1px solid var(--line);margin-top:6px}
+.opt{display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;min-height:40px;font-size:15px}
+.opt input{accent-color:var(--accent);width:18px;height:18px;flex:none}
+.opt img,.gh img{width:20px;height:14px;object-fit:cover;border-radius:2px;flex:none}
+.opt span.n{overflow-wrap:anywhere}
+.more{display:block;width:100%;border:0;background:none;color:var(--accent);font:inherit;font-weight:600;padding:8px 14px 12px;text-align:center;cursor:pointer;min-height:40px}
+h2{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px}
+h2:first-child{margin-top:0}
+.gh{display:flex;align-items:center;gap:10px;width:100%;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--head);border-radius:10px;padding:10px 14px;margin:20px 0 8px;font-weight:700;min-height:44px}
+.gh .chev{width:20px;height:20px;flex:none;transition:transform .15s}
+.gh[aria-expanded="false"] .chev{transform:rotate(-90deg)}
+.colbar{display:flex;justify-content:flex-end;gap:16px;margin:0 0 4px}
+.lnk{border:0;background:none;color:var(--accent);font:inherit;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:36px;padding:0}
+.gh:first-child{margin-top:0}
+.gh .hr{color:var(--muted);font-weight:500;margin-left:-4px}
+.gh small{color:var(--muted);font-weight:500;margin-left:auto}
+.pill{background:var(--live);color:var(--onlive);font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+@media (max-width:900px){.layout{grid-template-columns:1fr}aside{position:static;max-height:none;display:none}aside.open{display:block}#toggleF{display:inline-block}}
+.sw{position:relative;flex:1;min-width:160px;display:flex}
+.sw input{flex:1}
+.sug{position:absolute;left:0;right:0;top:48px;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);overflow:hidden}
+.sug button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:var(--fg);font:inherit;text-align:left;padding:8px 12px;min-height:44px;cursor:pointer}
+.sug button:hover,.sug button:focus{background:var(--head)}
+.sug img{width:24px;height:24px;object-fit:contain}
+.sug .ph{width:24px;height:24px;border-radius:50%;background:var(--chip);flex:none}
+.warn{background:var(--chip);border-radius:10px;padding:10px 14px;margin-bottom:16px}
+.days{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;flex:1;padding:4px 2px}
+.strip::-webkit-scrollbar{display:none}
+.day{flex:none;scroll-snap-align:start;width:76px;min-height:76px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 2px;line-height:1.25}
+.day b{font-size:22px;line-height:1.1}
+.day small{font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.day .c{font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap}
+.day.today{border-color:var(--today);box-shadow:0 0 0 1px var(--today)}
+.day.empty{opacity:.6}
+.day[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on)}
+.day[aria-selected="true"] small,.day[aria-selected="true"] .c{color:var(--on)}
+.arr{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;cursor:pointer}
+.it{display:grid;grid-template-columns:84px 112px 1fr auto;grid-template-areas:"when thumb teams right";gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:8px}
+.it.nt{grid-template-columns:84px 1fr auto;grid-template-areas:"when teams right"}
+.it.hd{grid-template-areas:"lg lg lg lg" "when thumb teams right";row-gap:10px}
+.it.hd.nt{grid-template-areas:"lg lg lg" "when teams right"}
+.lgh{grid-area:lg;display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:13px;font-weight:700;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.lgh img{width:18px;height:13px;object-fit:cover;border-radius:2px;flex:none}
+.rp{font-weight:600;font-size:12px;padding:2px 10px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.th{grid-area:thumb;width:112px;height:63px;object-fit:cover;border-radius:8px;background:var(--chip)}
+.when{grid-area:when;display:flex;flex-direction:column;gap:2px;line-height:1.2}
+.tm{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}
+.dd{font-size:12px;color:var(--muted)}
+.teams{grid-area:teams;display:flex;flex-direction:column;gap:6px;min-width:0}
+.team{display:flex;align-items:center;gap:10px;font-weight:600;line-height:1.25;min-height:24px;overflow-wrap:break-word;min-width:0}
+.team>span{display:block;min-width:0}
+.team img{width:24px;height:24px;object-fit:contain;flex:none}
+.team .ph{width:24px;height:24px;border-radius:50%;background:var(--chip);flex:none}
+.sub2{color:var(--muted);font-size:13px}
+.sep2{height:1px;background:var(--line);margin:2px 0}
+.right{grid-area:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right;max-width:340px}
+.tvl{font-weight:700;font-size:15px;line-height:1.35}
+.tvl .pg{color:var(--live)}
+.it a{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;padding:6px 0;white-space:nowrap}
+.it a:hover{text-decoration-thickness:2.5px}
+@media (max-width:620px){.it{grid-template-columns:64px minmax(0,1fr) minmax(0,36%);grid-template-areas:"when thumb right" "when teams right";gap:8px;padding:12px;align-items:start}.it.nt{grid-template-columns:64px minmax(0,1fr) minmax(0,36%);grid-template-areas:"when teams right";align-items:center}.th{width:100%;max-width:150px;height:auto;aspect-ratio:16/9;border-radius:6px}.tm{font-size:16px}.tvl{font-size:14px}.it a{padding:4px 0}.team{gap:8px;font-size:15px}.team img,.team .ph{width:20px;height:20px}.right{align-self:center}.it.hd{grid-template-areas:"lg lg lg" "when thumb right" "when teams right"}.it.hd.nt{grid-template-areas:"lg lg lg" "when teams right"}}
+footer{color:var(--muted);font-size:14px;margin-top:40px}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+<div class="brand">
+<svg class="logo" viewBox="70 25 340 395" role="img" aria-label="Em Qual Canal?"><g fill="none" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" class="o"><path d="M186 42 L240 100 L296 42"/><rect x="96" y="106" width="288" height="238" rx="72"/><path d="M180 338 L174 392 L236 343"/></g><path class="q" d="M203 190 C203 148 288 148 288 194 C288 232 244 232 244 268" fill="none" stroke-width="28" stroke-linecap="round"/><circle class="d" cx="243" cy="298" r="17"/></svg>
+<div><h1>Em Qual Canal?</h1>
+<p class="sub" id="tag">Todos os jogos. Todas as transmissões. Todos os canais. Em um só lugar!</p></div>
+</div>
+<button type="button" class="theme" id="theme" aria-label="Alternar entre modo claro e escuro" title="Alternar entre modo claro e escuro"></button>
+</header>
+<div class="warn" id="warn" hidden></div>
+<div class="stats"><div class="stat"><b id="nLive">0</b>ao vivo agora</div><div class="stat"><b id="nUp">0</b>agendadas</div><div class="upd" id="meta">Carregando…</div></div>
+<nav class="days" aria-label="Dia"><button type="button" class="arr" id="dPrev" aria-label="Dias anteriores">‹</button><div class="strip" id="strip" role="tablist" aria-label="Escolha o dia"></div><button type="button" class="arr" id="dNext" aria-label="Próximos dias">›</button></nav>
+<div class="ctl">
+<div class="seg" role="group" aria-label="Tipo de transmissão">
+<button type="button" data-v="all" aria-pressed="true">Todas</button>
+<button type="button" data-v="live" aria-pressed="false">Ao vivo</button>
+<button type="button" data-v="sched" aria-pressed="false">Agendadas</button>
+</div>
+<div class="sw"><input id="q" type="search" placeholder="Buscar time ou campeonato" aria-label="Buscar time ou campeonato" autocomplete="off"><div class="sug" id="sug" hidden></div></div>
+<div class="order" role="radiogroup" aria-label="Ordenar">Ordenar:
+<label><input type="radio" name="sort" value="time"> Horário</label>
+<label><input type="radio" name="sort" value="camp" checked> Campeonatos</label>
+</div>
+<button type="button" id="toggleF" aria-expanded="false">Filtros</button>
+</div>
+<div class="layout">
+<aside id="panel" aria-label="Filtros"></aside>
+<div id="list"></div>
+</div>
+</main>
+<script>
+const TZ='America/Sao_Paulo',$=id=>document.getElementById(id);
+const REGIONS=['Brasil','Europa','América do Sul','América do Norte','Ásia','África','Internacional','Feminino','Outros'];
+const st={status:'all',sort:'camp',q:'',tab:'camp',day:null,more:{},col:new Set(),off:{camp:new Set(),ch:new Set()}};
+try{const s=localStorage.getItem('sort');if(s==='time'||s==='camp')st.sort=s;const c=JSON.parse(localStorage.getItem('col')||'[]');if(Array.isArray(c))st.col=new Set(c)}catch(e){}
+const saveCol=()=>{try{localStorage.setItem('col',JSON.stringify([...st.col]))}catch(e){}};
+let D=null;
+const dk=t=>new Date(t).toLocaleDateString('en-CA',{timeZone:TZ});
+const tm=t=>new Date(t).toLocaleTimeString('pt-BR',{timeZone:TZ,hour:'2-digit',minute:'2-digit'});
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const isLive=v=>v.state==='live';
+const key=v=>v.league||'Outros campeonatos';
+const when=v=>isLive(v)?-1:Date.parse(v.scheduled);
+function dl(t){const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'long',day:'2-digit',month:'2-digit'}),d=dk(t),n=Date.now();return d===dk(n)?'Hoje · '+s:d===dk(n+864e5)?'Amanhã · '+s:s}
+function ds(t){const d=dk(t),n=Date.now();if(d===dk(n))return'Hoje';if(d===dk(n+864e5))return'Amanhã';const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit'}).replace('.,',',');return s.charAt(0).toUpperCase()+s.slice(1)}
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function flag(code){if(!code)return null;const i=el('img');i.src='https://flagcdn.com/w40/'+code+'.png';i.alt='';i.loading='lazy';i.onerror=()=>i.remove();return i}
+
+/* ---------- escudos ---------- */
+let E={};
+const ek=s=>norm(s).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const badge=n=>{const e=E[ek(n)];return e&&e.url?e.url:null};
+function bimg(n){const u=badge(n);if(!u)return null;const i=el('img','bd');i.src=u;i.alt='';i.loading='lazy';i.onerror=()=>i.remove();return i}
+function suggest(){
+const box=$('sug'),q=ek(st.q);box.replaceChildren();
+if(q.length<2||!D){box.hidden=true;return}
+const names=new Map();
+D.items.forEach(v=>[v.home,v.away].forEach(n=>{if(n&&ek(n).includes(q))names.set(n,(names.get(n)||0)+1)}));
+const list=[...names.keys()].sort((a,b)=>(ek(a).startsWith(q)?0:1)-(ek(b).startsWith(q)?0:1)||a.localeCompare(b,'pt-BR')).slice(0,6);
+if(!list.length||(list.length===1&&ek(list[0])===q)){box.hidden=true;return}
+list.forEach(n=>{const b=el('button');b.type='button';const u=badge(n);
+if(u){const i=el('img');i.src=u;i.alt='';i.onerror=()=>i.replaceWith(el('span','ph'));b.append(i)}else b.append(el('span','ph'));
+b.append(el('span',null,n));b.addEventListener('mousedown',e=>e.preventDefault());
+b.addEventListener('click',()=>{st.q=n;$('q').value=n;box.hidden=true;render()});box.append(b)});
+box.hidden=false}
+
+/* ---------- várias lives da mesma partida ---------- */
+function mergeLives(items){
+const out=[];
+items.forEach(v=>{
+const ln={id:v.id,channel:v.channel,live:isLive(v)};
+if(v.tvOnly||!(v.home&&v.away)){v.links=[ln];out.push(v);return}
+const t=Date.parse(v.scheduled||v.started);
+const ex=out.find(o=>!o.tvOnly&&o.home&&o.away&&Math.abs(Date.parse(o.scheduled||o.started)-t)<=3*36e5&&sameTeam(o.home,v.home)&&sameTeam(o.away,v.away)&&catOk(o.league,v.league));
+if(ex){ex.links.push(ln);if(ln.live&&!isLive(ex)){ex.state='live';ex.started=v.started}}
+else{v.links=[ln];out.push(v)}});
+out.forEach(v=>v.links.sort((a,b)=>(b.live-a.live)));
+return out}
+
+/* ---------- grade de TV ---------- */
+const tk=s=>norm(s).replace(/[^a-z0-9]/g,'');
+const catOf=l=>{l=norm(l||'');return (/femini/.test(l)?'F':'M')+((l.match(/sub[- ]?(\d+)/)||[])[1]||'')};
+const catOk=(a,b)=>catOf(a)===catOf(b);
+const sameTeam=(a,b)=>{a=tk(a);b=tk(b);return a.length>=3&&b.length>=3&&(a.includes(b)||b.includes(a))};
+function mergeGrade(items,G){
+const out=items.map(v=>({...v,tv:null})),used=new Set();
+(G||[]).forEach((g,i)=>{
+const t=Date.parse(g.start),tv={open:g.open||[],cable:g.cable||[],stream:g.stream||[]};
+let hit=false;
+out.forEach(v=>{if(hit||v.tvOnly)return;
+const vt=Date.parse(v.scheduled||v.started);if(!(Math.abs(vt-t)<=3*36e5))return;
+const ok=catOk(v.league,g.league)&&(v.home&&v.away?(sameTeam(v.home,g.home)&&sameTeam(v.away,g.away)):(sameTeam(v.title,g.home)&&sameTeam(v.title,g.away)));
+if(ok){if(!v.round&&g.round)v.round=g.round;{const o=v.scheduled||v.started;if(o&&Math.abs(Date.parse(o)-t)>20*6e4){v.opens=o;v.kick=g.start;if(v.state!=='live')v.scheduled=g.start}}v.tv=v.tv?{open:[...new Set([...v.tv.open,...tv.open])],cable:[...new Set([...v.tv.cable,...tv.cable])],stream:[...new Set([...v.tv.stream,...tv.stream])]}:tv;hit=true}});
+if(!hit)out.push({id:'tv-'+i,tvOnly:true,state:'scheduled',scheduled:g.start,home:g.home,away:g.away,round:g.round||null,title:g.home+' x '+g.away,league:g.league,region:g.region,flag:g.flag,channel:'Somente TV/streaming',tv})});
+return out}
+
+/* ---------- dados filtrados ---------- */
+const PAID_DEFAULT=['Disney+','Star+','DAZN','OneFootball','HBO Max','Max','Prime Video','Amazon Prime Video','Paramount+','Apple TV+','Netflix','Globoplay'];
+const pk=s=>norm(String(s)).replace(/[^a-z0-9+]/g,'');
+let PAID=new Set(PAID_DEFAULT.map(pk));
+const isPaid=n=>PAID.has(pk(n));
+let roundInHeader=false;
+const tvNames=v=>v.tv?[...v.tv.open,...v.tv.cable,...v.tv.stream].join(' '):'';
+function visible(){const now=Date.now();return D.items.filter(v=>isLive(v)||now-new Date(v.scheduled)<=3*36e5)}
+function base(){
+const q=norm(st.q);
+return visible().filter(v=>(st.status==='all'||(st.status==='live'?isLive(v):!isLive(v)))&&(!q||norm(v.title+' '+v.channel+' '+key(v)+' '+tvNames(v)).includes(q)))}
+/* ---------- dias ---------- */
+const todayKey=()=>dk(Date.now());
+const itemDay=v=>isLive(v)?todayKey():dk(v.scheduled);
+const dayOk=v=>st.day==='all'||itemDay(v)===st.day;
+function addDays(k,n){const[y,m,d]=k.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+n)).toISOString().slice(0,10)}
+function dayParts(k){const dt=new Date(k+'T12:00:00Z'),f=o=>dt.toLocaleDateString('pt-BR',{timeZone:'UTC',...o});
+return{num:f({day:'numeric'}),mon:f({month:'short'}).replace('.','').toUpperCase(),wd:f({weekday:'short'}).replace('.','').toUpperCase(),full:f({weekday:'long',day:'numeric',month:'long'})}}
+function dayRange(){const t=todayKey(),last=visible().map(itemDay).reduce((a,b)=>a>b?a:b,t);let n=7;while(n<28&&addDays(t,n-1)<last)n++;return Array.from({length:n},(_,i)=>addDays(t,i))}
+let dayInit=false;
+function renderDays(){
+const strip=$('strip'),keep=strip.scrollLeft,t=todayKey();
+if(st.day===null||(st.day!=='all'&&st.day<t))st.day=t;
+const items=base().filter(v=>pass(v)),cnt=new Map();
+items.forEach(v=>{const k=itemDay(v);cnt.set(k,(cnt.get(k)||0)+1)});
+strip.replaceChildren();
+const chip=(k,big,mid,n,label,cls)=>{
+const b=el('button','day'+cls+(n?'':' empty'));b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-selected',st.day===k);b.setAttribute('aria-label',label+', '+n+(n===1?' jogo':' jogos'));
+b.append(el('b',null,big),el('small',null,mid),el('span','c',n?n+(n===1?' jogo':' jogos'):'—'));
+b.addEventListener('click',()=>{st.day=k;render()});strip.append(b)};
+chip('all','Todos','os dias',items.length,'Todos os dias','');
+dayRange().forEach(k=>{const d=dayParts(k);chip(k,d.num,d.mon+' · '+d.wd,cnt.get(k)||0,d.full,k===t?' today':'')});
+strip.scrollLeft=keep;
+if(!dayInit){dayInit=true;const s=strip.querySelector('[aria-selected="true"]');if(s&&s.offsetLeft)strip.scrollLeft=Math.max(0,s.offsetLeft-strip.clientWidth/2+s.offsetWidth/2)}}
+
+function pass(v,skip){return(skip==='camp'||!st.off.camp.has(key(v)))&&(skip==='ch'||chOk(v))}
+function chOk(v){return v.links&&v.links.length?v.links.some(l=>!st.off.ch.has(l.channel)):!st.off.ch.has(v.channel)}
+
+/* ---------- painel de filtros ---------- */
+function toggleAll(tab,names){
+const off=st.off[tab];
+if(off.size===0)names.forEach(n=>off.add(n));else off.clear();
+render()}
+function opt(tab,name,n,checked,fl){
+const l=el('label','opt'),c=el('input');c.type='checkbox';c.checked=checked;
+c.addEventListener('change',()=>{c.checked?st.off[tab].delete(name):st.off[tab].add(name);render()});
+l.append(c);const f=fl&&flag(fl);if(f)l.append(f);
+l.append(el('span','n',name),el('span','cnt',n));return l}
+function renderPanel(){
+const p=$('panel'),tab=st.tab;p.replaceChildren();
+const tabs=el('div','tabs');tabs.setAttribute('role','tablist');
+[['camp','Campeonatos'],['ch','Canais']].forEach(([id,label])=>{
+const b=el('button',null,label);b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-selected',id===tab);
+b.addEventListener('click',()=>{st.tab=id;renderPanel()});tabs.append(b)});
+p.append(tabs);
+const items=base().filter(dayOk).filter(v=>pass(v,tab));
+const counts=new Map(),meta=new Map();
+items.forEach(v=>{const ks=tab==='camp'?[key(v)]:[...new Set((v.links&&v.links.length?v.links.map(l=>l.channel):[v.channel]))];ks.forEach(k=>{counts.set(k,(counts.get(k)||0)+1);if(!meta.has(k))meta.set(k,v)})});
+const names=[...counts.keys()];
+const all=el('label','all'),ac=el('input');ac.type='checkbox';ac.checked=st.off[tab].size===0;ac.indeterminate=st.off[tab].size>0&&names.some(n=>!st.off[tab].has(n));
+ac.addEventListener('change',()=>toggleAll(tab,names));
+all.append(ac,el('span',null,'Todos'),el('span','cnt',items.length));p.append(all);
+const groups=tab==='camp'?REGIONS.map(r=>[r,names.filter(n=>(meta.get(n).region||'Outros')===r)]):[['',names]];
+groups.forEach(([g,list])=>{
+if(!list.length)return;
+list.sort((a,b)=>counts.get(b)-counts.get(a)||a.localeCompare(b,'pt-BR'));
+if(g)p.append(el('div','grp',g));
+const lim=st.more[tab+g]?list.length:(tab==='camp'?6:8);
+list.slice(0,lim).forEach(n=>p.append(opt(tab,n,counts.get(n),!st.off[tab].has(n),tab==='camp'?meta.get(n).flag:null)));
+if(list.length>lim){const m=el('button','more','Mostrar mais ▾');m.type='button';m.addEventListener('click',()=>{st.more[tab+g]=true;renderPanel()});p.append(m)}})}
+
+/* ---------- lista ---------- */
+function teamLine(name,bold){const d=el('div','team');const i=bimg(name);if(i){i.className='';i.removeAttribute('class');d.append(i)}else d.append(el('span','ph'));d.append(el('span',null,name));return d}
+function row(v,showLeague){
+const r=el('div','it'+(v.thumbnail?'':' nt')+(showLeague?' hd':'')),w=el('div','when');
+if(showLeague){const lh=el('div','lgh'),fl=flag(v.flag);if(fl)lh.append(fl);lh.append(el('span',null,key(v)));if(v.round)lh.append(el('span','rp',v.round));r.append(lh)}
+if(isLive(v)){w.append(el('span','pill','AO VIVO'));if(v.kick)w.append(el('span','dd','jogo às '+tm(v.kick)))}
+else{w.append(el('span','tm',tm(v.scheduled)));if(v.opens)w.append(el('span','dd','transmissão abre '+tm(v.opens)));if(st.sort==='camp')w.append(el('span','dd',ds(v.scheduled)))}
+const t=el('div','teams');t.title=v.title;
+if(v.home&&v.away){t.append(teamLine(v.home),teamLine(v.away));if(v.home2&&v.away2)t.append(el('div','sep2'),teamLine(v.home2),teamLine(v.away2))}
+else{const d=el('div','team',v.title);t.append(d)}
+const sub=[showLeague?null:(v.age||null),(!showLeague&&!roundInHeader)?v.round:null].filter(Boolean).join(' · ');
+if(sub)t.append(el('div','sub2',sub));
+r.append(w);
+if(v.thumbnail){const i=el('img','th');i.src=v.thumbnail;i.alt='';i.loading='lazy';i.width=112;i.height=63;r.append(i)}
+r.append(t);
+const names=[];
+const kk=x=>pk(x).replace(/brasil$/,'');
+const base=s=>{const m=String(s).match(/^(.*?)\s*\(\s*youtube\s*\)\s*$/i);return m?m[1].trim():String(s).trim()};
+const add=raw=>{const n=String(raw||'').trim();if(!n)return;
+const k=kk(base(n));if(!k||names.some(x=>kk(base(x))===k))return;names.push(n)};
+if(v.tv)[...v.tv.open,...v.tv.cable,...v.tv.stream].forEach(add);
+if(!v.tvOnly)(v.links&&v.links.length?v.links.map(l=>l.channel):[v.channel]).forEach(add);
+const side=el('div','right');
+if(names.length){const d=el('div','tvl');names.forEach((n,i)=>{if(i)d.append(', ');d.append(isPaid(n)?el('span','pg',n):document.createTextNode(n))});side.append(d)}
+if(!v.tvOnly){const ls=v.links&&v.links.length?v.links:[{id:v.id,channel:v.channel}];
+ls.forEach(l=>{const a=el('a',null,ls.length>1?'Assistir · '+l.channel:'Assistir');a.href='https://www.youtube.com/watch?v='+encodeURIComponent(l.id);a.target='_blank';a.rel='noopener';side.append(a)})}
+if(side.childNodes.length)r.append(side);
+return r}
+function roundsText(list){
+if(!list.every(v=>v.round))return{text:'',single:false};
+const rs=[...new Set(list.map(v=>v.round))];
+if(rs.length>3)return{text:'',single:false};
+const num=rs.map(r=>(r.match(/^(\d+)ª rodada$/)||[])[1]);
+if(num.every(Boolean)){const n=num.map(Number).sort((a,b)=>a-b).map(x=>x+'ª');
+const t=n.length===1?n[0]+' rodada':(n.slice(0,-1).join(', ')+' e '+n[n.length-1]+' rodadas');return{text:t,single:rs.length===1}}
+return{text:rs.join(' · '),single:rs.length===1}}
+function renderList(){
+const items=base().filter(dayOk).filter(v=>pass(v)).sort((a,b)=>when(a)-when(b));
+const box=$('list');box.replaceChildren();
+if(!items.length){box.append(el('p','sub',st.day==='all'?'Nenhuma transmissão para este filtro.':'Nenhuma transmissão neste dia para este filtro.'));return}
+if(st.sort==='time'){
+const live=items.filter(isLive),up=items.filter(v=>!isLive(v));
+if(live.length){box.append(el('h2',null,'Ao vivo agora'));live.forEach(v=>box.append(row(v,true)))}
+let last='';
+up.forEach(v=>{const k=dk(v.scheduled);if(k!==last){box.append(el('h2',null,dl(v.scheduled)));last=k}box.append(row(v,true))});
+return}
+const g=new Map();
+items.forEach(v=>{const k=key(v);if(!g.has(k))g.set(k,[]);g.get(k).push(v)});
+const searching=st.q.trim()!=='';
+if(g.size>1){const bar=el('div','colbar'),a=el('button','lnk','Recolher todos'),b=el('button','lnk','Expandir todos');a.type=b.type='button';
+a.addEventListener('click',()=>{g.forEach((_,k)=>st.col.add(k));saveCol();renderList()});
+b.addEventListener('click',()=>{st.col.clear();saveCol();renderList()});bar.append(a,b);box.append(bar)}
+[...g.entries()].sort((a,b)=>{
+const ra=REGIONS.indexOf(a[1][0].region||'Outros'),rb=REGIONS.indexOf(b[1][0].region||'Outros');
+return when(a[1][0])-when(b[1][0])||ra-rb||a[0].localeCompare(b[0],'pt-BR')}).forEach(([name,list])=>{
+const open=searching||!st.col.has(name);
+const h=el('button','gh'),f=flag(list[0].flag);h.type='button';h.setAttribute('aria-expanded',open);h.title=open?'Recolher':'Expandir';if(f)h.append(f);
+const rt=roundsText(list);roundInHeader=rt.single;
+h.append(el('span',null,name));if(rt.text)h.append(el('span','hr','· '+rt.text));h.append(el('small',null,list.length+(list.length===1?' jogo':' jogos')));
+h.insertAdjacentHTML('beforeend','<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>');
+h.addEventListener('click',()=>{if(st.col.has(name))st.col.delete(name);else st.col.add(name);saveCol();renderList()});
+box.append(h);
+if(open)list.forEach(v=>box.append(row(v,false)))})}
+
+function render(){
+if(!D)return;
+const all=visible();
+$('nLive').textContent=all.filter(isLive).length;$('nUp').textContent=all.filter(v=>!isLive(v)).length;
+renderDays();renderPanel();renderList()}
+
+async function load(){
+try{
+const r=await fetch('data/lives.json?t='+Date.now(),{cache:'no-store'});
+if(!r.ok)throw new Error(r.status);
+D=await r.json();
+let G=[];try{const gr=await fetch('data/grade.json?t='+Date.now(),{cache:'no-store'});if(gr.ok)G=(await gr.json()).items||[]}catch(e){}
+PAID=new Set(((D.paidStreaming&&D.paidStreaming.length)?D.paidStreaming:PAID_DEFAULT).map(pk));
+D.items=mergeGrade(mergeLives(D.items),G);
+try{const er=await fetch('data/escudos.json?t='+Date.now(),{cache:'no-store'});if(er.ok)E=(await er.json()).escudos||{}}catch(e){}
+}catch(e){
+if(!D)$('meta').textContent='Aguardando a primeira atualização dos dados. Volte em alguns minutos.';
+return}
+const gen=new Date(D.generatedAt),w=gen.toLocaleString('pt-BR',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+$('meta').textContent='Atualizado em '+w+'.';
+const wn=$('warn');
+if(Date.now()-gen>108e5){wn.hidden=false;wn.textContent='As atualizações automáticas podem ter parado: os dados são de '+w+'.'}else wn.hidden=true;
+render()}
+
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{st.status=b.dataset.v;if(st.status==='live')st.day=todayKey();document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
+$('q').addEventListener('input',e=>{st.q=e.target.value;render();suggest()});
+$('q').addEventListener('blur',()=>setTimeout(()=>{$('sug').hidden=true},150));
+$('q').addEventListener('focus',suggest);
+document.querySelectorAll('input[name=sort]').forEach(r=>{r.checked=r.value===st.sort;r.addEventListener('change',()=>{st.sort=r.value;try{localStorage.setItem('sort',r.value)}catch(e){}renderList()})});
+$('dPrev').addEventListener('click',()=>$('strip').scrollBy({left:-260,behavior:'smooth'}));
+$('dNext').addEventListener('click',()=>$('strip').scrollBy({left:260,behavior:'smooth'}));
+$('toggleF').addEventListener('click',()=>{const o=$('panel').classList.toggle('open');$('toggleF').setAttribute('aria-expanded',o)});
+const root=document.documentElement;
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const effTheme=()=>root.getAttribute('data-theme')||(window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+function paintTheme(){const dark=effTheme()==='dark';$('theme').innerHTML=dark?SUN:MOON;$('theme').title=dark?'Mudar para o modo claro':'Mudar para o modo escuro'}
+$('theme').addEventListener('click',()=>{const t=effTheme()==='dark'?'light':'dark';root.setAttribute('data-theme',t);try{localStorage.setItem('theme',t)}catch(e){}paintTheme()});
+load();setInterval(load,3e5);
+paintTheme();
+</script>
+</body>
+</html>
