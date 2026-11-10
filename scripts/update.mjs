@@ -312,6 +312,7 @@ try {
   grade.items.forEach((g) => { add(g.home, g.region); add(g.away, g.region); });
   let manual = {};
   try { manual = JSON.parse(await readFile(new URL("../escudos-manual.json", import.meta.url), "utf8")); delete manual._exemplo; } catch {}
+  Object.keys(manual).forEach((n) => add(n, "")); // escudos manuais ficam sempre disponíveis (busca e cartões)
   const prevEsc = (await readPrev("escudos.json"))?.escudos || {};
   escData = await buildEscudos([...nm].map(([name, region]) => ({ name, region })), prevEsc, manual, { max: cfg.escudosPorExecucao ?? 20 });
 } catch (e) { escData.erros.push(String(e.message || e)); }

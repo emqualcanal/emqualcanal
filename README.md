@@ -123,5 +123,3 @@ Depois de achar o escudo, o workflow baixa a imagem uma vez, converte para webp 
 - Exige que o workflow tenha `contents: write` (já está no `update.yml`). Se o repositório tiver proteção de branch que bloqueie o commit do bot, o passo falha sem derrubar o site; os escudos continuam funcionando pelo endereço original.
 - Para trocar um escudo, apague o arquivo em `docs/escudos/` (ele será baixado de novo) ou use `escudos-manual.json`.
 
-## Escudos manuais (recortados da arte do EQC)
-Os escudos em `docs/escudos/` e o mapa de nomes em `escudos-manual.json` vieram da arte com os clubes das principais ligas. Eles têm prioridade sobre a busca automática. Para acrescentar um escudo: coloque a imagem (webp/png, ~64 px) em `docs/escudos/` e inclua a linha `"Nome do time": "escudos/arquivo.webp"` no `escudos-manual.json` (pode repetir o mesmo arquivo com outros nomes do mesmo time).
