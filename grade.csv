@@ -2,13 +2,6 @@
 # data (dd/mm/aaaa);hora (Brasília);campeonato;mandante;visitante;TV aberta;TV fechada;streaming;rodada (opcional)
 # Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
 # As lives do YouTube entram sozinhas no site (link "Assistir"). Na grade, coloque só o canal de TV/streaming; se o canal também passa no YouTube, o link aparece junto no mesmo cartão.
-# Exemplo (apague o # para usar):
-# 15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV/Premiere;Globoplay;36ª rodada
-data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
-# Grade de TV. Uma linha por jogo. Separe por ponto e vírgula. Linhas com # no começo são ignoradas.
-# data (dd/mm/aaaa);hora (Brasília);campeonato;mandante;visitante;TV aberta;TV fechada;streaming;rodada (opcional)
-# Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
-# As lives do YouTube entram sozinhas no site (link "Assistir"). Na grade, coloque só o canal de TV/streaming; se o canal também passa no YouTube, o link aparece junto no mesmo cartão.
 data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 # Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
 10/11/2026;14:45;Champions League Feminina;Real Madrid;Paris FC;ESPN 4/Disney+
@@ -76,11 +69,11 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 12/11/2026;14:00;Amistosos Internacionais;Lituânia;Suriname;;;Disney+;
 12/11/2026;14:45;UEFA Champions League Feminina;Barcelona;Arsenal;;ESPN 4;Disney+;
 12/11/2026;15:00;Paulistão Sub-20;RB Bragantino;Corinthians;;;X Sports/Ulisses TV;Semifinal (volta)
-12/11/2026;16:00;Concacaf Nations League;Barbados;Guadalupe;;;Concacaf;
-12/11/2026;16:00;Concacaf Nations League;Ilhas Cayman;Guiana;;;Concacaf;
-12/11/2026;17:00;Concacaf Nations League;Bonaire;Cuba;;;Concacaf;
-12/11/2026;19:00;Concacaf Nations League;Aruba;Martinica;;;Concacaf;
-12/11/2026;20:00;Concacaf Nations League;Antígua e Barbuda;Trinidad e Tobago;;;Concacaf;
+12/11/2026;16:00;Concacaf Nations League;Barbados;Guadalupe;;;CONCACAF (YouTube);
+12/11/2026;16:00;Concacaf Nations League;Ilhas Cayman;Guiana;;;CONCACAF (YouTube);
+12/11/2026;17:00;Concacaf Nations League;Bonaire;Cuba;;;CONCACAF (YouTube);
+12/11/2026;19:00;Concacaf Nations League;Aruba;Martinica;;;CONCACAF (YouTube);
+12/11/2026;20:00;Concacaf Nations League;Antígua e Barbuda;Trinidad e Tobago;;;CONCACAF (YouTube);
 12/11/2026;21:00;Concacaf Nations League;Curaçao;Panamá;;;Canal GOAT;
 12/11/2026;19:00;Taça Fares Lopes;Ceará B;Atlético Cearense;;;Metrópoles Esportes;
 12/11/2026;19:00;Brasileirão Série B;Ponte Preta;Operário;;;Disney+;38ª rodada

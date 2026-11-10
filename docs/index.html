@@ -297,9 +297,9 @@ if(v.thumbnail){const i=el('img','th');i.src=v.thumbnail;i.alt='';i.loading='laz
 r.append(t);
 const names=[];
 const kk=x=>pk(x).replace(/brasil$/,'');
-const add=raw=>{let n=String(raw||'').trim();if(!n)return;
-const m=n.match(/^(.*?)\s*\(\s*youtube\s*\)\s*$/i);if(m)n=m[1].trim();
-if(!n||names.some(x=>kk(x)===kk(n)))return;names.push(n)};
+const base=s=>{const m=String(s).match(/^(.*?)\s*\(\s*youtube\s*\)\s*$/i);return m?m[1].trim():String(s).trim()};
+const add=raw=>{const n=String(raw||'').trim();if(!n)return;
+const k=kk(base(n));if(!k||names.some(x=>kk(base(x))===k))return;names.push(n)};
 if(v.tv)[...v.tv.open,...v.tv.cable,...v.tv.stream].forEach(add);
 if(!v.tvOnly)(v.links&&v.links.length?v.links.map(l=>l.channel):[v.channel]).forEach(add);
 const side=el('div','right');
