@@ -1,7 +1,10 @@
 # Grade de TV. Uma linha por jogo. Separe por ponto e vírgula. Linhas com # no começo são ignoradas.
 # data (dd/mm/aaaa);hora (Brasília);campeonato;mandante;visitante;TV aberta;TV fechada;streaming;rodada (opcional)
 # Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
-# Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
+# As lives do YouTube entram sozinhas no site (link "Assistir"). Na grade, coloque só o canal de TV/streaming; se o canal também passa no YouTube, o link aparece junto no mesmo cartão.
+# Exemplo (apague o # para usar):
+# 15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV/Premiere;Globoplay;36ª rodada
+data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada# Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
 data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 10/11/2026;14:45;Champions League Feminina;Real Madrid;Paris FC;ESPN 4/Disney+
 10/11/2026;14:45;Champions League Feminina;Hacken;Chelsea;Disney+
