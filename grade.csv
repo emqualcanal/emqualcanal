@@ -5,3 +5,71 @@
 # Exemplo (apague o # para usar):
 # 15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV/Premiere;Globoplay;36ª rodada
 data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
+# Grade de TV. Uma linha por jogo. Separe por ponto e vírgula. Linhas com # no começo são ignoradas.
+# data (dd/mm/aaaa);hora (Brasília);campeonato;mandante;visitante;TV aberta;TV fechada;streaming;rodada (opcional)
+# Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
+# As lives do YouTube entram sozinhas no site (link "Assistir"). Na grade, coloque só o canal de TV/streaming; se o canal também passa no YouTube, o link aparece junto no mesmo cartão.
+# Exemplo (apague o # para usar):
+# 15/11/2026;16:00;Brasileirão Série A;Flamengo;Palmeiras;Globo;SporTV/Premiere;Globoplay;36ª rodada
+data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada# Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
+data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
+10/11/2026;14:45;Champions League Feminina;Real Madrid;Paris FC;ESPN 4/Disney+
+10/11/2026;14:45;Champions League Feminina;Hacken;Chelsea;Disney+
+10/11/2026;17:00;Champions League Feminina;PSG;Bayern de Munique;ESPN/Disney+
+10/11/2026;17:00;Champions League Feminina;Inter de Milão;Manchester City;ESPN 4/Disney+
+10/11/2026;17:00;Champions League Feminina;Roma;Servette FC;Disney+
+10/11/2026;15:00;Copa do Rei;Anaitasuna;Deportivo Alavés;Disney+
+10/11/2026;17:00;Copa do Rei;Tavernes;Valencia;ESPN 2/Disney+
+11/11/2026;14:45;Champions League Feminina;OH Leuven;Koge;ESPN 4/Disney+
+11/11/2026;17:00;Champions League Feminina;Benfica;Austria Vienna;Disney+
+11/11/2026;17:00;Champions League Feminina;Juventus;Lyon;ESPN/Disney+
+11/11/2026;19:00;Brasileirão Série B;Londrina;Náutico;Disney+
+# Grade de TV. Uma linha por jogo. Separe por ponto e vírgula. Linhas com # no começo são ignoradas.
+# data (dd/mm/aaaa);hora (Brasília);campeonato;mandante;visitante;TV aberta;TV fechada;streaming;rodada (opcional)
+# Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
+# Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
+data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
+14/11/2026;18:30;Brasileirão Série A;Mirassol;Atlético-MG;;;Prime Video;35ª rodada
+18/11/2026;19:30;Brasileirão Série A;Coritiba;Santos;Record;Premiere;CazéTV;35ª rodada
+18/11/2026;20:00;Brasileirão Série A;Remo;Chapecoense;;Premiere;;35ª rodada
+18/11/2026;20:30;Brasileirão Série A;Flamengo;Athletico-PR;;SporTV/Premiere;;35ª rodada
+18/11/2026;20:30;Brasileirão Série A;Cruzeiro;Palmeiras;;Premiere;;35ª rodada
+18/11/2026;21:30;Brasileirão Série A;Corinthians;Botafogo;;Premiere;;35ª rodada
+18/11/2026;21:30;Brasileirão Série A;Grêmio;Bahia;;Premiere;;35ª rodada
+19/11/2026;19:30;Brasileirão Série A;Vasco da Gama;Internacional;;SporTV/Premiere;;35ª rodada
+19/11/2026;19:30;Brasileirão Série A;Vitória;Red Bull Bragantino;;Premiere;;35ª rodada
+19/11/2026;21:30;Brasileirão Série A;São Paulo;Fluminense;Globo;Premiere;GE TV;35ª rodada
+21/11/2026;16:30;Brasileirão Série A;Palmeiras;Flamengo;Globo;Premiere;GE TV;36ª rodada
+21/11/2026;17:30;Brasileirão Série A;Bahia;Coritiba;;Premiere;;36ª rodada
+21/11/2026;21:00;Brasileirão Série A;Chapecoense;Cruzeiro;;Premiere;;36ª rodada
+22/11/2026;16:00;Brasileirão Série A;Athletico-PR;Remo;;Premiere;;36ª rodada
+22/11/2026;18:30;Brasileirão Série A;Fluminense;Mirassol;Record;Premiere;CazéTV;36ª rodada
+22/11/2026;19:30;Brasileirão Série A;Red Bull Bragantino;Vasco da Gama;;SporTV/Premiere;;36ª rodada
+23/11/2026;19:30;Brasileirão Série A;Internacional;Vitória;;Premiere;;36ª rodada
+23/11/2026;20:00;Brasileirão Série A;Botafogo;São Paulo;;Premiere;Prime Video;36ª rodada
+23/11/2026;21:00;Brasileirão Série A;Santos;Grêmio;;SporTV/Premiere;;36ª rodada
+25/11/2026;20:00;Brasileirão Série A;Atlético-MG;Corinthians;;Premiere;;36ª rodada
+# Copa do Rei (Disney+/ESPN): horário de Brasília
+convertido do horário oficial de início (CET menos 4 h).
+12/11/2026;15:00;Copa do Rei;Navalcarnero;Betis;;ESPN;Disney+;
+13/11/2026;17:00;Copa do Rei;Salamanca;Celta de Vigo;;ESPN;Disney+;
+# Liga das Nações da UEFA (Disney+/ESPN): horário de Brasília
+convertido do horário oficial de início (CET menos 4 h).
+12/11/2026;14:00;Liga das Nações da UEFA;Armênia;Chipre;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;San Marino;Bielorrússia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Montenegro;Letônia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Albânia;Finlândia;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Itália;França;;ESPN;Disney+;
+12/11/2026;16:45;Liga das Nações da UEFA;Inglaterra;Croácia;;ESPN 4;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;ESPN;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;ESPN;Disney+;
+14/11/2026;16:45;Liga das Nações da UEFA;Romênia;Polônia;;ESPN;Disney+;
+15/11/2026;14:00;Liga das Nações da UEFA;Bielorrússia;Albânia;;ESPN;Disney+;
+15/11/2026;16:45;Liga das Nações da UEFA;Bélgica;Itália;;ESPN;Disney+;
+15/11/2026;16:45;Liga das Nações da UEFA;Croácia;Tchéquia;;ESPN;Disney+;
+16/11/2026;12:00;Liga das Nações da UEFA;Cazaquistão;Eslováquia;;ESPN;Disney+;
+16/11/2026;16:45;Liga das Nações da UEFA;Macedônia do Norte;Eslovênia;;ESPN;Disney+;
+16/11/2026;16:45;Liga das Nações da UEFA;Gibraltar;Malta;;ESPN;Disney+;
+# Champions League Feminina: horários e canais conforme informado (17:00 do PSG x Bayern deduzido do texto "simultaneamente"/"enquanto").
+12/11/2026;14:50;Copa do Rei;Navalcarnero;Betis;;ESPN;Disney+;
+13/11/2026;16:55;Copa do Rei;Salamanca;Celta de Vigo;;ESPN;Disney+;
