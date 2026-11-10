@@ -28,8 +28,14 @@ const ALWAYS_EXCLUDE = [
   "cblol", "league of legends", "valorant", "free fire", "counter-strike", "cs2", "esports", "e-sports",
   // programas, bastidores e conteúdo que não é a partida
   "geral cazetv", "geral caze", "cazetv geral", "jogo aberto", "podcast", "programa", "linha de passe",
-  "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola"
+  "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola",
+  // talk shows, treinos e conversas (ex.: "SELEÇÃO TREINA... | Denilson Show")
+  "show", "treina", "treinam", "treinamento", "treino", "resenha", "debate", "mesa redonda", "bate papo", "bate-papo",
+  "react", "reacao", "pre jogo", "pre-jogo", "pos jogo", "pos-jogo", "denilson"
 ];
+
+// Palavras que só descartam se o título NÃO indicar que é um jogo de verdade (ex.: "Jogo-treino: A x B", amistoso).
+const GAME_TRAINING = /\b(jogo[ -]treino|amistoso)\b/;
 
 // Palavras que só descartam a live quando o título NÃO diz que ela é com imagens
 // (ex.: "AO VIVO COM IMAGENS: A x B E NARRAÇÃO EM PORTUGUÊS" é a transmissão oficial).
@@ -46,7 +52,8 @@ export function filterReason(title, cfg, description = "") {
   const t = norm(title);
   const withImages = /\bcom imagens?\b/.test(t) && !/\bsem imagens?\b/.test(t);
   const hits = findMatches(t, [...ALWAYS_EXCLUDE, ...(cfg.excludeKeywords || [])])
-    .filter((w) => !(withImages && SOFT.has(norm(w.trim()))));
+    .filter((w) => !(withImages && SOFT.has(norm(w.trim()))))
+    .filter((w) => !(/^treino$/.test(norm(w.trim())) && GAME_TRAINING.test(t)));
   if (hits.length) return `contém “${hits[0].trim()}”`;
   const matchup = MATCHUP.test(t);
   if (cfg.requireMatchup && !matchup) return "título sem “Time x Time”";
