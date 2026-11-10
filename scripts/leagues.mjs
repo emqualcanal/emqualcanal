@@ -299,7 +299,7 @@ function pretty(s) {
 // Extrai "Time A x Time B". Se o título tiver mais de um confronto, ou nomes longos demais, devolve null.
 export function teamsOf(title) {
   const clean = title.replace(/\([^)]*\)/g, " ").replace(/\[[^\]]*\]/g, " ");
-  const parts = clean.split(/\s*\|\s*|\s+[-–—]\s+|:\s+|\s+I\s+/);
+  const parts = clean.split(/\s*\|\s*|\s*[-–—]\s+|:\s+|\s+I\s+/);
   const found = [];
   for (const p of parts) {
     const m = p.match(/^\s*(.+?)\s+(?:x|×|vs\.?)\s+(.+?)\s*$/i) || p.match(/^\s*(.+?)\s+\d+\s*[x×]\s*\d+\s+(.+?)\s*$/i);
@@ -322,6 +322,13 @@ export function teamsOf(title) {
   return res;
 }
 
+// Nomes que os canais abreviam e que só fazem sentido dentro de um campeonato (evita escudo de outro time).
+const TEAM_BY_LEAGUE = [
+  [/para[ií]ba|paraibano/i, { esporte: "Esporte de Patos", nacional: "Nacional de Patos" }],
+];
 export function classify(title) {
-  return { ...leagueOf(title), round: roundOf(title), ...teamsOf(title) };
+  const r = { ...leagueOf(title), round: roundOf(title), ...teamsOf(title) };
+  const map = TEAM_BY_LEAGUE.find(([re]) => re.test(r.league || ""))?.[1];
+  if (map) for (const f of ["home", "away", "home2", "away2"]) if (r[f]) { const k = r[f].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); if (map[k]) r[f] = map[k]; }
+  return r;
 }

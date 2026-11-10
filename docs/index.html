@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Em Qual Canal?</title>
-<meta name="description" content="Transmissões de partidas de futebol ao vivo e agendadas no YouTube, atualizadas automaticamente.">
+<meta name="description" content="Em Qual Canal? O jogo vai passar em qual canal? Transmissões de futebol na TV aberta, na TV fechada, no streaming e no YouTube, atualizadas automaticamente.">
+<meta property="og:title" content="Em Qual Canal?">
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='50 5 340 400'%3E%3Crect x='50' y='5' width='340' height='400' rx='60' fill='%230E1A14'/%3E%3Cg fill='none' stroke='%23F2BE2D' stroke-width='19' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M186 52 L240 108 L296 52'/%3E%3Crect x='96' y='112' width='288' height='224' rx='72'/%3E%3Cpath d='M180 330 L174 382 L236 336'/%3E%3C/g%3E%3Cpath d='M203 190 C203 150 288 150 288 192 C288 228 244 228 244 262' fill='none' stroke='%23fff' stroke-width='28' stroke-linecap='round'/%3E%3Ccircle cx='243' cy='290' r='17' fill='%23fff'/%3E%3C/svg%3E">
 <style>
@@ -75,10 +76,10 @@ h2:first-child{margin-top:0}
 .days{display:flex;align-items:center;gap:8px;margin-bottom:16px}
 .strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;flex:1;padding:4px 2px}
 .strip::-webkit-scrollbar{display:none}
-.day{flex:none;scroll-snap-align:start;width:68px;min-height:76px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px;line-height:1.25}
+.day{flex:none;scroll-snap-align:start;width:76px;min-height:76px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 2px;line-height:1.25}
 .day b{font-size:22px;line-height:1.1}
-.day small{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
-.day .c{font-size:11px;font-weight:700;color:var(--accent)}
+.day small{font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.day .c{font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap}
 .day.today{border-color:var(--today);box-shadow:0 0 0 1px var(--today)}
 .day.empty{opacity:.6}
 .day[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on)}
@@ -96,7 +97,8 @@ h2:first-child{margin-top:0}
 .tm{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}
 .dd{font-size:12px;color:var(--muted)}
 .teams{grid-area:teams;display:flex;flex-direction:column;gap:6px;min-width:0}
-.team{display:flex;align-items:center;gap:10px;font-weight:600;overflow-wrap:break-word;min-width:0}
+.team{display:flex;align-items:center;gap:10px;font-weight:600;line-height:1.25;min-height:24px;overflow-wrap:break-word;min-width:0}
+.team>span{display:block;min-width:0}
 .team img{width:24px;height:24px;object-fit:contain;flex:none}
 .team .ph{width:24px;height:24px;border-radius:50%;background:var(--chip);flex:none}
 .sub2{color:var(--muted);font-size:13px}
