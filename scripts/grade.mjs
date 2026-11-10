@@ -49,7 +49,26 @@ export function parseGrade(text) {
       home, away, round: rodada || null, open: split(aberta), cable: split(fechada), stream: split(stream),
     });
   });
-  return { items: items.sort((a, b) => a.start.localeCompare(b.start)), erros };
+  // Jogo repetido na grade: mesmos times, no mesmo dia e no mesmo campeonato/categoria (ordem dos times não importa).
+  // Campeonatos ou categorias diferentes (Sub-20, Feminino, outra copa) NÃO são unidos. Campeonato em branco não bloqueia a união.
+  const nk = (x) => String(x).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+  const uniq = (a, b) => { const out = [...a]; b.forEach((n) => { if (!out.some((o) => nk(o) === nk(n))) out.push(n); }); return out; };
+  const UNK = "Outros campeonatos";
+  const seen = new Map(), merged = [], avisos = [];
+  for (const it of items) {
+    const day = new Date(new Date(it.start).getTime() - 3 * 3600e3).toISOString().slice(0, 10);
+    const k = day + "|" + [nk(it.home), nk(it.away)].sort().join("|");
+    const list = seen.get(k) || [];
+    const cand = list.filter((p) => p.league === it.league || p.league === UNK || it.league === UNK);
+    const prev = it.league === UNK && cand.length > 1 ? null : cand[0]; // sem campeonato e mais de uma categoria possível: não adivinha
+    if (!prev) { list.push(it); seen.set(k, list); merged.push(it); continue; }
+    prev.open = uniq(prev.open, it.open); prev.cable = uniq(prev.cable, it.cable); prev.stream = uniq(prev.stream, it.stream);
+    if (!prev.round && it.round) prev.round = it.round;
+    if (prev.league === UNK && it.league !== UNK) { prev.league = it.league; prev.region = it.region; prev.flag = it.flag; }
+    if (it.start < prev.start) prev.start = it.start;
+    avisos.push(`jogo repetido unido: ${it.home} x ${it.away} (${day}, ${prev.league})`);
+  }
+  return { items: merged.sort((a, b) => a.start.localeCompare(b.start)), erros, avisos };
 }
 
 export async function loadGrade(url) {
@@ -61,5 +80,5 @@ export async function loadGrade(url) {
     catch (e) { erros.push(`gradeUrl: ${e.message}`); }
   }
   const all = parseGrade(parts.join("\n"));
-  return { items: all.items, erros: [...erros, ...all.erros] };
+  return { items: all.items, erros: [...erros, ...all.erros], avisos: all.avisos };
 }

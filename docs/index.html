@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Em Qual Canal?</title>
+<title>Lives de futebol no YouTube</title>
 <meta name="description" content="Transmissões de partidas de futebol ao vivo e agendadas no YouTube, atualizadas automaticamente.">
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='50 5 340 400'%3E%3Crect x='50' y='5' width='340' height='400' rx='60' fill='%230E1A14'/%3E%3Cg fill='none' stroke='%23F2BE2D' stroke-width='19' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M186 52 L240 108 L296 52'/%3E%3Crect x='96' y='112' width='288' height='224' rx='72'/%3E%3Cpath d='M180 330 L174 382 L236 336'/%3E%3C/g%3E%3Cpath d='M203 190 C203 150 288 150 288 192 C288 228 244 228 244 262' fill='none' stroke='%23fff' stroke-width='28' stroke-linecap='round'/%3E%3Ccircle cx='243' cy='290' r='17' fill='%23fff'/%3E%3C/svg%3E">
@@ -114,7 +114,7 @@ footer{color:var(--muted);font-size:14px;margin-top:40px}
 <header class="top">
 <div class="brand">
 <svg class="logo" viewBox="70 25 340 395" role="img" aria-label="Em Qual Canal?"><g fill="none" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" class="o"><path d="M186 42 L240 100 L296 42"/><rect x="96" y="106" width="288" height="238" rx="72"/><path d="M180 338 L174 392 L236 343"/></g><path class="q" d="M203 190 C203 148 288 148 288 194 C288 232 244 232 244 268" fill="none" stroke-width="28" stroke-linecap="round"/><circle class="d" cx="243" cy="298" r="17"/></svg>
-<div><h1>Em Qual Canal?</h1>
+<div><h1>Lives de futebol no YouTube</h1>
 <p class="sub" id="tag">Todos os jogos. Todas as transmissões. Todos os canais. Em um só lugar!</p></div>
 </div>
 <button type="button" class="theme" id="theme" aria-label="Alternar entre modo claro e escuro" title="Alternar entre modo claro e escuro"></button>
@@ -183,7 +183,7 @@ items.forEach(v=>{
 const ln={id:v.id,channel:v.channel,live:isLive(v)};
 if(v.tvOnly||!(v.home&&v.away)){v.links=[ln];out.push(v);return}
 const t=Date.parse(v.scheduled||v.started);
-const ex=out.find(o=>!o.tvOnly&&o.home&&o.away&&Math.abs(Date.parse(o.scheduled||o.started)-t)<=3*36e5&&sameTeam(o.home,v.home)&&sameTeam(o.away,v.away));
+const ex=out.find(o=>!o.tvOnly&&o.home&&o.away&&Math.abs(Date.parse(o.scheduled||o.started)-t)<=3*36e5&&sameTeam(o.home,v.home)&&sameTeam(o.away,v.away)&&catOk(o.league,v.league));
 if(ex){ex.links.push(ln);if(ln.live&&!isLive(ex)){ex.state='live';ex.started=v.started}}
 else{v.links=[ln];out.push(v)}});
 out.forEach(v=>v.links.sort((a,b)=>(b.live-a.live)));
@@ -191,6 +191,8 @@ return out}
 
 /* ---------- grade de TV ---------- */
 const tk=s=>norm(s).replace(/[^a-z0-9]/g,'');
+const catOf=l=>{l=norm(l||'');return (/femini/.test(l)?'F':'M')+((l.match(/sub[- ]?(\d+)/)||[])[1]||'')};
+const catOk=(a,b)=>catOf(a)===catOf(b);
 const sameTeam=(a,b)=>{a=tk(a);b=tk(b);return a.length>=3&&b.length>=3&&(a.includes(b)||b.includes(a))};
 function mergeGrade(items,G){
 const out=items.map(v=>({...v,tv:null})),used=new Set();
@@ -199,7 +201,7 @@ const t=Date.parse(g.start),tv={open:g.open||[],cable:g.cable||[],stream:g.strea
 let hit=false;
 out.forEach(v=>{if(hit||v.tvOnly)return;
 const vt=Date.parse(v.scheduled||v.started);if(!(Math.abs(vt-t)<=3*36e5))return;
-const ok=v.home&&v.away?(sameTeam(v.home,g.home)&&sameTeam(v.away,g.away)):(sameTeam(v.title,g.home)&&sameTeam(v.title,g.away));
+const ok=catOk(v.league,g.league)&&(v.home&&v.away?(sameTeam(v.home,g.home)&&sameTeam(v.away,g.away)):(sameTeam(v.title,g.home)&&sameTeam(v.title,g.away)));
 if(ok){if(!v.round&&g.round)v.round=g.round;v.tv=v.tv?{open:[...new Set([...v.tv.open,...tv.open])],cable:[...new Set([...v.tv.cable,...tv.cable])],stream:[...new Set([...v.tv.stream,...tv.stream])]}:tv;hit=true}});
 if(!hit)out.push({id:'tv-'+i,tvOnly:true,state:'scheduled',scheduled:g.start,home:g.home,away:g.away,round:g.round||null,title:g.home+' x '+g.away,league:g.league,region:g.region,flag:g.flag,channel:'Somente TV/streaming',tv})});
 return out}

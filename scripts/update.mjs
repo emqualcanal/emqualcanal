@@ -303,7 +303,7 @@ exclusivas.acompanhamento = items.filter((v) => core(v).length === 0).length;
 const titulosSo = (m) => soPor(m).map((v) => `${v.channel}: ${v.title}`);
 await mkdir(OUT, { recursive: true });
 const grade = await loadGrade(cfg.gradeUrl);
-await writeFile(`${OUT}/grade.json`, JSON.stringify({ generatedAt, items: grade.items, erros: grade.erros }));
+await writeFile(`${OUT}/grade.json`, JSON.stringify({ generatedAt, items: grade.items, erros: grade.erros, avisos: grade.avisos }));
 let escData = { escudos: {}, erros: [], consultas: 0 };
 try {
   const nm = new Map();

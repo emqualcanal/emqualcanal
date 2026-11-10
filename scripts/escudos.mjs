@@ -1,4 +1,4 @@
-// Busca automática de escudos: Wikidata (principal, sem chave) e TheSportsDB (reserva). Falhas nunca derrubam a atualização.
+// Busca automática de escudos: Wikidata (principal), pt.wikipedia (imagem do artigo do clube) e TheSportsDB (reserva). Falhas nunca derrubam a atualização.
 const BASE = process.env.SPORTSDB_BASE || "https://www.thesportsdb.com/api/v1/json/3";
 const RETRY_MS = 7 * 864e5;
 const norm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
@@ -30,6 +30,33 @@ async function wikidataBadge(name, region) {
     if (sc > bs) { bs = sc; best = logo; }
   }
   return best ? `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(best.replace(/ /g, "_"))}?width=80` : null;
+}
+
+// pt.wikipedia: o escudo costuma ser a imagem principal do artigo do clube (muitos escudos brasileiros só existem lá).
+const PW = process.env.PTWIKI_API || "https://pt.wikipedia.org/w/api.php";
+const BAD_FILE = /estadio|stadium|torcida|jogo|elenco|foto|photo|team[_ ]?(photo|pic)|equipa|uniforme|camisa|kit|mapa|map\b|bandeira|flag/i;
+async function ptwikiBadge(name, region) {
+  const n = norm(name);
+  const q = `${name} clube de futebol`;
+  const r = await fetch(`${PW}?action=query&format=json&generator=search&gsrsearch=${encodeURIComponent(q)}&gsrlimit=6&redirects=1&prop=pageimages&piprop=thumbnail|name&pithumbsize=96`, { headers: UA });
+  if (!r.ok) throw new Error(r.status);
+  const pages = Object.values((await r.json()).query?.pages || {});
+  let best = null, bs = 0;
+  for (const pg of pages) {
+    const file = pg.pageimage || "", src = pg.thumbnail?.source;
+    if (!src || !/\.(svg|png)$/i.test(file) || BAD_FILE.test(file)) continue;
+    const t = norm(pg.title);
+    if (/estadio|stadium|arena|ginasio|campeonato|copa |taca |torneio|temporada|elenco|categorias de base/.test(t)) continue;
+    let sc = 0;
+    if (t === n) sc = 12;
+    else if (t.startsWith(n + " ") || t.endsWith(" " + n) || t.includes(" " + n + " ")) sc = 8;
+    else continue;
+    if (/feminin|women/.test(t) && !/feminin|women/.test(n)) sc -= 6;
+    if (/\b(sub \d+|categorias? de base)\b/.test(t)) sc -= 6;
+    if (/clube|futebol|football|sport|esporte|associacao|sociedade|\bfc\b|\bsc\b|\bec\b/.test(t) || sc >= 12) sc += 2;
+    if (sc > bs) { bs = sc; best = src; }
+  }
+  return bs >= 8 ? best : null;
 }
 
 const COUNTRY = { Brasil: "brazil", Europa: null, "América do Sul": null };
@@ -68,6 +95,7 @@ export async function buildEscudos(names, prev = {}, manual = {}, { max = 20, no
     try {
       let url = null, src = null;
       try { url = await wikidataBadge(name, region); if (url) src = "wikidata"; } catch (e) { erros.push(`wikidata ${name}: ${e.message}`); }
+      if (!url) { try { url = await ptwikiBadge(name, region); if (url) src = "ptwiki"; } catch (e) { erros.push(`ptwiki ${name}: ${e.message}`); } }
       if (!url) {
         const r = await fetch(`${BASE}/searchteams.php?t=${encodeURIComponent(name)}`);
         if (!r.ok) throw new Error(r.status);
