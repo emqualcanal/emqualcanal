@@ -280,7 +280,7 @@ export function roundOf(title) {
 // Siglas que devem continuar em maiúsculas quando o título vem todo em caixa alta.
 const ACR = new Set(["PSV", "PSG", "AC", "FC", "SC", "RB", "JC", "CRB", "CSA", "ABC", "EC", "AS", "SS", "SSD",
   "FK", "SK", "BK", "IF", "FF", "VVV", "NEC", "AZ", "CD", "UD", "CF", "RCD", "RC", "SD", "SV", "TSG", "VFB",
-  "VFL", "FSV", "RSC", "KRC", "OGC", "LOSC", "LAFC", "NYCFC", "AEK", "PAOK", "KAA", "KV", "FCSB", "LASK", "USA", "UNAM", "MEX"]);
+  "VFL", "FSV", "RSC", "KRC", "OGC", "LOSC", "LAFC", "NYCFC", "AEK", "PAOK", "KAA", "KV", "IFK", "AIK", "HJK", "GIF", "IK", "BK", "FCSB", "LASK", "USA", "UNAM", "MEX"]);
 const LOWER = new Set(["de", "da", "do", "dos", "das", "di", "del", "la", "le", "el", "y", "e", "du", "van", "von", "der", "den"]);
 
 function pretty(s) {
@@ -305,12 +305,21 @@ export function teamsOf(title) {
     const m = p.match(/^\s*(.+?)\s+(?:x|×|vs\.?)\s+(.+?)\s*$/i) || p.match(/^\s*(.+?)\s+\d+\s*[x×]\s*\d+\s+(.+?)\s*$/i);
     if (m) found.push([m[1], m[2]]);
   }
-  if (found.length !== 1) return { home: null, away: null };
-  const [a, b] = found[0]
-    .map((t) => t.replace(/\s+(?:e|com)\s+narra[çc][ãa]o.*$/iu, ""))
-    .map((t) => t.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, ""));
+  if (found.length < 1 || found.length > 2) return { home: null, away: null };
+  const NOISE = /\s+(?:ao vivo|com imagens|e com imagens|(?:e )?com narra[çc][ãa]o|transmiss[ãa]o)\b.*$/iu;
   const ok = (t) => t && t.split(/\s+/).length <= 4 && t.length <= 36;
-  return ok(a) && ok(b) ? { home: pretty(a), away: pretty(b) } : { home: null, away: null };
+  const fix = (pair) => pair
+    .map((t) => t.replace(NOISE, "").replace(/^\s*ao vivo\s*[:\-–]?\s*/iu, ""))
+    .map((t) => t.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, ""));
+  const [a, b] = fix(found[0]);
+  if (!(ok(a) && ok(b))) return { home: null, away: null };
+  const TYPO = (t) => t.replace(/monchenglabach/i, "Mönchengladbach"); // grafia errada comum nos títulos
+  const res = { home: TYPO(pretty(a)), away: TYPO(pretty(b)) };
+  if (found.length === 2) { // transmissão de dois jogos no mesmo título (ex.: "A x B I C x D")
+    const [c, d] = fix(found[1]);
+    if (ok(c) && ok(d)) { res.home2 = TYPO(pretty(c)); res.away2 = TYPO(pretty(d)); }
+  }
+  return res;
 }
 
 export function classify(title) {

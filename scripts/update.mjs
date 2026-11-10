@@ -308,7 +308,7 @@ let escData = { escudos: {}, erros: [], consultas: 0 };
 try {
   const nm = new Map();
   const add = (n, r) => { if (n && !nm.has(n)) nm.set(n, r); };
-  items.forEach((v) => { add(v.home, v.region); add(v.away, v.region); });
+  items.forEach((v) => { add(v.home, v.region); add(v.away, v.region); add(v.home2, v.region); add(v.away2, v.region); });
   grade.items.forEach((g) => { add(g.home, g.region); add(g.away, g.region); });
   let manual = {};
   try { manual = JSON.parse(await readFile(new URL("../escudos-manual.json", import.meta.url), "utf8")); delete manual._exemplo; } catch {}
