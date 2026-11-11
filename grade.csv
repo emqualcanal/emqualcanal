@@ -3,18 +3,10 @@
 # Vários canais na mesma coluna: separe com / . Exemplo: SporTV/Premiere
 # As lives do YouTube entram sozinhas no site (link "Assistir"). Na grade, coloque só o canal de TV/streaming; se o canal também passa no YouTube, o link aparece junto no mesmo cartão.
 data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
-# Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
-10/11/2026;14:45;Champions League Feminina;Real Madrid;Paris FC;ESPN 4/Disney+
-10/11/2026;14:45;Champions League Feminina;Hacken;Chelsea;Disney+
-10/11/2026;17:00;Champions League Feminina;PSG;Bayern de Munique;ESPN/Disney+
-10/11/2026;17:00;Champions League Feminina;Inter de Milão;Manchester City;ESPN 4/Disney+
-10/11/2026;17:00;Champions League Feminina;Roma;Servette FC;Disney+
-10/11/2026;15:00;Copa do Rei;Anaitasuna;Deportivo Alavés;Disney+
-10/11/2026;17:00;Copa do Rei;Tavernes;Valencia;ESPN 2/Disney+
-11/11/2026;14:45;Champions League Feminina;OH Leuven;Koge;ESPN 4/Disney+
-11/11/2026;17:00;Champions League Feminina;Benfica;Austria Vienna;Disney+
-11/11/2026;17:00;Champions League Feminina;Juventus;Lyon;ESPN/Disney+
-11/11/2026;19:00;Brasileirão Série B;Londrina;Náutico;Disney+
+11/11/2026;14:45;Champions League Feminina;OH Leuven;Koge;;ESPN 4;Disney+;
+11/11/2026;17:00;Champions League Feminina;Benfica;Austria Vienna;;;Disney+;
+11/11/2026;17:00;Champions League Feminina;Juventus;Lyon;;ESPN;Disney+;
+11/11/2026;19:00;Brasileirão Série B;Londrina;Náutico;;;Disney+;
 # Brasileirão Série A 2026: transmissões conforme a tabela detalhada da CBF (atualização de 29/10/2026). Confira se houve mudança.
 14/11/2026;18:30;Brasileirão Série A;Mirassol;Atlético-MG;;;Prime Video;35ª rodada
 18/11/2026;19:30;Brasileirão Série A;Coritiba;Santos;Record;Premiere;CazéTV;35ª rodada
@@ -49,7 +41,7 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 12/11/2026;16:45;UEFA Nations League;Itália;França;;ESPN;Disney+;
 12/11/2026;16:45;UEFA Nations League;Inglaterra;Croácia;;ESPN 4;Disney+;
 13/11/2026;14:00;Liga das Nações da UEFA;Moldávia;Cazaquistão;;ESPN 4;Disney+;
-13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;ESPN;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Eslovênia;Suíça;;ESPN 4;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Holanda;Grécia;;ESPN;Disney+;
@@ -66,8 +58,8 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 12/11/2026;14:30;Amistosos Internacionais;Malta;Essuatíni;;SporTV 3;;
 12/11/2026;16:45;UEFA Nations League;República Tcheca;Espanha;;SporTV;;
 12/11/2026;20:00;Brasileirão Série B;São Bernardo;Athletic;;Premiere;GE TV;38ª rodada
-13/11/2026;16:45;Liga das Nações da UEFA;Sérvia;Alemanha;;SporTV;;
-13/11/2026;21:00;Amistoso Internacional;Argentina;Uruguai;;SporTV;;
+13/11/2026;16:45;Liga das Nações da UEFA;Sérvia;Alemanha;;SporTV;GE TV;
+13/11/2026;21:00;Amistosos Internacionais;Argentina;Uruguai;;SporTV;;
 # Quinta-feira, 12/11 (artes EQC)
 12/11/2026;14:00;Amistosos Internacionais;Lituânia;Suriname;;;Disney+;
 12/11/2026;14:45;UEFA Champions League Feminina;Barcelona;Arsenal;;ESPN 4;Disney+;
@@ -81,3 +73,18 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 12/11/2026;19:00;Taça Fares Lopes;Ceará B;Atlético Cearense;;;Metrópoles Esportes;
 12/11/2026;19:00;Brasileirão Série B;Ponte Preta;Operário;;;Disney+;38ª rodada
 12/11/2026;20:00;Supercopa da Argentina;Estudiantes;Independiente Rivadavia;;ESPN;Disney+;
+# Sexta-feira, 13/11 (artes EQC)
+13/11/2026;16:00;Concacaf Nations League;Porto Rico;Dominica;;;CONCACAF (YouTube);
+13/11/2026;16:00;Concacaf Nations League;Bermuda;Santa Lúcia;;;CONCACAF (YouTube);
+13/11/2026;17:00;Concacaf Nations League;Granada;São Cristóvão e Neves;;;CONCACAF (YouTube);
+13/11/2026;20:00;Concacaf Nations League;Saint Martin;El Salvador;;;CONCACAF (YouTube);
+13/11/2026;21:00;Concacaf Nations League;Montserrat;Nicarágua;;;CONCACAF (YouTube);
+13/11/2026;23:00;Concacaf Nations League;Guatemala;Canadá;;;Canal GOAT;
+13/11/2026;19:00;Amistoso Internacional de Clubes;Colo-Colo;Racing;;;Disney+;
+13/11/2026;20:00;Amistoso Seleção Sub-20;Brasil;Peru;;;TNT Sports;
+13/11/2026;14:00;Amistoso Seleção Sub-21;Alemanha;Bélgica;;;DAZN;
+13/11/2026;16:45;Liga das Nações da UEFA;Bulgária;Islândia;;;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Eslováquia;Ilhas Faroé;;;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Luxemburgo;Estônia;;;Disney+;
+13/11/2026;16:45;Liga das Nações da UEFA;Andorra;Gibraltar;;;Disney+;
+13/11/2026;15:00;Paulistão Sub-20;Santos;Palmeiras;;;TNT Sports;Semifinal (volta)
