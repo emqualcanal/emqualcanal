@@ -32,6 +32,8 @@ const ALWAYS_EXCLUDE = [
   // talk shows, treinos e conversas (ex.: "SELEÇÃO TREINA... | Denilson Show")
   "show", "treina", "treinam", "treinamento", "treino", "resenha", "debate", "mesa redonda", "bate papo", "bate-papo",
   "react", "reacao", "pre jogo", "pre-jogo", "pos jogo", "pos-jogo", "denilson", "debatem", "discutem", "opinam",
+  // torneios de fut7/society e de criadores de conteúdo
+  "cazetv fc", "caze tv fc", "fut7", "fut 7", "futebol 7", "futebol society", "society",
   // programas de canais de esporte (ESPN Brasil etc.)
   "futebol no mundo", "f show", "fshow", "sportscenter", "espn fc", "bola da vez", "fim de papo", "resenha espn"
 ];
