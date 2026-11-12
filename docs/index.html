@@ -94,6 +94,8 @@ h2:first-child{margin-top:0}
 .rp{font-weight:600;font-size:12px;padding:2px 10px;border-radius:999px;background:var(--chip);color:var(--muted)}
 .th{grid-area:thumb;width:112px;height:63px;object-fit:cover;border-radius:8px;background:var(--chip)}
 .when{grid-area:when;display:flex;flex-direction:column;gap:2px;line-height:1.2}
+.when.ctr{align-items:center;text-align:center}
+.when.ctr .pill{text-align:center;display:inline-block}
 .tm{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}
 .dd{font-size:12px;color:var(--muted)}
 .teams{grid-area:teams;display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -153,7 +155,10 @@ let D=null;
 const dk=t=>new Date(t).toLocaleDateString('en-CA',{timeZone:TZ});
 const tm=t=>new Date(t).toLocaleTimeString('pt-BR',{timeZone:TZ,hour:'2-digit',minute:'2-digit'});
 const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-const isLive=v=>v.state==='live';
+const GDUR=150*6e4;
+const gstart=v=>v.tv?Date.parse(v.tvOnly?v.scheduled:(v.kick||v.scheduled)):NaN;
+const prog=v=>{if(v.state==='live')return false;const s=gstart(v),n=Date.now();return s<=n&&n<s+GDUR};
+const isLive=v=>v.state==='live'||prog(v);
 const key=v=>v.league||'Outros campeonatos';
 const when=v=>isLive(v)?-1:Date.parse(v.scheduled);
 function dl(t){const s=new Date(t).toLocaleDateString('pt-BR',{timeZone:TZ,weekday:'long',day:'2-digit',month:'2-digit'}),d=dk(t),n=Date.now();return d===dk(n)?'Hoje · '+s:d===dk(n+864e5)?'Amanhã · '+s:s}
@@ -285,7 +290,7 @@ function teamLine(name,bold){const d=el('div','team');const i=bimg(name);if(i){i
 function row(v,showLeague){
 const r=el('div','it'+(v.thumbnail?'':' nt')+(showLeague?' hd':'')),w=el('div','when');
 if(showLeague){const lh=el('div','lgh'),fl=flag(v.flag);if(fl)lh.append(fl);lh.append(el('span',null,key(v)));if(v.round)lh.append(el('span','rp',v.round));r.append(lh)}
-if(isLive(v)){w.append(el('span','pill','AO VIVO'));if(v.kick)w.append(el('span','dd','jogo às '+tm(v.kick)))}
+if(isLive(v)){w.classList.add('ctr');w.append(el('span','pill','AO VIVO'));if(v.kick&&v.state==='live')w.append(el('span','dd','jogo às '+tm(v.kick)));else if(v.state!=='live')w.append(el('span','dd','partida iniciada às '+tm(gstart(v))))}
 else{w.append(el('span','tm',tm(v.scheduled)));if(v.opens)w.append(el('span','dd','transmissão abre '+tm(v.opens)));if(st.sort==='camp')w.append(el('span','dd',ds(v.scheduled)))}
 const t=el('div','teams');t.title=v.title;
 if(v.home&&v.away){t.append(teamLine(v.home),teamLine(v.away));if(v.home2&&v.away2)t.append(el('div','sep2'),teamLine(v.home2),teamLine(v.away2))}
