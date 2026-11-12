@@ -31,7 +31,9 @@ const ALWAYS_EXCLUDE = [
   "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola",
   // talk shows, treinos e conversas (ex.: "SELEÇÃO TREINA... | Denilson Show")
   "show", "treina", "treinam", "treinamento", "treino", "resenha", "debate", "mesa redonda", "bate papo", "bate-papo",
-  "react", "reacao", "pre jogo", "pre-jogo", "pos jogo", "pos-jogo", "denilson"
+  "react", "reacao", "pre jogo", "pre-jogo", "pos jogo", "pos-jogo", "denilson",
+  // programas de canais de esporte (ESPN Brasil etc.)
+  "futebol no mundo", "f show", "fshow", "sportscenter", "espn fc", "bola da vez", "fim de papo", "resenha espn"
 ];
 
 // Palavras que só descartam se o título NÃO indicar que é um jogo de verdade (ex.: "Jogo-treino: A x B", amistoso).
