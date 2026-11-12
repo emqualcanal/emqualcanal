@@ -193,7 +193,7 @@ out.forEach(v=>v.links.sort((a,b)=>(b.live-a.live)));
 return out}
 
 /* ---------- grade de TV ---------- */
-const tk=s=>norm(s).replace(/[^a-z0-9]/g,'');
+const tk=s=>norm(s).replace(/[^a-z0-9]/g,'').replace(/redbull/g,'rb').replace(/mineiro/g,'mg').replace(/paranaense/g,'pr').replace(/goianiense/g,'go');
 const catOf=l=>{l=norm(l||'');return (/femini/.test(l)?'F':'M')+((l.match(/sub[- ]?(\d+)/)||[])[1]||'')};
 const catOk=(a,b)=>catOf(a)===catOf(b);
 const sameTeam=(a,b)=>{a=tk(a);b=tk(b);return a.length>=3&&b.length>=3&&(a.includes(b)||b.includes(a))};
