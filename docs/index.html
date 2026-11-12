@@ -191,7 +191,7 @@ items.forEach(v=>{
 const ln={id:v.id,channel:v.channel,live:isLive(v)};
 if(v.tvOnly||!(v.home&&v.away)){v.links=[ln];out.push(v);return}
 const t=Date.parse(v.scheduled||v.started);
-const ex=out.find(o=>!o.tvOnly&&o.home&&o.away&&Math.abs(Date.parse(o.scheduled||o.started)-t)<=3*36e5&&sameTeam(o.home,v.home)&&sameTeam(o.away,v.away)&&catOk(o.league,v.league));
+const ex=out.find(o=>!o.tvOnly&&o.home&&o.away&&Math.abs(Date.parse(o.scheduled||o.started)-t)<=3*36e5&&sameTeam(o.home,v.home)&&sameTeam(o.away,v.away)&&(catOk(o.league,v.league)||Math.abs(Date.parse(o.scheduled||o.started)-t)<=30*6e4));
 if(ex){ex.links.push(ln);if(ln.live&&!isLive(ex)){ex.state='live';ex.started=v.started}}
 else{v.links=[ln];out.push(v)}});
 out.forEach(v=>v.links.sort((a,b)=>(b.live-a.live)));
@@ -209,8 +209,8 @@ const t=Date.parse(g.start),tv={open:g.open||[],cable:g.cable||[],stream:g.strea
 let hit=false;
 out.forEach(v=>{if(hit||v.tvOnly)return;
 const vt=Date.parse(v.scheduled||v.started);if(!(Math.abs(vt-t)<=3*36e5))return;
-const ok=catOk(v.league,g.league)&&(v.home&&v.away?(sameTeam(v.home,g.home)&&sameTeam(v.away,g.away)):(sameTeam(v.title,g.home)&&sameTeam(v.title,g.away)));
-if(ok){if(!v.round&&g.round)v.round=g.round;if((!v.league||v.league==='Outros campeonatos')&&g.league&&g.league!=='Outros campeonatos'){v.league=g.league;v.region=g.region;v.flag=g.flag}{const o=v.scheduled||v.started;if(o&&Math.abs(Date.parse(o)-t)>20*6e4){v.opens=o;v.kick=g.start;if(v.state!=='live')v.scheduled=g.start}}v.tv=v.tv?{open:[...new Set([...v.tv.open,...tv.open])],cable:[...new Set([...v.tv.cable,...tv.cable])],stream:[...new Set([...v.tv.stream,...tv.stream])]}:tv;hit=true}});
+const near=Math.abs(vt-t)<=30*6e4,cat=catOk(v.league,g.league),ok=(cat||near)&&(v.home&&v.away?(sameTeam(v.home,g.home)&&sameTeam(v.away,g.away)):(sameTeam(v.title,g.home)&&sameTeam(v.title,g.away)));
+if(ok){if(!cat&&g.league){v.league=g.league;v.region=g.region;v.flag=g.flag}if(!v.round&&g.round)v.round=g.round;if((!v.league||v.league==='Outros campeonatos')&&g.league&&g.league!=='Outros campeonatos'){v.league=g.league;v.region=g.region;v.flag=g.flag}{const o=v.scheduled||v.started;if(o&&Math.abs(Date.parse(o)-t)>20*6e4){v.opens=o;v.kick=g.start;if(v.state!=='live')v.scheduled=g.start}}v.tv=v.tv?{open:[...new Set([...v.tv.open,...tv.open])],cable:[...new Set([...v.tv.cable,...tv.cable])],stream:[...new Set([...v.tv.stream,...tv.stream])]}:tv;hit=true}});
 if(!hit)out.push({id:'tv-'+i,tvOnly:true,state:'scheduled',scheduled:g.start,home:g.home,away:g.away,round:g.round||null,title:g.home+' x '+g.away,league:g.league,region:g.region,flag:g.flag,channel:'Somente TV/streaming',tv})});
 return out}
 
