@@ -252,6 +252,16 @@ const byId = new Map(videos.map((v) => [v.id, v]));
 
 // 5) Filtro.
 const staleMs = (cfg.staleUpcomingHours || 6) * 3600000;
+const gradePre = await loadGrade(cfg.gradeUrl);
+// Jogos que a grade marca como "ESPN Brasil" (transmitidos no YouTube da ESPN) podem passar mesmo em canal de programas.
+const nk = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "").replace(/redbull/g, "rb");
+const sameT = (a, b) => { a = nk(a); b = nk(b); return a.length >= 3 && b.length >= 3 && (a.includes(b) || b.includes(a)); };
+const espnYt = gradePre.items.filter((g) => [...(g.open || []), ...(g.cable || []), ...(g.stream || [])].some((c) => /espn\s*brasil/i.test(c)));
+const gradeAllows = (v) => {
+  if (!espnYt.length) return false;
+  const c = classify(v.title), t = Date.parse(v.scheduled || v.started || 0);
+  return espnYt.some((g) => Math.abs(Date.parse(g.start) - t) <= 3 * 36e5 && sameT(c.home, g.home) && sameT(c.away, g.away));
+};
 const items = [];
 const rejected = [];
 for (const raw of videos) {
@@ -277,7 +287,7 @@ for (const raw of videos) {
     if (!v.scheduled) reason = "sem horário agendado";
     else if (now - Date.parse(v.scheduled) > staleMs) reason = "agendada, mas não iniciou";
   }
-  reason ||= filterReason(v.title, cfg, raw.snippet.description || "", v.channel);
+  reason ||= filterReason(v.title, cfg, raw.snippet.description || "", v.channel, gradeAllows(v));
   if (reason) rejected.push({ ...v, reason });
   else items.push({ ...v, ...classify(v.title) });
 }
@@ -302,7 +312,7 @@ const exclusivas = Object.fromEntries(METHODS.map((m) => [m, soPor(m).length]));
 exclusivas.acompanhamento = items.filter((v) => core(v).length === 0).length;
 const titulosSo = (m) => soPor(m).map((v) => `${v.channel}: ${v.title}`);
 await mkdir(OUT, { recursive: true });
-const grade = await loadGrade(cfg.gradeUrl);
+const grade = gradePre;
 await writeFile(`${OUT}/grade.json`, JSON.stringify({ generatedAt, items: grade.items, erros: grade.erros, avisos: grade.avisos }));
 let escData = { escudos: {}, erros: [], consultas: 0 };
 try {
