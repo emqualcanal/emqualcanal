@@ -277,7 +277,7 @@ for (const raw of videos) {
     if (!v.scheduled) reason = "sem horário agendado";
     else if (now - Date.parse(v.scheduled) > staleMs) reason = "agendada, mas não iniciou";
   }
-  reason ||= filterReason(v.title, cfg, raw.snippet.description || "");
+  reason ||= filterReason(v.title, cfg, raw.snippet.description || "", v.channel);
   if (reason) rejected.push({ ...v, reason });
   else items.push({ ...v, ...classify(v.title) });
 }
