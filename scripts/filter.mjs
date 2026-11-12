@@ -53,10 +53,10 @@ const DESC_SPORTS = [
 // Canais cujas lives são quase sempre programas de estúdio: só entram se o título disser "com imagens".
 const IMAGES_ONLY = ["espn brasil"];
 
-export function filterReason(title, cfg, description = "", channel = "") {
+export function filterReason(title, cfg, description = "", channel = "", allowImagesOnly = false) {
   const t = norm(title);
   const withImages = /\bcom imagens?\b/.test(t) && !/\bsem imagens?\b/.test(t);
-  if (!withImages && [...IMAGES_ONLY, ...(cfg.imagesOnlyChannels || [])].some((c) => norm(channel).includes(norm(c)))) {
+  if (!withImages && !allowImagesOnly && [...IMAGES_ONLY, ...(cfg.imagesOnlyChannels || [])].some((c) => norm(channel).includes(norm(c)))) {
     return "canal de programas: só entra com “com imagens” no título";
   }
   const hits = findMatches(t, [...ALWAYS_EXCLUDE, ...(cfg.excludeKeywords || [])])
