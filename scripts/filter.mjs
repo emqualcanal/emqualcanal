@@ -31,7 +31,7 @@ const ALWAYS_EXCLUDE = [
   "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola",
   // talk shows, treinos e conversas (ex.: "SELEÇÃO TREINA... | Denilson Show")
   "show", "treina", "treinam", "treinamento", "treino", "resenha", "debate", "mesa redonda", "bate papo", "bate-papo",
-  "react", "reacao", "pre jogo", "pre-jogo", "pos jogo", "pos-jogo", "denilson",
+  "react", "reacao", "pre jogo", "pre-jogo", "pos jogo", "pos-jogo", "denilson", "debatem", "discutem", "opinam",
   // programas de canais de esporte (ESPN Brasil etc.)
   "futebol no mundo", "f show", "fshow", "sportscenter", "espn fc", "bola da vez", "fim de papo", "resenha espn"
 ];
@@ -50,9 +50,15 @@ const DESC_SPORTS = [
 ];
 
 // null = passa no filtro; texto = motivo de ter sido descartada.
-export function filterReason(title, cfg, description = "") {
+// Canais cujas lives são quase sempre programas de estúdio: só entram se o título disser "com imagens".
+const IMAGES_ONLY = ["espn brasil"];
+
+export function filterReason(title, cfg, description = "", channel = "") {
   const t = norm(title);
   const withImages = /\bcom imagens?\b/.test(t) && !/\bsem imagens?\b/.test(t);
+  if (!withImages && [...IMAGES_ONLY, ...(cfg.imagesOnlyChannels || [])].some((c) => norm(channel).includes(norm(c)))) {
+    return "canal de programas: só entra com “com imagens” no título";
+  }
   const hits = findMatches(t, [...ALWAYS_EXCLUDE, ...(cfg.excludeKeywords || [])])
     .filter((w) => !(withImages && SOFT.has(norm(w.trim()))))
     .filter((w) => !(/^treino$/.test(norm(w.trim())) && GAME_TRAINING.test(t)));
