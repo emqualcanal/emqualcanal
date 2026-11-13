@@ -37,7 +37,6 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 13/11/2026;16:45;Liga das Nações da UEFA;Holanda;Grécia;;ESPN;Disney+;
 15/11/2026;14:00;Liga das Nações da UEFA;Bielorrússia;Albânia;;ESPN;Disney+;
 15/11/2026;16:45;Liga das Nações da UEFA;Bélgica;Itália;;ESPN;Disney+;
-15/11/2026;16:45;Liga das Nações da UEFA;Croácia;Tchéquia;;ESPN;Disney+;
 16/11/2026;12:00;Liga das Nações da UEFA;Cazaquistão;Eslováquia;;ESPN;Disney+;
 16/11/2026;16:45;Liga das Nações da UEFA;Macedônia do Norte;Eslovênia;;ESPN;Disney+;
 16/11/2026;16:45;Liga das Nações da UEFA;Gibraltar;Malta;;ESPN;Disney+;
@@ -110,3 +109,28 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 14/11/2026;17:30;Campeonato Colombiano;Cúcuta;Jaguares;;;WIN Sports (YouTube);
 14/11/2026;19:00;Copa Argentina;Banfield;Boca Juniors;;X Sports;X Sports (YouTube);Semifinal
 14/11/2026;20:30;Brasileirão Série A;Chapecoense;Vasco;;Premiere;;21ª rodada
+15/11/2026;02:00;Copa da Liga Japonesa;Machida Zelvia;Vissel Kobe;;;J.League International (YouTube);
+15/11/2026;03:00;Copa da Liga Japonesa;Kashima Antlers;Yokohama F Marinos;;;J.League International (YouTube);
+15/11/2026;03:00;Copa da Liga Japonesa;Cerezo Osaka;Urawa Reds;;;J.League International (YouTube);
+15/11/2026;05:00;Copa da Liga Japonesa;Kashiwa Reysol;Kawasaki Frontale;;;J.League International (YouTube);
+15/11/2026;11:00;Liga das Nações da UEFA;Chipre;Montenegro;;ESPN;Disney+;
+15/11/2026;11:00;Liga das Nações da UEFA;Letônia;Armênia;;;Disney+;
+15/11/2026;14:00;Liga das Nações da UEFA;Finlândia;San Marino;;SporTV;;
+15/11/2026;16:45;Liga das Nações da UEFA;França;Turquia;;SporTV 3;GE TV;
+15/11/2026;16:45;Liga das Nações da UEFA;Espanha;Inglaterra;;SporTV;;
+15/11/2026;16:45;Liga das Nações da UEFA;Croácia;Tchéquia;;;Disney+;
+15/11/2026;13:30;Campeonato Inglês Feminino;Arsenal;London City Lionesses;;;X Sports;
+15/11/2026;13:30;Série C Italiana (Despedida de Ronaldinho Gaúcho);Ravenna;Forlì;RedeTV;;CNN Esportes;
+15/11/2026;14:45;Campeonato Carioca Série B2;Serra Macaense;Santa Cruz-RJ;;;Cariocão TV;
+15/11/2026;14:45;Campeonato Carioca Série B2;Friburguense;Belford Roxo;;;Cariocão TV;
+15/11/2026;15:00;Copa Santa Catarina;Hercílio Luz;Joinville;;;Metrópoles Esportes;
+15/11/2026;15:00;Taça Fares Lopes;Ceará;Vila Real;;;Metrópoles Esportes;
+15/11/2026;15:00;Copa da Liga Peruana;Sporting Cristal;Atlético Alianza;;;Canal Gol Brasil (YouTube);
+15/11/2026;16:00;Copa do Brasil Feminina;Internacional;Flamengo;;SporTV 2;X Sports/GE TV/Lance!;Final (volta)
+15/11/2026;16:00;Campeonato Pernambucano;Petrolina;Belo Jardim;;;TV FPF;2027 · 1º turno
+15/11/2026;17:00;Campeonato Pernambucano;Central;Ypiranga;;;TV FPF;2027 · 1º turno
+15/11/2026;16:00;Copa Paraíba;Campinense;Treze;;;Metrópoles Esportes;
+15/11/2026;17:00;Copa Paraíba;Esporte de Patos;Atlético Cajazeiras;;;Metrópoles Esportes;
+15/11/2026;16:30;Liga Uruguaia;Danúbio;Liverpool-URU;;;Disney+;
+15/11/2026;20:00;Liga Uruguaia;Defensor;Peñarol;;;Disney+;
+15/11/2026;20:00;Liga das Nações da CONCACAF;Panamá;Curaçao;;;Canal GOAT;
