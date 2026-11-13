@@ -26,22 +26,15 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 25/11/2026;20:00;Brasileirão Série A;Atlético-MG;Corinthians;;Premiere;;36ª rodada
 # Copa do Rei (Disney+/ESPN): horário de Brasília
 # convertido do horário oficial de início (CET menos 4 h).
-12/11/2026;15:00;Copa del Rey;CDA Navalcarnero;Real Bétis;;;Disney+;
+13/11/2026;17:00;Liga Uruguaia;Montevideo City Torque;Racing Montevideo;;;Disney+;
 13/11/2026;17:00;Copa do Rei;Salamanca;Celta de Vigo;;ESPN 3;Disney+;
 # Liga das Nações da UEFA (Disney+/ESPN): horário de Brasília
 # convertido do horário oficial de início (CET menos 4 h).
-12/11/2026;14:00;UEFA Nations League;Armênia;Chipre;;ESPN 3;Disney+;
-12/11/2026;16:45;UEFA Nations League;San Marino;Bielorrússia;;;Disney+;
-12/11/2026;16:45;UEFA Nations League;Montenegro;Letônia;;;Disney+;
-12/11/2026;16:45;UEFA Nations League;Albânia;Finlândia;;;Disney+;
-12/11/2026;16:45;UEFA Nations League;Itália;França;;ESPN;Disney+;
-12/11/2026;16:45;UEFA Nations League;Inglaterra;Croácia;;ESPN 4;Disney+;
 13/11/2026;14:00;Liga das Nações da UEFA;Moldávia;Cazaquistão;;ESPN 4;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Escócia;Macedônia do Norte;;;ESPN Brasil/Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Liechtenstein;Azerbaijão;;;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Eslovênia;Suíça;;ESPN 4;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Holanda;Grécia;;ESPN;Disney+;
-14/11/2026;16:45;Liga das Nações da UEFA;Romênia;Polônia;;ESPN;Disney+;
 15/11/2026;14:00;Liga das Nações da UEFA;Bielorrússia;Albânia;;ESPN;Disney+;
 15/11/2026;16:45;Liga das Nações da UEFA;Bélgica;Itália;;ESPN;Disney+;
 15/11/2026;16:45;Liga das Nações da UEFA;Croácia;Tchéquia;;ESPN;Disney+;
@@ -49,18 +42,10 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 16/11/2026;16:45;Liga das Nações da UEFA;Macedônia do Norte;Eslovênia;;ESPN;Disney+;
 16/11/2026;16:45;Liga das Nações da UEFA;Gibraltar;Malta;;ESPN;Disney+;
 # Champions League Feminina: horários e canais conforme informado (17:00 do PSG x Bayern deduzido do texto "simultaneamente"/"enquanto").
-12/11/2026;14:00;UEFA Nations League;Turquia;Bélgica;;SporTV 2;;
-12/11/2026;14:30;Amistosos Internacionais;Malta;Essuatíni;;SporTV 3;;
-12/11/2026;16:45;UEFA Nations League;República Tcheca;Espanha;;SporTV;;
 12/11/2026;20:00;Brasileirão Série B;São Bernardo;Athletic;;Premiere;GE TV;38ª rodada
 13/11/2026;16:45;Liga das Nações da UEFA;Sérvia;Alemanha;;SporTV;GE TV;
 13/11/2026;21:00;Amistosos Internacionais;Argentina;Uruguai;;SporTV;;
 # Quinta-feira, 12/11 (artes EQC)
-12/11/2026;14:00;Amistosos Internacionais;Lituânia;Suriname;;;Disney+;
-12/11/2026;14:45;UEFA Champions League Feminina;Barcelona;Arsenal;;ESPN 4;Disney+;
-12/11/2026;15:00;Paulistão Sub-20;RB Bragantino;Corinthians;;;X Sports/Ulisses TV;Semifinal (volta)
-12/11/2026;16:00;Concacaf Nations League;Barbados;Guadalupe;;;CONCACAF (YouTube);
-12/11/2026;16:00;Concacaf Nations League;Ilhas Cayman;Guiana;;;CONCACAF (YouTube);
 12/11/2026;17:00;Concacaf Nations League;Bonaire;Cuba;;;CONCACAF (YouTube);
 12/11/2026;19:00;Concacaf Nations League;Aruba;Martinica;;;CONCACAF (YouTube);
 12/11/2026;20:00;Concacaf Nations League;Antígua e Barbuda;Trinidad e Tobago;;;CONCACAF (YouTube);
@@ -83,3 +68,45 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 13/11/2026;16:45;Liga das Nações da UEFA;Luxemburgo;Estônia;;;Disney+;
 13/11/2026;16:45;Liga das Nações da UEFA;Andorra;Gibraltar;;;Disney+;
 13/11/2026;15:00;Paulistão Sub-20;Santos;Palmeiras;;;TNT Sports;Semifinal (volta)
+14/11/2026;07:15;Amistosos Internacionais;Brasil;Japão;Globo;SporTV;GE TV;
+14/11/2026;09:00;Taça Fares Lopes;Fortaleza;Palmácia;;;Metrópoles Esportes;
+14/11/2026;17:00;Taça Fares Lopes;Icasa;Quixadá;;;Metrópoles Esportes;
+14/11/2026;09:30;EFL League Two;Exeter City;Cheltenham Town;;;Disney+;
+14/11/2026;14:30;EFL League Two;Fleetwood Town;Tranmere Rovers;;;Disney+;
+14/11/2026;09:45;Campeonato Inglês Feminino;Manchester United;Crystal Palace;;;X Sports;
+14/11/2026;10:00;Liga Uruguaia;Central Español;Boston River;;;Disney+;
+14/11/2026;16:30;Liga Uruguaia;Deportivo Maldonado;Cerro;;;Disney+;
+14/11/2026;11:00;Liga das Nações da UEFA;Kosovo;Israel;;ESPN;Disney+;
+14/11/2026;14:00;Liga das Nações da UEFA;Noruega;País de Gales;;ESPN;Disney+;
+14/11/2026;14:00;Liga das Nações da UEFA;Geórgia;Hungria;;SporTV;;
+14/11/2026;16:45;Liga das Nações da UEFA;Portugal;Dinamarca;;SporTV;;
+14/11/2026;16:45;Liga das Nações da UEFA;Suécia;Bósnia;;ESPN 3;Disney+;
+14/11/2026;16:45;Liga das Nações da UEFA;Romênia;Polônia;;;Disney+;
+14/11/2026;16:45;Liga das Nações da UEFA;Irlanda do Norte;Ucrânia;;;Disney+;
+14/11/2026;16:45;Liga das Nações da UEFA;Áustria;Irlanda;;;Disney+;
+14/11/2026;14:00;NWSL;Washington Spirit;Utah Royals;;;X Sports;
+14/11/2026;14:45;Campeonato Carioca Série B1;Duque de Caxias;Serrano;;;Cariocão TV;
+14/11/2026;14:45;Campeonato Carioca Série B1;Goytacaz;Niteroiense;;;Cariocão TV;
+14/11/2026;15:00;Copa Santa Catarina;Figueirense;Marcílio Dias;;;Metrópoles Esportes;
+14/11/2026;15:00;Campeonato Pernambucano;América-PE;Vera Cruz;;;TV FPF;2027 · 1º turno
+14/11/2026;15:00;Campeonato Pernambucano;Ibis;Ipojuca;;;TV FPF;2027 · 1º turno
+14/11/2026;16:00;Copa Paraíba;Serra Branca;Nacional de Patos;;;Metrópoles Esportes;
+14/11/2026;16:00;Liga das Nações da CONCACAF;São Martinho;Guiana Francesa;;;CONCACAF (YouTube);
+14/11/2026;18:30;Liga das Nações da CONCACAF;Haiti;Estados Unidos;;;Canal GOAT;
+14/11/2026;21:00;Liga das Nações da CONCACAF;São Vicente e Granadinas;Belize;;;CONCACAF (YouTube);
+14/11/2026;19:00;Liga das Nações da CONCACAF;Jamaica;México;;;CONCACAF (YouTube);
+14/11/2026;16:30;Brasileirão Série B;CRB;Ceará;RedeTV;;SportyNet/Disney+;38ª rodada
+14/11/2026;16:30;Brasileirão Série B;América-MG;Avaí;;SportyNet;Disney+;38ª rodada
+14/11/2026;16:30;Brasileirão Série B;Juventude;Botafogo-SP;;ESPN 2;X Sports/Canal GOAT/Disney+;38ª rodada
+14/11/2026;16:30;Brasileirão Série B;Fortaleza;Vila Nova;;ESPN;Disney+;38ª rodada
+14/11/2026;16:30;Brasileirão Série B;Criciúma;Novorizontino;;ESPN 4;Disney+;38ª rodada
+14/11/2026;16:30;Brasileirão Série B;Atlético-GO;Cuiabá;;;Disney+;38ª rodada
+14/11/2026;16:30;Brasileirão Série B;Sport;Goiás;;;Disney+;38ª rodada
+14/11/2026;17:30;Campeonato Colombiano;Deportivo Cali;Tolima;;;WIN Sports;
+14/11/2026;17:30;Campeonato Colombiano;Atlético Nacional;Once Caldas;;;WIN Sports;
+14/11/2026;17:30;Campeonato Colombiano;Bucaramanga;Fortaleza CEIF;;;WIN Sports;
+14/11/2026;17:30;Campeonato Colombiano;Pereira;América de Cali;;;WIN Sports;
+14/11/2026;17:30;Campeonato Colombiano;Águilas Doradas;Independiente Medellín;;;WIN Sports;
+14/11/2026;17:30;Campeonato Colombiano;Cúcuta;Jaguares;;;WIN Sports;
+14/11/2026;19:00;Copa Argentina;Banfield;Boca Juniors;;X Sports;X Sports (YouTube);Semifinal
+14/11/2026;20:30;Brasileirão Série A;Chapecoense;Vasco;;Premiere;;21ª rodada
