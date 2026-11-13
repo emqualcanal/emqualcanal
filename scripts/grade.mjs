@@ -43,7 +43,9 @@ export function parseGrade(text) {
     const [data, hora, camp, home, away, aberta, fechada, stream, rodada] = r;
     const iso = toIso(data || "", hora || "");
     if (!iso || !home || !away) { erros.push(`linha ${i + 1}: data/hora/times inválidos (${r.join(";")})`); return; }
-    const c = classify(camp || "");
+    const pm = String(camp || "").match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+    const c = classify(pm ? pm[1] : camp || "");
+    if (pm && c.league) c.league = `${c.league} (${pm[2]})`;
     items.push({
       start: iso, league: c.league || camp || "Outros campeonatos", region: c.region, flag: c.flag,
       home: teamFix(c.league, home), away: teamFix(c.league, away), round: rodada || null, open: split(aberta), cable: split(fechada), stream: split(stream),

@@ -6,6 +6,9 @@ const L = (league, region, flag = null) => ({ league, region, flag });
 
 // Seleções, torneios internacionais e campeonatos, em ordem de prioridade (o primeiro que casar vale).
 const RULES = [
+  [/copa da liga japonesa|levain|j\.? ?league cup/, "Copa da Liga Japonesa", "Ásia", "jp"],
+  [/copa da liga peruana/, "Copa da Liga Peruana", "América do Sul", "pe"],
+  [/3a divisao italiana|terceira divisao italiana|3 divisao italiana/, "Série C Italiana", "Europa", "it"],
   [/champions league|liga dos campeoes|uefa champions/, "Champions League", "Europa", "eu"],
   [/europa league|liga europa/, "Europa League", "Europa", "eu"],
   [/conference league|liga conferencia/, "Conference League", "Europa", "eu"],
@@ -19,7 +22,7 @@ const RULES = [
   [/eliminatorias/, "Eliminatórias", "Internacional"],
   [/copa do mundo|world cup/, "Copa do Mundo", "Internacional"],
   [/eurocopa|euro 20/, "Eurocopa", "Internacional"],
-  [/amistoso|data fifa/, "Amistosos", "Internacional"],
+  [/amistoso|data fifa/, "Amistosos", "Internacional", "logo-amistoso"],
   [/mundial de clubes|club world cup/, "Mundial de Clubes", "Internacional"],
   [/\bwsl\b|women.?s super league/, "Campeonato Inglês", "Europa", "gb-eng"],
   [/premier league/, "Campeonato Inglês", "Europa", "gb-eng"],
@@ -43,7 +46,7 @@ const RULES = [
   [/super lig/, "Campeonato Turco", "Europa", "tr"],
   [/\bmls\b|major league soccer/, "MLS", "América do Norte", "us"],
   [/liga mx|campeonato mexicano|america-mex|\bunam\b|\bpumas\b|\bchivas\b|cruz azul|rayados|pachuca|santos laguna|\bxolos\b|\btoluca\b|\bnecaxa\b|club leon|\bqueretaro\b|mazatlan fc/, "Campeonato Mexicano", "América do Norte", "mx"],
-  [/concacaf/, "Concacaf", "América do Norte"],
+  [/concacaf/, "Concacaf", "América do Norte", "logo-concacaf"],
   [/\bnwsl\b/, "NWSL", "Feminino", "us"],
   [/saudi pro league|roshn|campeonato saudita/, "Campeonato Saudita", "Ásia", "sa"],
   [/\bj-?league\b|\bj1 league\b/, "J-League", "Ásia", "jp"],
@@ -115,6 +118,7 @@ const SPECIFIC = [
 // Divisão do estadual: "Série A2", "Série A3", "Série B", "Segunda Divisão", "Módulo II".
 function stateDivision(n) {
   if (/serie\s*b1\b|\bb1\b/.test(n)) return " Série B1 (3ª divisão)";
+  if (/serie\s*b2\b|\bb2\b/.test(n)) return " Série B2 (4ª divisão)";
   const m = n.match(/serie\s*(a2|a3|b|c)\b|\b(a2|a3)\b/);
   if (m) return ` Série ${(m[1] || m[2]).toUpperCase()}`;
   if (/segunda divisao|2a divisao|modulo ii|modulo 2/.test(n)) return " Segunda Divisão";
@@ -187,7 +191,7 @@ function baseLeague(raw, n) {
   const nl = n.split(/\s*\|\s*|\s+[-–—]\s+|:\s+/).filter((x) => !/\s(x|vs\.?)\s|\d\s?x\s?\d/.test(x)).join(" | "); // título sem os confrontos (nomes de seleções não contam)
   // Liga das Nações: UEFA (Europa) ou CONCACAF (América do Norte). Sem a sigla, decide pelas seleções.
   if (/liga das nacoes|nations league/.test(n)) {
-    if (/concacaf/.test(n) || (!/uefa|europa/.test(n) && CONCACAF_TEAMS.test(n))) return L("Liga das Nações da CONCACAF", "América do Norte");
+    if (/concacaf/.test(n) || (!/uefa|europa/.test(n) && CONCACAF_TEAMS.test(n))) return L("Liga das Nações da CONCACAF", "América do Norte", "logo-concacaf");
     return L("Liga das Nações da UEFA", "Europa", "eu");
   }
   const ital = /ital|calcio/.test(nl);
