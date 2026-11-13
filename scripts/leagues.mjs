@@ -57,6 +57,7 @@ const RULES = [
   [/eerste divisie/, "Eerste Divisie", "Europa", "nl"],
   [/\bleague one\b/, "EFL League One", "Europa", "gb-eng"],
   [/\bleague two\b/, "EFL League Two", "Europa", "gb-eng"],
+  [/copa argentina/, "Copa Argentina", "América do Sul", "ar"],
   [/liga profesional|liga argentina/, "Campeonato Argentino", "América do Sul", "ar"],
   [/betplay|liga dimayor|categoria primera a/, "Campeonato Colombiano", "América do Sul", "co"],
   [/\bk-?league\b/, "Campeonato Coreano", "Ásia", "kr"],
@@ -113,6 +114,7 @@ const SPECIFIC = [
 
 // Divisão do estadual: "Série A2", "Série A3", "Série B", "Segunda Divisão", "Módulo II".
 function stateDivision(n) {
+  if (/serie\s*b1\b|\bb1\b/.test(n)) return " Série B1 (3ª divisão)";
   const m = n.match(/serie\s*(a2|a3|b|c)\b|\b(a2|a3)\b/);
   if (m) return ` Série ${(m[1] || m[2]).toUpperCase()}`;
   if (/segunda divisao|2a divisao|modulo ii|modulo 2/.test(n)) return " Segunda Divisão";
@@ -199,7 +201,7 @@ function baseLeague(raw, n) {
 
   if (!ital && (/brasileir|campeonato brasileiro/.test(n) || accentSerie)) {
     const letter = (accentSerie?.[1] || n.match(/serie\s*([abcd])\b/)?.[1] || "a").toUpperCase();
-    return L(`Brasileirão Série ${letter}`, "Brasil", "br");
+    return L(`Brasileirão Série ${letter}`, "Brasil", letter === "A" || letter === "B" ? `logo-brasileirao-${letter.toLowerCase()}` : "br");
   }
   if (/coppa italia|copa da italia/.test(n)) return L("Copa da Itália", "Europa", "it");
   if (ital || (plainSerie && !/brasileir/.test(n))) {
