@@ -143,8 +143,8 @@
  "Sao Cristovao e Neves": "escudos/sao-cristovao-e-neves.png",
  "Sao Cristovao e Nevis": "escudos/sao-cristovao-e-neves.png",
  "Saint Martin": "escudos/saint-martin.png",
- "São Martinho": "escudos/sint-maarten.png",
- "Sao Martinho": "escudos/sint-maarten.png",
+ "São Martinho": "escudos/saint-martin.png",
+ "Sao Martinho": "escudos/saint-martin.png",
  "El Salvador": "escudos/el-salvador.png",
  "Montserrat": "escudos/montserrat.png",
  "Nicarágua": "escudos/nicaragua.png",
@@ -331,7 +331,7 @@
  "Banfield": "escudos/banfield.png",
  "Boca Juniors": "escudos/boca-juniors.png",
  "São Martinho (Sint Maarten)": "escudos/sint-maarten.png",
- "Saint-Martin": "escudos/sint-maarten.png",
+ "Saint-Martin": "escudos/saint-martin.png",
  "Maldonado": "escudos/deportivo-maldonado.png",
  "Vasco da Gama": "escudos/vasco.png",
  "Botafogo": "escudos/botafogo.png",
@@ -414,5 +414,7 @@
  "Parana": "escudos/parana.png",
  "Paraná Clube": "escudos/parana.png",
  "Parana Clube": "escudos/parana.png",
- "Paraná": "escudos/parana.png"
+ "Paraná": "escudos/parana.png",
+ "Singapura": "escudos/singapura.png",
+ "Costa Rica": "escudos/costa-rica.png"
 }
