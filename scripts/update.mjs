@@ -257,6 +257,16 @@ const gradePre = await loadGrade(cfg.gradeUrl);
 const nk = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "").replace(/redbull/g, "rb");
 const sameT = (a, b) => { a = nk(a); b = nk(b); return a.length >= 3 && b.length >= 3 && (a.includes(b) || b.includes(a)); };
 const espnYt = gradePre.items.filter((g) => [...(g.open || []), ...(g.cable || []), ...(g.stream || [])].some((c) => /espn\s*brasil/i.test(c)));
+// Canais sem direitos do Brasileirão Série A: qualquer live sobre esse torneio é só resenha/narração.
+const SEM_DIREITOS_A = [/alviverde/i];
+const serieA = gradePre.items.filter((g) => /brasileir[aã]o s[eé]rie a\b/i.test(g.league || ""));
+const semDireitosSerieA = (v) => {
+  if (!SEM_DIREITOS_A.some((re) => re.test(v.channel || ""))) return null;
+  const c = classify(v.title), t = Date.parse(v.scheduled || v.started || 0);
+  const noTitulo = /brasileir[aã]o|s[eé]rie\s*a\b/i.test(v.title) || /brasileir[aã]o s[eé]rie a/i.test(c.league || "");
+  const noGrade = serieA.some((g) => Math.abs(Date.parse(g.start) - t) <= 3 * 36e5 && sameT(c.home, g.home) && sameT(c.away, g.away));
+  return noTitulo || noGrade ? "canal sem direitos do Brasileirão Série A (só resenha/narração)" : null;
+};
 const gradeAllows = (v) => {
   if (!espnYt.length) return false;
   const c = classify(v.title), t = Date.parse(v.scheduled || v.started || 0);
@@ -288,6 +298,7 @@ for (const raw of videos) {
     else if (now - Date.parse(v.scheduled) > staleMs) reason = "agendada, mas não iniciou";
   }
   reason ||= filterReason(v.title, cfg, raw.snippet.description || "", v.channel, gradeAllows(v));
+  reason ||= semDireitosSerieA(v);
   if (reason) rejected.push({ ...v, reason });
   else items.push({ ...v, ...classify(v.title) });
 }
