@@ -215,7 +215,7 @@ if(!hit)out.push({id:'tv-'+i,tvOnly:true,state:'scheduled',scheduled:g.start,hom
 return out}
 
 /* ---------- dados filtrados ---------- */
-const PAID_DEFAULT=['Disney+','Star+','DAZN','OneFootball','HBO Max','Max','Prime Video','Amazon Prime Video','Paramount+','Apple TV+','Netflix','Globoplay'];
+const PAID_DEFAULT=['Disney+','Star+','DAZN','OneFootball','HBO Max','Max','Prime Video','Amazon Prime Video','Paramount+','Apple TV+','Apple TV','Netflix','Globoplay'];
 const pk=s=>norm(String(s)).replace(/[^a-z0-9+]/g,'');
 let PAID=new Set(PAID_DEFAULT.map(pk));
 const isPaid=n=>PAID.has(pk(n));
@@ -363,7 +363,7 @@ const r=await fetch('data/lives.json?t='+Date.now(),{cache:'no-store'});
 if(!r.ok)throw new Error(r.status);
 D=await r.json();
 let G=[];try{const gr=await fetch('data/grade.json?t='+Date.now(),{cache:'no-store'});if(gr.ok)G=(await gr.json()).items||[]}catch(e){}
-PAID=new Set(((D.paidStreaming&&D.paidStreaming.length)?D.paidStreaming:PAID_DEFAULT).map(pk));
+PAID=new Set([...((D.paidStreaming&&D.paidStreaming.length)?D.paidStreaming:[]),...PAID_DEFAULT].map(pk));
 D.items=mergeGrade(mergeLives(D.items),G);
 try{const er=await fetch('data/escudos.json?t='+Date.now(),{cache:'no-store'});if(er.ok)E=(await er.json()).escudos||{}}catch(e){}
 }catch(e){
