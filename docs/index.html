@@ -191,17 +191,19 @@ items.forEach(v=>{
 const ln={id:v.id,channel:v.channel,live:isLive(v)};
 if(v.tvOnly||!(v.home&&v.away)){v.links=[ln];out.push(v);return}
 const t=Date.parse(v.scheduled||v.started);
-const ex=out.find(o=>!o.tvOnly&&o.home&&o.away&&Math.abs(Date.parse(o.scheduled||o.started)-t)<=3*36e5&&sameTeam(o.home,v.home)&&sameTeam(o.away,v.away)&&(catOk(o.league,v.league)||Math.abs(Date.parse(o.scheduled||o.started)-t)<=30*6e4));
+const ex=out.find(o=>!o.tvOnly&&o.home&&o.away&&Math.abs(Date.parse(o.scheduled||o.started)-t)<=3*36e5&&sameTeam(o.home,v.home)&&sameTeam(o.away,v.away)&&(catOk(o.league,v.league)||Math.abs(Date.parse(o.scheduled||o.started)-t)<=45*6e4));
 if(ex){ex.links.push(ln);if(ln.live&&!isLive(ex)){ex.state='live';ex.started=v.started}}
 else{v.links=[ln];out.push(v)}});
 out.forEach(v=>v.links.sort((a,b)=>(b.live-a.live)));
 return out}
 
 /* ---------- grade de TV ---------- */
-const tk=s=>norm(s).replace(/[^a-z0-9]/g,'').replace(/redbull/g,'rb').replace(/mineiro/g,'mg').replace(/paranaense/g,'pr').replace(/goianiense/g,'go');
+const fold=s=>String(s||'').replace(/ø/gi,'o').replace(/æ/gi,'ae').replace(/ß/g,'ss').replace(/ł/gi,'l').replace(/đ/gi,'d');
+const tk=s=>norm(fold(s)).replace(/[^a-z0-9]/g,'').replace(/redbull/g,'rb').replace(/mineiro/g,'mg').replace(/paranaense/g,'pr').replace(/goianiense/g,'go');
 const catOf=l=>{l=norm(l||'');return (/femini/.test(l)?'F':'M')+((l.match(/sub[- ]?(\d+)/)||[])[1]||'')};
 const catOk=(a,b)=>catOf(a)===catOf(b);
-const sameTeam=(a,b)=>{a=tk(a);b=tk(b);return a.length>=3&&b.length>=3&&(a.includes(b)||b.includes(a))};
+const lev=(a,b)=>{const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]};
+const sameTeam=(a,b)=>{a=tk(a);b=tk(b);if(a.length<3||b.length<3)return false;if(a.includes(b)||b.includes(a))return true;const L=Math.min(a.length,b.length);return L>=5&&lev(a,b)<=(L>=9?2:1)};
 function mergeGrade(items,G){
 const out=items.map(v=>({...v,tv:null})),used=new Set();
 (G||[]).forEach((g,i)=>{
@@ -209,7 +211,7 @@ const t=Date.parse(g.start),tv={open:g.open||[],cable:g.cable||[],stream:g.strea
 let hit=false;
 out.forEach(v=>{if(hit||v.tvOnly)return;
 const vt=Date.parse(v.scheduled||v.started);if(!(Math.abs(vt-t)<=3*36e5))return;
-const near=Math.abs(vt-t)<=30*6e4,cat=catOk(v.league,g.league),ok=(cat||near)&&(v.home&&v.away?(sameTeam(v.home,g.home)&&sameTeam(v.away,g.away)):(sameTeam(v.title,g.home)&&sameTeam(v.title,g.away)));
+const near=Math.abs(vt-t)<=45*6e4,cat=catOk(v.league,g.league),ok=(cat||near)&&(v.home&&v.away?(sameTeam(v.home,g.home)&&sameTeam(v.away,g.away)):(sameTeam(v.title,g.home)&&sameTeam(v.title,g.away)));
 if(ok){if(!cat&&g.league){v.league=g.league;v.region=g.region;v.flag=g.flag}if(!v.round&&g.round)v.round=g.round;if(cat&&g.league&&v.league&&g.league!==v.league&&g.league.startsWith(v.league)){v.league=g.league;v.region=g.region;v.flag=g.flag}if((!v.league||v.league==='Outros campeonatos')&&g.league&&g.league!=='Outros campeonatos'){v.league=g.league;v.region=g.region;v.flag=g.flag}{const o=v.scheduled||v.started;if(o&&Math.abs(Date.parse(o)-t)>20*6e4){v.opens=o;v.kick=g.start;if(v.state!=='live')v.scheduled=g.start}}v.tv=v.tv?{open:[...new Set([...v.tv.open,...tv.open])],cable:[...new Set([...v.tv.cable,...tv.cable])],stream:[...new Set([...v.tv.stream,...tv.stream])]}:tv;hit=true}});
 if(!hit)out.push({id:'tv-'+i,tvOnly:true,state:'scheduled',scheduled:g.start,home:g.home,away:g.away,round:g.round||null,title:g.home+' x '+g.away,league:g.league,region:g.region,flag:g.flag,channel:'Somente TV/streaming',tv})});
 return out}
