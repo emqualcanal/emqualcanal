@@ -28,7 +28,7 @@ const ALWAYS_EXCLUDE = [
   "cblol", "league of legends", "valorant", "free fire", "counter-strike", "cs2", "esports", "e-sports",
   // programas, bastidores e conteúdo que não é a partida
   "geral cazetv", "geral caze", "cazetv geral", "jogo aberto", "podcast", "programa", "linha de passe",
-  "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola", "panela", "panela sportv", "preparacao da selecao",
+  "coletiva", "entrevista", "bastidores", "melhores momentos", "mercado da bola", "panela", "panela sportv", "preparacao da selecao", "aquecimento", "jogo completo", "partida completa", "jogo na integra", "reprise", "replay",
   // talk shows, treinos e conversas (ex.: "SELEÇÃO TREINA... | Denilson Show")
   "show", "treina", "treinam", "treinamento", "treino", "resenha", "debate", "mesa redonda", "bate papo", "bate-papo",
   "react", "reacao", "pre jogo", "pre-jogo", "pos jogo", "pos-jogo", "denilson", "debatem", "discutem", "opinam",
