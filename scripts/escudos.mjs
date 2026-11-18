@@ -1,7 +1,7 @@
 // Busca automática de escudos: Wikidata (principal), pt.wikipedia (imagem do artigo do clube) e TheSportsDB (reserva). Falhas nunca derrubam a atualização.
 const BASE = process.env.SPORTSDB_BASE || "https://www.thesportsdb.com/api/v1/json/3";
 const RETRY_MS = 7 * 864e5;
-const norm = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+const norm = (s) => String(s || "").replace(/ø/gi, "o").replace(/æ/gi, "ae").replace(/ß/g, "ss").replace(/ł/gi, "l").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
 const WD = process.env.WIKIDATA_API || "https://www.wikidata.org/w/api.php";
 const UA = { "user-agent": "EQC-lives/1.0 (site de agenda de futebol; escudos via Wikidata)" };
 const Q_CLUB = "Q476028", Q_FOOTBALL = "Q2736", Q_BRAZIL = "Q155";
@@ -80,13 +80,23 @@ function pick(teams, name, region) {
 }
 
 // names: [{name, region}]; prev: cache anterior {nome:{url,t}}; manual: {nome:url}
+function lev(a, b) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
 export async function buildEscudos(names, prev = {}, manual = {}, { max = 20, now = Date.now() } = {}) {
   const out = {}, erros = [];
   let calls = 0;
   for (const { name, region } of names) {
     const k = norm(name);
     if (!k) continue;
-    const man = Object.entries(manual).find(([m]) => norm(m) === k);
+    const man = Object.entries(manual).find(([m]) => norm(m) === k) || Object.entries(manual).find(([m]) => {
+      const a = norm(m).replace(/ /g, ""), b = k.replace(/ /g, ""), L = Math.min(a.length, b.length);
+      return L >= 5 && lev(a, b) <= (L >= 9 ? 2 : 1);
+    });
     if (man) { out[k] = { name, url: man[1], t: now, manual: true }; continue; }
     const old = prev[k];
     if (old && (old.url || now - old.t < RETRY_MS)) { out[k] = old; continue; }
