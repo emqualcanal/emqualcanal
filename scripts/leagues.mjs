@@ -6,6 +6,7 @@ const L = (league, region, flag = null) => ({ league, region, flag });
 
 // Seleções, torneios internacionais e campeonatos, em ordem de prioridade (o primeiro que casar vale).
 const RULES = [
+  [/copa do mundo sub.?17|mundial sub.?17|fifa u.?17|world cup u.?17/, "Copa do Mundo Sub-17", "Internacional", null],
   [/2\S{0,2} divisao uruguaia|segunda divisao uruguaia|segunda division/, "2ª Divisão Uruguaia", "América do Sul", "uy"],
   [/copa da liga japonesa|levain|j\.? ?league cup/, "Copa da Liga Japonesa", "Ásia", "jp"],
   [/copa da liga peruana/, "Copa da Liga Peruana", "América do Sul", "pe"],
