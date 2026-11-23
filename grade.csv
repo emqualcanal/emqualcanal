@@ -13,36 +13,7 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 # Quinta-feira, 12/11 (artes EQC)
 # Sexta-feira, 13/11 (artes EQC)
 # Domingo 22/11/2026 (arte EQC)
-22/11/2026;14:00;Campeonato Italiano;Milan;Frosinone;;SportyNet;Disney+;12ª rodada
-22/11/2026;16:45;Campeonato Italiano;Atalanta;Inter de Milão;;ESPN;Disney+;12ª rodada
-22/11/2026;14:30;LaLiga;Osasuna;Málaga;;;CazéTV;13ª rodada
-22/11/2026;17:00;LaLiga;Getafe;Atlético de Madrid;;;CazéTV;13ª rodada
-22/11/2026;16:45;Campeonato Francês;Olympique de Marselha;Le Mans;;CNN Esportes;;11ª rodada
-22/11/2026;14:00;Campeonato Tcheco;Sparta Praha;Liberec;;;Canal Gol Brasil (YouTube);
-22/11/2026;15:00;Campeonato Carioca Série B2;Belford Roxo;Serracamaense;;;Cariocão TV;Final
-22/11/2026;16:00;Paulistão Sub-20;Corinthians;Palmeiras;;X Sports;Ulisses TV;Final (ida)
-22/11/2026;16:00;Brasileirão Série A;Athletico-PR;Remo;;Premiere;;36ª rodada
-22/11/2026;18:30;Brasileirão Série A;Fluminense;Mirassol;Record;Premiere;CazéTV;36ª rodada
-22/11/2026;19:30;Brasileirão Série A;Red Bull Bragantino;Vasco da Gama;;Premiere;;36ª rodada
-22/11/2026;16:00;Brasileirão Série B;Criciúma;Fortaleza;RedeTV;SportyNet;Disney+;Playoffs - ida
-22/11/2026;18:30;Brasileirão Série B;Atlético-GO;Vila Nova;;X Sports/ESPN;Canal GOAT/Disney+;Playoffs - ida
-22/11/2026;17:00;Copa Santa Catarina;Marcílio Dias;Joinville;;;Metrópoles Esportes;Final (ida)
-22/11/2026;17:00;Campeonato Peruano;Sport Huancayo;Universitario;;;Canal Gol Brasil (YouTube);
-22/11/2026;17:00;Taça Fares Lopes;Vila Real;Atlético-CE;;;Metrópoles Esportes;
-22/11/2026;17:00;Taça Fares Lopes;Tirol;Palmácia;;;Metrópoles Esportes;
-22/11/2026;17:00;Taça Fares Lopes;Guarani de Juazeiro;Icasa;;;Metrópoles Esportes;
-22/11/2026;17:00;Copa Paraíba 2026;Treze;Nacional de Patos;;;Metrópoles Esportes;
-22/11/2026;17:00;Copa Paraíba 2026;Atlético Cajazeirense;Campinense;;;Metrópoles Esportes;
-22/11/2026;17:00;Copa Paraíba 2026;Esporte de Patos;Serra Branca;;;Metrópoles Esportes;
-22/11/2026;18:00;Campeonato Venezuelano;Metropolitanos;La Guaira;;;Liga FUTVE (YouTube);
-22/11/2026;18:00;MLS;Nashville;FC Cincinnati;;;Apple TV;
-22/11/2026;20:30;MLS;Chicago Fire;Charlotte FC;;;TNT Sports/Apple TV;
-22/11/2026;22:30;MLS;Vancouver Whitecaps;Real Salt Lake;;;Apple TV;
-22/11/2026;19:00;Campeonato Argentino;River Plate;Lanús;;ESPN 4;Disney+;
-22/11/2026;22:00;Campeonato Mexicano;Pumas;Monterrey;;SportyNet;;
 # Segunda 23/11/2026 (arte EQC)
-23/11/2026;10:45;AFC Champions League Elite;Neftchi;Al-Hilal;;ESPN 4;Disney+;
-23/11/2026;13:00;AFC Champions League Elite;Al Shamal;Al-Ahli;;;Disney+;
 23/11/2026;15:15;AFC Champions League Elite;Al-Ittihad;Pakhtakor;;;Disney+;
 23/11/2026;15:00;Campeonato Egípcio;Ah Ahly;Pyramids;;;Link Alviverde;
 23/11/2026;15:00;Liga Dinamarquesa;Brondby;Midtjylland;;;Canal Gol Brasil (YouTube);
@@ -56,3 +27,23 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 23/11/2026;20:00;Brasileirão Série A;Botafogo;São Paulo;;;Prime Video;36ª rodada
 23/11/2026;21:00;Brasileirão Série A;Santos;Grêmio;;SporTV/Premiere;;36ª rodada
 23/11/2026;22:00;MLS;St. Louis City;LA FC;;;Apple TV;
+# Terça 24/11/2026 (arte EQC)
+24/11/2026;09:15;AFC Champions League Elite;Shanghai Port;Buriram United;;;Disney+;
+24/11/2026;13:00;AFC Champions League Elite;Shabab Al Ahli;Al-Quadisiya;;;Disney+;
+24/11/2026;15:15;AFC Champions League Elite;Al-Nassr;Al Sadd;;ESPN 4;Disney+;
+24/11/2026;12:00;Copa do Mundo Sub-17;Brasil;Tanzânia;;SporTV 2;CazéTV;
+24/11/2026;14:45;UEFA Champions League;Galatasaray;Aston Villa;;TNT;HBO Max;
+24/11/2026;14:45;UEFA Champions League;Bodø/Glimt;LASK Linz;;Space;HBO Max;
+24/11/2026;17:00;UEFA Champions League;Real Madrid;PSV;SBT;TNT;HBO Max;
+24/11/2026;17:00;UEFA Champions League;Manchester City;Napoli;;Space;HBO Max;
+24/11/2026;17:00;UEFA Champions League;Arsenal;Borussia Dortmund;;;TNT Sports/HBO Max;
+24/11/2026;17:00;UEFA Champions League;Feyenoord;Porto;;;HBO Max;
+24/11/2026;17:00;UEFA Champions League;RB Leipzig;Lens;;;HBO Max;
+24/11/2026;17:00;UEFA Champions League;Como;AEK Atenas;;;HBO Max;
+24/11/2026;17:00;UEFA Champions League;Slovan Bratislava;Real Betis;;;HBO Max;
+24/11/2026;16:45;EFL League Two;Crawley Town;Barnet;;;Disney+;
+24/11/2026;17:00;Campeonato Escocês;Rangers;Aberdeen;;;Canal Gol Brasil (YouTube);
+24/11/2026;17:00;EFL Championship;Wolves;Derby County;;ESPN;Disney+;
+24/11/2026;18:00;Brasileirão Série A;Chapecoense;Palmeiras;Record;Premiere;CazéTV;35ª rodada
+24/11/2026;21:30;Copa do Brasil Sub-20;São Paulo;Atlético-MG;;SporTV;;Semifinal (volta)
+24/11/2026;23:55;MLS;San Jose Earthquakes;Houston Dynamo;;;Apple TV;
