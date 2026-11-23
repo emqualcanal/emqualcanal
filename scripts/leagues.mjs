@@ -12,7 +12,7 @@ const RULES = [
   [/copa da liga peruana/, "Copa da Liga Peruana", "América do Sul", "pe"],
   [/3a divisao italiana|terceira divisao italiana|3 divisao italiana/, "Série C Italiana", "Europa", "it"],
   [/afc champions league|liga dos campeoes da asia/, "AFC Champions League Elite", "Ásia", null],
-  [/champions league|liga dos campeoes|uefa champions/, "Champions League", "Europa", "eu"],
+  [/champions league|liga dos campeoes|uefa champions/, "Champions League", "Europa", "logo-champions-league"],
   [/europa league|liga europa/, "Europa League", "Europa", "eu"],
   [/conference league|liga conferencia/, "Conference League", "Europa", "eu"],
   [/supercopa da uefa|uefa super cup/, "Supercopa da UEFA", "Europa", "eu"],
