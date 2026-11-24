@@ -23,7 +23,7 @@ const ALWAYS_EXCLUDE = [
   "nfl", "futebol americano", "ncaa", "super bowl", "nba", "wnba", "nbb", "basquete",
   // vôlei e outras modalidades
   "volei", "voleibol", "futevolei", "levantou cortou", "levantou, cortou", "superliga feminina", "superliga masculina",
-  "handebol", "tenis", "rugby", "beisebol", "mlb", "nhl", "hoquei", "ufc", "mma", "boxe",
+  "handebol", "tenis", "copa davis", "davis cup", "billie jean king", "atp", "wta", "roland garros", "wimbledon", "us open", "australian open", "rugby", "beisebol", "mlb", "nhl", "hoquei", "ufc", "mma", "boxe",
   // esportes eletrônicos
   "cblol", "league of legends", "valorant", "free fire", "counter-strike", "cs2", "esports", "e-sports",
   // programas, bastidores e conteúdo que não é a partida
