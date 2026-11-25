@@ -14,26 +14,7 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 # Domingo 22/11/2026 (arte EQC)
 # Segunda 23/11/2026 (arte EQC)
 # Terça 24/11/2026 (arte EQC)
-24/11/2026;13:00;AFC Champions League Elite;Shabab Al Ahli;Al-Quadisiya;;;Disney+;
-24/11/2026;15:15;AFC Champions League Elite;Al-Nassr;Al Sadd;;ESPN 4;Disney+;
-24/11/2026;14:45;UEFA Champions League;Galatasaray;Aston Villa;;TNT;HBO Max;
-24/11/2026;14:45;UEFA Champions League;Bodø/Glimt;LASK Linz;;Space;HBO Max;
-24/11/2026;17:00;UEFA Champions League;Real Madrid;PSV;SBT;TNT;HBO Max;
-24/11/2026;17:00;UEFA Champions League;Manchester City;Napoli;;Space;HBO Max;
-24/11/2026;17:00;UEFA Champions League;Arsenal;Borussia Dortmund;;;TNT Sports/HBO Max;
-24/11/2026;17:00;UEFA Champions League;Feyenoord;Porto;;;HBO Max;
-24/11/2026;17:00;UEFA Champions League;RB Leipzig;Lens;;;HBO Max;
-24/11/2026;17:00;UEFA Champions League;Como;AEK Atenas;;;HBO Max;
-24/11/2026;17:00;UEFA Champions League;Slovan Bratislava;Real Betis;;;HBO Max;
-24/11/2026;16:45;EFL League Two;Crawley Town;Barnet;;;Disney+;
-24/11/2026;17:00;Campeonato Escocês;Rangers;Aberdeen;;;Canal Gol Brasil (YouTube);
-24/11/2026;17:00;EFL Championship;Wolves;Derby County;;ESPN;Disney+;
-24/11/2026;18:00;Brasileirão Série A;Chapecoense;Palmeiras;Record;Premiere;CazéTV;35ª rodada
-24/11/2026;21:30;Copa do Brasil Sub-20;São Paulo;Atlético-MG;;SporTV;;Semifinal (volta)
-24/11/2026;23:55;MLS;San Jose Earthquakes;Houston Dynamo;;;Apple TV;
 # Quarta 25/11/2026 (arte EQC)
-25/11/2026;09:15;AFC Champions League 2;Persib;FC Seoul;;;Disney+;
-25/11/2026;10:30;Copa do Mundo Sub-17;Uruguai;França;;;CazéTV;
 25/11/2026;12:30;Copa do Mundo Sub-17;Dinamarca;Argentina;;;CazéTV;
 25/11/2026;14:45;UEFA Champions League;Sabah;Barcelona;;TNT;HBO Max;
 25/11/2026;14:45;UEFA Champions League;Slavia Praga;Villarreal;;Space;HBO Max;
@@ -49,3 +30,33 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 25/11/2026;17:00;EFL Championship;Stoke City;Millwall;;ESPN 4;Disney+;
 25/11/2026;20:00;Brasileirão Série A;Atlético-MG;Corinthians;;Premiere;;36ª rodada
 25/11/2026;21:00;Campeonato Argentino;Boca Juniors;Independiente Rivadavia;;ESPN 4;Disney+;
+25/11/2026;19:00;Taça Fares Lopes;Fortaleza;Ceará;;;Metrópoles Esportes;
+25/11/2026;20:00;Copa Paraíba 2026;Serra Branca;Campinense;;;Metrópoles Esportes;
+# Quinta 26/11/2026 (arte EQC)
+26/11/2026;11:30;Copa do Mundo Sub-17;Marrocos;Espanha;;;CazéTV;
+26/11/2026;14:30;Saudi Pro League;Al-Faisaly;Al-Diriyah;;;Canal GOAT;
+26/11/2026;14:45;UEFA Conference League;Jablonec;Lugano;;;CazéTV;
+26/11/2026;14:45;UEFA Conference League;Iberia;Getafe;;;CazéTV;
+26/11/2026;14:45;UEFA Conference League;Ajax;FC Thun;;;CazéTV;
+26/11/2026;14:45;UEFA Conference League;Brighton;CSU Craiova;;;CazéTV;
+26/11/2026;14:45;UEFA Conference League;Hearts;Mônaco;;;CazéTV;
+26/11/2026;17:00;UEFA Conference League;Freiburg;FC Twente;;;CazéTV;
+26/11/2026;17:00;UEFA Conference League;Braga;Kups;;;CazéTV;
+26/11/2026;17:00;UEFA Conference League;Borac;Atalanta;;;CazéTV;
+26/11/2026;17:00;UEFA Conference League;CSKA Sofia;Trabzonspor;;;CazéTV;
+26/11/2026;14:45;UEFA Europa League;Dinamo Zagreb;Bayer Leverkusen;;CNN Esportes;CazéTV;
+26/11/2026;14:45;UEFA Europa League;Olympique de Marselha;Levski Sofia;;;CazéTV;
+26/11/2026;14:45;UEFA Europa League;Besiktas;Hapoel Beer Sheva;;;CazéTV;
+26/11/2026;14:45;UEFA Europa League;Viktoria Plzen;Benfica;;;CazéTV;
+26/11/2026;14:45;UEFA Europa League;Celta de Vigo;Bournemouth;;;CazéTV;
+26/11/2026;14:45;UEFA Europa League;Olympiakos;Milan;;;CazéTV;
+26/11/2026;17:00;UEFA Europa League;Torreense;Celtic;;;CazéTV;
+26/11/2026;17:00;UEFA Europa League;NEC Nijmegen;Rennes;;;CazéTV;
+26/11/2026;17:00;UEFA Europa League;Lyon;Lillestrøm;;;CazéTV;
+26/11/2026;17:00;UEFA Europa League;Juventus;Omonia;;;CazéTV;
+26/11/2026;17:00;UEFA Europa League;Crystal Palace;Real Sociedad;;;CazéTV;
+26/11/2026;17:00;EFL League One;Doncaster;Huddersfield;;;Disney+;
+26/11/2026;19:00;Taça Fares Lopes;Tirol;Guarani de Juazeiro;;;Metrópoles Esportes;
+26/11/2026;20:00;Copa Paraíba 2026;Treze;Nacional de Patos;;;Metrópoles Esportes;
+26/11/2026;20:00;Copa do Brasil Sub-20;Palmeiras;Operário-PR;;SporTV;;Semifinal (volta)
+26/11/2026;20:00;Brasileirão Série A;São Paulo;Remo;;Premiere;;37ª rodada
