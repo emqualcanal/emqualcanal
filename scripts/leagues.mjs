@@ -11,6 +11,7 @@ const RULES = [
   [/copa da liga japonesa|levain|j\.? ?league cup/, "Copa da Liga Japonesa", "Ásia", "jp"],
   [/copa da liga peruana/, "Copa da Liga Peruana", "América do Sul", "pe"],
   [/3a divisao italiana|terceira divisao italiana|3 divisao italiana/, "Série C Italiana", "Europa", "it"],
+  [/(2|2a|segunda)\S{0,2} divisao holandesa|eerste divisie|keuken kampioen/, "2ª Divisão Holandesa", "Europa", "nl"],
   [/afc champions league (2|two|dois)\b|afc cup/, "AFC Champions League 2", "Ásia", null],
   [/afc champions league|liga dos campeoes da asia/, "AFC Champions League Elite", "Ásia", null],
   [/champions league|liga dos campeoes|uefa champions/, "Champions League", "Europa", "logo-champions-league"],
