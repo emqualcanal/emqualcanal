@@ -15,23 +15,6 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 # Segunda 23/11/2026 (arte EQC)
 # Terça 24/11/2026 (arte EQC)
 # Quarta 25/11/2026 (arte EQC)
-25/11/2026;12:30;Copa do Mundo Sub-17;Dinamarca;Argentina;;;CazéTV;
-25/11/2026;14:45;UEFA Champions League;Sabah;Barcelona;;TNT;HBO Max;
-25/11/2026;14:45;UEFA Champions League;Slavia Praga;Villarreal;;Space;HBO Max;
-25/11/2026;17:00;UEFA Champions League;PSG;Roma;;TNT;HBO Max;
-25/11/2026;17:00;UEFA Champions League;Lille;Bayern de Munique;;Space;TNT Sports/HBO Max;
-25/11/2026;17:00;UEFA Champions League;Club Brugge;Liverpool;;;HBO Max;
-25/11/2026;17:00;UEFA Champions League;Shakhtar Donetsk;Fenerbahçe;;;HBO Max;
-25/11/2026;17:00;UEFA Champions League;Sporting;Manchester United;;;HBO Max;
-25/11/2026;17:00;UEFA Champions League;Inter de Milão;Stuttgart;;;HBO Max;
-25/11/2026;16:00;Série B Italiana;Pisa;Modena;;;SportyNet;
-25/11/2026;16:00;Campeonato Pernambucano 2027 · 1º turno;América-PE;Central;;;TV FPF;
-25/11/2026;16:00;Campeonato Pernambucano 2027 · 1º turno;Petrolina;Íbis;;;TV FPF;
-25/11/2026;17:00;EFL Championship;Stoke City;Millwall;;ESPN 4;Disney+;
-25/11/2026;20:00;Brasileirão Série A;Atlético-MG;Corinthians;;Premiere;;36ª rodada
-25/11/2026;21:00;Campeonato Argentino;Boca Juniors;Independiente Rivadavia;;ESPN 4;Disney+;
-25/11/2026;19:00;Taça Fares Lopes;Fortaleza;Ceará;;;Metrópoles Esportes;
-25/11/2026;20:00;Copa Paraíba 2026;Serra Branca;Campinense;;;Metrópoles Esportes;
 # Quinta 26/11/2026 (arte EQC)
 26/11/2026;11:30;Copa do Mundo Sub-17;Marrocos;Espanha;;;CazéTV;
 26/11/2026;14:30;Saudi Pro League;Al-Faisaly;Al-Diriyah;;;Canal GOAT;
@@ -60,3 +43,24 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 26/11/2026;20:00;Copa Paraíba 2026;Treze;Nacional de Patos;;;Metrópoles Esportes;
 26/11/2026;20:00;Copa do Brasil Sub-20;Palmeiras;Operário-PR;;SporTV;;Semifinal (volta)
 26/11/2026;20:00;Brasileirão Série A;São Paulo;Remo;;Premiere;;37ª rodada
+# Sexta 27/11/2026 (arte EQC)
+27/11/2026;11:00;Copa do Mundo Sub-17;Costa Rica;Brasil;;SporTV 2;CazéTV;
+27/11/2026;11:20;Saudi Pro League;Al-Qadsiah;Al-Fayha;;;Canal GOAT;
+27/11/2026;14:30;Saudi Pro League;Al-Ittihad;NEOM;;Band Sports/X Sports;Canal GOAT;
+27/11/2026;14:00;Süper Lig Turca;Alanyaspor;Konyaspor;;;Disney+;
+27/11/2026;14:30;2. Bundesliga;Bochum;Darmstadt 98;;;JP Esportes;
+27/11/2026;14:30;2. Bundesliga;Heidenheim;Nürnberg;;;Romário TV;
+27/11/2026;16:00;2ª Divisão Holandesa;Ajax Jong;Heracles;;;Link Alviverde;
+27/11/2026;16:00;2ª Divisão Holandesa;VVV Venlo;RKC Waalwijk;;;Link Alviverde;
+27/11/2026;16:30;Bundesliga;Werder Bremen;Borussia Mönchengladbach;;SportyNet;CazéTV;11ª rodada
+27/11/2026;16:45;Campeonato Italiano;Venezia;Bologna;;;Disney+;13ª rodada
+27/11/2026;16:45;Campeonato Francês;Brest;Paris FC;;X Sports;CazéTV;12ª rodada
+27/11/2026;17:00;LaLiga;Levante;Racing Santander;;;CazéTV;14ª rodada
+27/11/2026;17:00;Premier League;Nottingham Forest;Chelsea;;ESPN;Disney+;11ª rodada
+27/11/2026;17:00;EFL Championship;Southampton;Middlesbrough;;ESPN 4;Disney+;
+27/11/2026;17:15;Liga Portugal;Marítimo;Nacional da Madeira;;;Disney+;
+27/11/2026;20:00;Brasileirão Série A;Fluminense;Cruzeiro;;SporTV/Premiere;;37ª rodada
+27/11/2026;20:00;Brasileirão Série B;Vila Nova;Atlético-GO;;X Sports/ESPN;Canal GOAT/Disney+;Playoffs - volta (ida 1-1)
+27/11/2026;20:30;Liga Uruguaia;Racing Montevideo;Liverpool Montevideo;;;Disney+;
+27/11/2026;22:00;MLS;Columbus Crew;Inter Miami;;;Apple TV;
+27/11/2026;23:55;MLS;Real Salt Lake;Vancouver Whitecaps;;;Apple TV;
