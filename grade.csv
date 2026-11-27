@@ -16,36 +16,7 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 # Terça 24/11/2026 (arte EQC)
 # Quarta 25/11/2026 (arte EQC)
 # Quinta 26/11/2026 (arte EQC)
-26/11/2026;11:30;Copa do Mundo Sub-17;Marrocos;Espanha;;;CazéTV;
-26/11/2026;14:30;Saudi Pro League;Al-Faisaly;Al-Diriyah;;;Canal GOAT;
-26/11/2026;14:45;UEFA Conference League;Jablonec;Lugano;;;CazéTV;
-26/11/2026;14:45;UEFA Conference League;Iberia;Getafe;;;CazéTV;
-26/11/2026;14:45;UEFA Conference League;Ajax;FC Thun;;;CazéTV;
-26/11/2026;14:45;UEFA Conference League;Brighton;CSU Craiova;;;CazéTV;
-26/11/2026;14:45;UEFA Conference League;Hearts;Mônaco;;;CazéTV;
-26/11/2026;17:00;UEFA Conference League;Freiburg;FC Twente;;;CazéTV;
-26/11/2026;17:00;UEFA Conference League;Braga;Kups;;;CazéTV;
-26/11/2026;17:00;UEFA Conference League;Borac;Atalanta;;;CazéTV;
-26/11/2026;17:00;UEFA Conference League;CSKA Sofia;Trabzonspor;;;CazéTV;
-26/11/2026;14:45;UEFA Europa League;Dinamo Zagreb;Bayer Leverkusen;;CNN Esportes;CazéTV;
-26/11/2026;14:45;UEFA Europa League;Olympique de Marselha;Levski Sofia;;;CazéTV;
-26/11/2026;14:45;UEFA Europa League;Besiktas;Hapoel Beer Sheva;;;CazéTV;
-26/11/2026;14:45;UEFA Europa League;Viktoria Plzen;Benfica;;;CazéTV;
-26/11/2026;14:45;UEFA Europa League;Celta de Vigo;Bournemouth;;;CazéTV;
-26/11/2026;14:45;UEFA Europa League;Olympiakos;Milan;;;CazéTV;
-26/11/2026;17:00;UEFA Europa League;Torreense;Celtic;;;CazéTV;
-26/11/2026;17:00;UEFA Europa League;NEC Nijmegen;Rennes;;;CazéTV;
-26/11/2026;17:00;UEFA Europa League;Lyon;Lillestrøm;;;CazéTV;
-26/11/2026;17:00;UEFA Europa League;Juventus;Omonia;;;CazéTV;
-26/11/2026;17:00;UEFA Europa League;Crystal Palace;Real Sociedad;;;CazéTV;
-26/11/2026;17:00;EFL League One;Doncaster;Huddersfield;;;Disney+;
-26/11/2026;19:00;Taça Fares Lopes;Tirol;Guarani de Juazeiro;;;Metrópoles Esportes;
-26/11/2026;20:00;Copa Paraíba 2026;Treze;Nacional de Patos;;;Metrópoles Esportes;
-26/11/2026;20:00;Copa do Brasil Sub-20;Palmeiras;Operário-PR;;SporTV;;Semifinal (volta)
-26/11/2026;20:00;Brasileirão Série A;São Paulo;Remo;;Premiere;;37ª rodada
 # Sexta 27/11/2026 (arte EQC)
-27/11/2026;11:00;Copa do Mundo Sub-17;Costa Rica;Brasil;;SporTV 2;CazéTV;
-27/11/2026;11:20;Saudi Pro League;Al-Qadsiah;Al-Fayha;;;Canal GOAT;
 27/11/2026;14:30;Saudi Pro League;Al-Ittihad;NEOM;;Band Sports/X Sports;Canal GOAT;
 27/11/2026;14:00;Süper Lig Turca;Alanyaspor;Konyaspor;;;Disney+;
 27/11/2026;14:30;2. Bundesliga;Bochum;Darmstadt 98;;;JP Esportes;
@@ -64,3 +35,53 @@ data;hora;campeonato;mandante;visitante;tv aberta;tv fechada;streaming;rodada
 27/11/2026;20:30;Liga Uruguaia;Racing Montevideo;Liverpool Montevideo;;;Disney+;
 27/11/2026;22:00;MLS;Columbus Crew;Inter Miami;;;Apple TV;
 27/11/2026;23:55;MLS;Real Salt Lake;Vancouver Whitecaps;;;Apple TV;
+# Sábado 28/11/2026 (arte EQC)
+28/11/2026;03:00;Campeonato Japonês;Kashima Antlers;Cerezo Osaka;;;Canal Zico 10;
+28/11/2026;03:00;Liga Australiana;Central Coast Mariners;Auckland FC;;;Canal GOL;
+28/11/2026;23:00;Liga Australiana;Wellington Phoenix;Adelaide United;;;Canal GOL;
+28/11/2026;09:00;2. Bundesliga;Dynamo Dresden;St. Pauli;;;JP Esportes;
+28/11/2026;09:00;2. Bundesliga;Hertha Berlin;Karlsruher;;;Canal GOAT;
+28/11/2026;09:00;2. Bundesliga;Holstein Kiel;Kaiserslautern;;;OneFootball;
+28/11/2026;16:30;2. Bundesliga;VfL Osnabrück;Hannover 96;;;OneFootball;
+28/11/2026;09:15;Saudi Pro League;Al-Hazem;Al-Nassr;;X Sports/Band Sports;Canal GOAT;
+28/11/2026;11:20;Saudi Pro League;Al-Ettifaq;Al-Hilal;;SporTV;Canal GOAT;
+28/11/2026;14:30;Saudi Pro League;Al-Ahli;Al-Taawoun;;Band;Canal GOAT;
+28/11/2026;09:30;EFL Championship;Preston North End;Norwich City;;ESPN;Disney+;
+28/11/2026;12:00;EFL Championship;West Bromwich;Bristol City;;ESPN 4;Disney+;
+28/11/2026;10:00;LaLiga;Real Bétis;Rayo Vallecano;;SportyNet;SportyNet;13ª rodada
+28/11/2026;12:15;LaLiga;Málaga;Athletic Bilbao;;;CazéTV;13ª rodada
+28/11/2026;14:30;LaLiga;Elche;Atlético de Madrid;;;CazéTV;13ª rodada
+28/11/2026;17:00;LaLiga;Real Madrid;Alavés;;;CazéTV;13ª rodada
+28/11/2026;10:30;Campeonato Russo;CSKA Moscou;Zenit;;Band Sports/X Sports;;
+28/11/2026;11:00;Campeonato Italiano;Frosinone;Parma;;ESPN 2;Disney+;12ª rodada
+28/11/2026;14:00;Campeonato Italiano;Torino;Lazio;;ESPN 2;Disney+;12ª rodada
+28/11/2026;16:45;Campeonato Italiano;Inter de Milão;Genoa;;ESPN 4;Disney+;12ª rodada
+28/11/2026;11:30;Bundesliga;Hamburgo;Bayern;;SportyNet;SportyNet;11ª rodada
+28/11/2026;11:30;Bundesliga;Köln;Elversberg;;;Canal GOAT;11ª rodada
+28/11/2026;11:30;Bundesliga;Paderborn;Schalke 04;;;OneFootball;11ª rodada
+28/11/2026;11:30;Bundesliga;Mainz 05;Union Berlin;;;OneFootball;11ª rodada
+28/11/2026;12:00;Premier League;Leeds United;Coventry City;;ESPN;Disney+;12ª rodada
+28/11/2026;12:00;Premier League;Manchester United;Brentford;;;CazéTV/Disney+;12ª rodada
+28/11/2026;14:30;Premier League;Ipswich Town;Aston Villa;;ESPN 4;Disney+;12ª rodada
+28/11/2026;13:15;Série B Italiana;Sampdoria;Cremonese;;;SportyNet;
+28/11/2026;13:15;Campeonato Francês;Angers;Lens;;;CazéTV;12ª rodada
+28/11/2026;16:45;Campeonato Francês;PSG;Lorient;;X Sports;CazéTV;12ª rodada
+28/11/2026;16:45;Campeonato Francês;Nice;Troyes;;;CazéTV;12ª rodada
+28/11/2026;16:45;Campeonato Francês;Le Mans;Lille;;;CazéTV;12ª rodada
+28/11/2026;16:45;Campeonato Francês;Le Havre;Strasbourg;;;CazéTV;12ª rodada
+28/11/2026;14:00;Campeonato Suíço;Grasshopper;Basel;;;Canal GOL;
+28/11/2026;14:30;Bundesliga;Stuttgart;Eintracht Frankfurt;;X Sports;SportyNet;11ª rodada
+28/11/2026;14:30;Campeonato Holandês;PSV;Go Ahead Eagles;;;Disney+;
+28/11/2026;14:30;MLS;Charlotte FC;Chicago Fire;;;Apple TV;
+28/11/2026;16:30;MLS;Houston Dynamo;San Jose Earthquakes;;;Apple TV;
+28/11/2026;18:30;MLS;Philadelphia Union;New England Revolution;;;Apple TV;
+28/11/2026;20:30;MLS;FC Cincinnati;Nashville SC;;;Apple TV;
+28/11/2026;22:00;MLS;Los Angeles FC;St. Louis City;;;Apple TV;
+28/11/2026;23:55;MLS;Portland Timbers;FC Dallas;;;Apple TV;
+28/11/2026;16:00;Carioca Série B1;Niteroiense;Serrano;;;Cariocão TV;
+28/11/2026;17:00;Libertadores;Palmeiras;Estudiantes;Globo;ESPN;ge tv/Paramount+/Disney+;Final
+28/11/2026;17:30;Liga Portugal;Vitória de Guimarães;Estrela da Amadora;;;Disney+;
+28/11/2026;20:00;Brasileirão Série B;Fortaleza;Criciúma;RedeTV;;SportyNet/Disney+;Playoffs - volta
+28/11/2026;21:00;Brasileirão Série A;Botafogo;Bahia;;SporTV/Premiere;;37ª rodada
+28/11/2026;22:00;Campeonato Mexicano;Atlas;Toluca;;;SportyNet;
+28/11/2026;23:55;Campeonato Mexicano;América-MEX;Monterrey;;;SportyNet;
